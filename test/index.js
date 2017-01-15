@@ -10,7 +10,6 @@ describe("index", () => {
     it("works", () => {
       const api = createAPI();
 
-      assert(api.name === "spec");
       assert(typeof api.AudioContext === "function");
     });
   });

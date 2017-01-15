@@ -1,7 +1,20 @@
 "use strict";
 
+const lock = require("../utils/lock");
+
 function create(api, Worker) {
   class AudioWorker extends Worker {
+    constructor(context, opts = {}) {
+      if (lock.checkIllegalConstructor(api, "/AudioWorker")) {
+        throw new TypeError("Illegal constructor");
+      }
+      lock.unlock();
+      super(context, opts);
+      lock.lock();
+
+      this._.className = "AudioWorker";
+    }
+
     get parameters() {
       void(this);
     }

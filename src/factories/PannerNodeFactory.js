@@ -1,101 +1,46 @@
 "use strict";
 
+const ChannelCountMode = require("../types/ChannelCountMode");
+const lock = require("../utils/lock");
+const { initialize } = require("./SpatialPannerNodeFactory");
+
 function create(api, AudioNode) {
   class PannerNode extends AudioNode {
-    get panningModel() {
-      void(this);
-    }
+    constructor(context, opts = {}) {
+      if (lock.checkIllegalConstructor(api, "/PannerNode")) {
+        throw new TypeError("Illegal constructor");
+      }
+      lock.unlock();
+      super(context, opts, {
+        inputs: [ 1 ],
+        outputs: [ 2 ],
+        channelCount: 2,
+        channelCountMode: ChannelCountMode.CLAMPED_MAX,
+        allowedMaxChannelCount: 2,
+        allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ]
+      });
+      initialize.call(this, api, context, opts);
+      lock.lock();
 
-    set panningModel(value) {
-      void(this, value);
-    }
-
-    get distanceModel() {
-      void(this);
-    }
-
-    set distanceModel(value) {
-      void(this, value);
-    }
-
-    get refDistance() {
-      void(this);
-    }
-
-    set refDistance(value) {
-      void(this, value);
-    }
-
-    get maxDistance() {
-      void(this);
-    }
-
-    set maxDistance(value) {
-      void(this, value);
-    }
-
-    get rolloffFactor() {
-      void(this);
-    }
-
-    set rolloffFactor(value) {
-      void(this, value);
-    }
-
-    get coneInnerAngle() {
-      void(this);
-    }
-
-    set coneInnerAngle(value) {
-      void(this, value);
-    }
-
-    get coneOuterAngle() {
-      void(this);
-    }
-
-    set coneOuterAngle(value) {
-      void(this, value);
-    }
-
-    get coneOuterGain() {
-      void(this);
-    }
-
-    set coneOuterGain(value) {
-      void(this, value);
-    }
-
-    get positionX() {
-      void(this);
-    }
-
-    get positionY() {
-      void(this);
-    }
-
-    get positionZ() {
-      void(this);
-    }
-
-    get orientationX() {
-      void(this);
-    }
-
-    get orientationY() {
-      void(this);
-    }
-
-    get orientationZ() {
-      void(this);
+      this._.className = "PannerNode";
+      this._.coneGain = new api.AudioParam(context, {
+        name: "coneGain"
+      });
+      this._.distanceGain = new api.AudioParam(context, {
+        name: "distanceGain"
+      });
     }
 
     setPosition(x, y, z) {
-      void(this, x, y, z);
+      this._.positionX.value = x;
+      this._.positionY.value = y;
+      this._.positionZ.value = z;
     }
 
     setOrientation(x, y, z) {
-      void(this, x, y, z);
+      this._.orientationX.value = x;
+      this._.orientationY.value = y;
+      this._.orientationZ.value = z;
     }
 
     setVelocity(x, y, z) {
@@ -153,11 +98,11 @@ function create(api, AudioNode) {
     }
 
     get coneGain() {
-      void(this);
+      return this._.coneGain;
     }
 
     get distanceGain() {
-      void(this);
+      return this._.distanceGain;
     }
   }
   return PannerNode;

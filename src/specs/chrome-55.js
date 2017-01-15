@@ -1,9 +1,9 @@
 "use strict";
 
-const fullName = "chrome:55";
+const name = "chrome:55";
 
 const apiSpec = {
-  "/BaseAudioContext": { "global": false },
+  "/BaseAudioContext": { "global": false, "constructor": "illegal" },
   "/BaseAudioContext/createAnalyser": {},
   "/BaseAudioContext/createBiquadFilter": {},
   "/BaseAudioContext/createBuffer": {},
@@ -44,7 +44,7 @@ const apiSpec = {
   "/OfflineAudioContext/startRendering": {},
   "/OfflineAudioContext/suspend": {},
 
-  "/AudioNode": { "global": "AudioNode" },
+  "/AudioNode": { "global": "AudioNode", "constructor": "illegal" },
   "/AudioNode/channelCount": {},
   "/AudioNode/channelCountMode": {},
   "/AudioNode/channelInterpretation": {},
@@ -54,9 +54,9 @@ const apiSpec = {
   "/AudioNode/numberOfInputs": {},
   "/AudioNode/numberOfOutputs": {},
 
-  "/AudioSourceNode": { "global": false },
+  "/AudioSourceNode": { "global": false, "constructor": "illegal" },
 
-  "/AudioDestinationNode": { "global": "AudioDestinationNode" },
+  "/AudioDestinationNode": { "global": "AudioDestinationNode", "constructor": "illegal" },
   "/AudioDestinationNode/maxChannelCount": {},
 
   "/AudioParam": { "global": "AudioParam" },
@@ -77,7 +77,7 @@ const apiSpec = {
   "/DelayNode": { "global": "DelayNode" },
   "/DelayNode/delayTime": {},
 
-  "/AudioBuffer": { "global": "AudioBuffer" },
+  "/AudioBuffer": { "global": "AudioBuffer", "context": true },
   "/AudioBuffer/copyFromChannel": {},
   "/AudioBuffer/copyToChannel": {},
   "/AudioBuffer/duration": {},
@@ -100,7 +100,7 @@ const apiSpec = {
   "/MediaElementAudioSourceNode": { "global": "MediaElementAudioSourceNode" },
   "/MediaElementAudioSourceNode/mediaElement": {},
 
-  "/ScriptProcessorNode": { "global": "ScriptProcessorNode" },
+  "/ScriptProcessorNode": { "global": "ScriptProcessorNode", "constructor": "illegal" },
   "/ScriptProcessorNode/bufferSize": {},
   "/ScriptProcessorNode/onaudioprocess": {},
 
@@ -123,7 +123,7 @@ const apiSpec = {
   "/PannerNode/setPosition": {},
   "/PannerNode/setVelocity": {},
 
-  "/AudioListener": { "global": "AudioListener" },
+  "/AudioListener": { "global": "AudioListener", "constructor": "illegal" },
   "/AudioListener/dopplerFactor": {},
   "/AudioListener/forwardX": {},
   "/AudioListener/forwardY": {},
@@ -202,4 +202,4 @@ const apiSpec = {
   "/MediaStreamAudioDestinationNode/stream": {}
 };
 
-module.exports = { fullName, apiSpec };
+module.exports = { name, apiSpec };
