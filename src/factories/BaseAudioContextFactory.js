@@ -1,146 +1,225 @@
 "use strict";
 
+const AudioContextState = require("../types/AudioContextState");
+const defaults = require("../utils/defaults");
+const emit = require("../utils/emit");
+const lock = require("../utils/lock");
+
+const DEFAULT_NUMBER_OF_CHANNELS = 2;
+const DEFAULT_SAMPLE_RATE = 44100;
+
 function create(api, EventTarget) {
   class BaseAudioContext extends EventTarget {
+    constructor(opts = {}) {
+      if (lock.checkIllegalConstructor(api, "/BaseAudioContext")) {
+        throw new TypeError("Illegal constructor");
+      }
+
+      lock.unlock();
+      super();
+      initialize.call(this, api, opts);
+      lock.lock();
+    }
+
     get destination() {
-      void(this);
+      return this._.destination;
     }
 
     get sampleRate() {
-      void(this);
+      return this._.sampleRate;
     }
 
     get currentTime() {
-      void(this);
+      return this._.currentTime;
     }
 
     get listener() {
-      void(this);
+      return this._.listener;
     }
 
     get state() {
-      void(this);
+      return this._.state;
     }
 
     get onstatechange() {
-      void(this);
+      return this._.onstatechange;
     }
 
     set onstatechange(value) {
-      void(this, value);
+      this._.onstatechange = value;
     }
 
     suspend() {
-      void(this);
+      return new Promise((resolve) => {
+        this._.state = AudioContextState.SUSPENDED;
+        emit(this, "statechange");
+        resolve();
+      });
     }
 
     resume() {
-      void(this);
+      return new Promise((resolve) => {
+        this._.state = AudioContextState.RUNNING;
+        emit(this, "statechange");
+        resolve();
+      });
     }
 
     close() {
-      void(this);
+      return new Promise((resolve) => {
+        this._.state = AudioContextState.CLOSED;
+        emit(this, "statechange");
+        resolve();
+      });
     }
 
     createBuffer(numberOfChannels, length, sampleRate) {
-      void(this, numberOfChannels, length, sampleRate);
+      return lock.tr(() => new api.AudioBuffer({ numberOfChannels, length, sampleRate }));
     }
 
     decodeAudioData(audioData, successCallback, errorCallback) {
-      void(this, audioData, successCallback, errorCallback);
+      function decodeAudioData(result) {
+        if (!handler.done) {
+          handler.done = true;
+          if (result instanceof api.AudioBuffer) {
+            handler.resolve(result);
+          } else {
+            if (!(result instanceof Error)) {
+              result = new Error("decodeAudioDataError");
+            }
+            handler.reject(result);
+          }
+        }
+      }
+
+      const handler = {};
+      const promise = new Promise((resolve, reject) => {
+        handler.resolve = resolve;
+        handler.reject = reject;
+      });
+
+      promise.then(successCallback, errorCallback).catch(() => {});
+
+      if (api.listenerCount("decodeAudioData")) {
+        api.emit("decodeAudioData", decodeAudioData);
+      } else {
+        decodeAudioData(null);
+      }
+
+      if (!api.get("/AudioContext/decodeAudioData/void")) {
+        return promise;
+      }
     }
 
     createBufferSource() {
-      void(this);
+      return lock.tr(() => new api.AudioBufferSourceNode(this));
     }
 
     createAudioWorker(scriptURL) {
-      void(this, scriptURL);
+      return new Promise((resolve) => {
+        resolve(lock.tr(() => new api.AudioWorker(this, { scriptURL })));
+      });
     }
 
     createConstantSource() {
-      void(this);
+      return lock.tr(() => new api.ConstantSourceNode(this));
     }
 
     createScriptProcessor(bufferSize = 0, numberOfInputChannels = 2, numberOfOutputChannels = 2) {
-      void(this, bufferSize, numberOfInputChannels, numberOfOutputChannels);
+      return lock.tr(() => new api.ScriptProcessorNode(this, { bufferSize, numberOfInputChannels, numberOfOutputChannels }));
     }
 
     createAnalyser() {
-      void(this);
+      return lock.tr(() => new api.AnalyserNode(this));
     }
 
     createGain() {
-      void(this);
+      return lock.tr(() => new api.GainNode(this));
     }
 
     createDelay(maxDelayTime = 1) {
-      void(this, maxDelayTime);
+      return lock.tr(() => new api.DelayNode(this, { maxDelayTime }));
     }
 
     createBiquadFilter() {
-      void(this);
+      return lock.tr(() => new api.BiquadFilterNode(this));
     }
 
     createIIRFilter(feedforward, feedback) {
-      void(this, feedforward, feedback);
+      return lock.tr(() => new api.IIRFilterNode(this, { feedforward, feedback }));
     }
 
     createWaveShaper() {
-      void(this);
+      return lock.tr(() => new api.WaveShaperNode(this));
     }
 
     createPanner() {
-      void(this);
+      return lock.tr(() => new api.PannerNode(this));
     }
 
     createSpatialPanner() {
-      void(this);
+      return lock.tr(() => new api.SpatialPannerNode(this));
     }
 
     createStereoPanner() {
-      void(this);
+      return lock.tr(() => new api.StereoPannerNode(this));
     }
 
     createConvolver() {
-      void(this);
+      return lock.tr(() => new api.ConvolverNode(this));
     }
 
     createChannelSplitter(numberOfOutputs = 6) {
-      void(this, numberOfOutputs);
+      return lock.tr(() => new api.ChannelSplitterNode(this, { numberOfOutputs }));
     }
 
     createChannelMerger(numberOfInputs = 6) {
-      void(this, numberOfInputs);
+      return lock.tr(() => new api.ChannelMergerNode(this, { numberOfInputs }));
     }
 
     createDynamicsCompressor() {
-      void(this);
+      return lock.tr(() => new api.DynamicsCompressorNode(this));
     }
 
     createOscillator() {
-      void(this);
+      return lock.tr(() => new api.OscillatorNode(this));
     }
 
     createPeriodicWave(real, imag, constraints) {
-      void(this, real, imag, constraints);
+      return lock.tr(() => new api.PeriodicWave(this, { real, imag, constraints }));
     }
 
     // In Chrome 55, these methods are defined at BaseAudioContext. ///////////////////////////////
 
     createMediaElementSource(mediaElement) {
-      void(this, mediaElement);
+      return lock.tr(() => new api.MediaElementAudioSourceNode(this, { mediaElement }));
     }
 
     createMediaStreamSource(mediaStream) {
-      void(this, mediaStream);
+      return lock.tr(() => new api.MediaStreamAudioSourceNode(this, { mediaStream }));
     }
 
     createMediaStreamDestination() {
-      void(this);
+      return lock.tr(() => new api.MediaStreamAudioDestinationNode(this));
     }
   }
   return BaseAudioContext;
 }
 
-module.exports = { create };
+
+function initialize(api, opts) {
+  const numberOfChannels = defaults(opts.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
+  const length = defaults(opts.length, Infinity);
+  const sampleRate = defaults(opts.sampleRate, DEFAULT_SAMPLE_RATE);
+
+  this._.numberOfChannels = numberOfChannels;
+  this._.length = length;
+  this._.sampleRate = sampleRate;
+  this._.onstatechange = null;
+  this._.currentTime = 0;
+  this._.destination = new api.AudioDestinationNode(this, { numberOfChannels });
+  this._.listener = new api.AudioListener(this);
+  this._.state = AudioContextState.SUSPENDED;
+}
+
+module.exports = { create, initialize };

@@ -7,11 +7,11 @@ const BaseAudioContextFactory = require("../factories/BaseAudioContextFactory");
 const AudioContextFactory = require("../factories/AudioContextFactory");
 const OfflineAudioContextFactory = require("../factories/OfflineAudioContextFactory");
 const AudioBufferFactory = require("../factories/AudioBufferFactory");
-const AudioListenerFactory = require("../factories/AudioListenerFactory");
 const AudioParamFactory = require("../factories/AudioParamFactory");
 const AudioWorkerFactory = require("../factories/AudioWorkerFactory");
 const PeriodicWaveFactory = require("../factories/PeriodicWaveFactory");
 const SpatialListenerFactory = require("../factories/SpatialListenerFactory");
+const AudioListenerFactory = require("../factories/AudioListenerFactory");
 const AudioNodeFactory = require("../factories/AudioNodeFactory");
 const AudioScheduledSourceNodeFactory = require("../factories/AudioScheduledSourceNodeFactory");
 const AudioSourceNodeFactory = require("../factories/AudioSourceNodeFactory");
@@ -20,8 +20,8 @@ const GainNodeFactory = require("../factories/GainNodeFactory");
 const DelayNodeFactory = require("../factories/DelayNodeFactory");
 const AudioWorkerNodeFactory = require("../factories/AudioWorkerNodeFactory");
 const ScriptProcessorNodeFactory = require("../factories/ScriptProcessorNodeFactory");
-const PannerNodeFactory = require("../factories/PannerNodeFactory");
 const SpatialPannerNodeFactory = require("../factories/SpatialPannerNodeFactory");
+const PannerNodeFactory = require("../factories/PannerNodeFactory");
 const StereoPannerNodeFactory = require("../factories/StereoPannerNodeFactory");
 const ConvolverNodeFactory = require("../factories/ConvolverNodeFactory");
 const AnalyserNodeFactory = require("../factories/AnalyserNodeFactory");
@@ -38,6 +38,10 @@ const OscillatorNodeFactory = require("../factories/OscillatorNodeFactory");
 const MediaElementAudioSourceNodeFactory = require("../factories/MediaElementAudioSourceNodeFactory");
 const MediaStreamAudioSourceNodeFactory = require("../factories/MediaStreamAudioSourceNodeFactory");
 const MediaStreamTrackAudioSourceNodeFactory = require("../factories/MediaStreamTrackAudioSourceNodeFactory");
+const HTMLMediaElementFactory = require("../factories/HTMLMediaElementFactory");
+const MediaStreamFactory = require("../factories/MediaStreamFactory");
+const AudioMediaStreamTrackFactory = require("../factories/AudioMediaStreamTrackFactory");
+
 const mixin = require("../utils/mixin");
 
 function apply(api, [ apiSpec ]) {
@@ -55,11 +59,11 @@ function apply(api, [ apiSpec ]) {
   }
 
   api.AudioBuffer = AudioBufferFactory.create(api, api.BaseObject);
-  api.AudioListener = AudioListenerFactory.create(api, api.BaseObject);
   api.AudioParam = AudioParamFactory.create(api, api.BaseObject);
   api.AudioWorker = AudioWorkerFactory.create(api, api.Worker);
   api.PeriodicWave = PeriodicWaveFactory.create(api, api.BaseObject);
   api.SpatialListener = SpatialListenerFactory.create(api, api.BaseObject);
+  api.AudioListener = mixin(AudioListenerFactory.create(api, api.BaseObject), api.SpatialListener);
   api.AudioNode = AudioNodeFactory.create(api, api.EventTarget);
   api.AudioScheduledSourceNode = AudioScheduledSourceNodeFactory.create(api, api.AudioNode);
   api.AudioSourceNode = AudioSourceNodeFactory.create(api, api.AudioNode);
@@ -69,8 +73,8 @@ function apply(api, [ apiSpec ]) {
   api.DelayNode = DelayNodeFactory.create(api, api.AudioNode);
   api.AudioWorkerNode = AudioWorkerNodeFactory.create(api, api.AudioNode);
   api.ScriptProcessorNode = ScriptProcessorNodeFactory.create(api, api.AudioNode);
-  api.PannerNode = PannerNodeFactory.create(api, api.AudioNode);
   api.SpatialPannerNode = SpatialPannerNodeFactory.create(api, api.AudioNode);
+  api.PannerNode = mixin(PannerNodeFactory.create(api, api.AudioNode), api.SpatialPannerNode);
   api.StereoPannerNode = StereoPannerNodeFactory.create(api, api.AudioNode);
   api.ConvolverNode = ConvolverNodeFactory.create(api, api.AudioNode);
   api.AnalyserNode = AnalyserNodeFactory.create(api, api.AudioNode);
@@ -81,6 +85,9 @@ function apply(api, [ apiSpec ]) {
   api.IIRFilterNode = IIRFilterNodeFactory.create(api, api.AudioNode);
   api.WaveShaperNode = WaveShaperNodeFactory.create(api, api.AudioNode);
   api.MediaStreamAudioDestinationNode = MediaStreamAudioDestinationNodeFactory.create(api, api.AudioNode);
+  api.HTMLMediaElement = HTMLMediaElementFactory.create(api, api.BaseObject);
+  api.MediaStream = MediaStreamFactory.create(api, api.BaseObject);
+  api.AudioMediaStreamTrack = AudioMediaStreamTrackFactory.create(api, api.BaseObject);
 
   if (apiSpec["/AudioScheduledSourceNode"]) {
     api.AudioBufferSourceNode = AudioBufferSourceNodeFactory.create(api, api.AudioScheduledSourceNode);

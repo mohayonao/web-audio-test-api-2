@@ -1,36 +1,78 @@
 "use strict";
 
+const AudioContextState = require("../types/AudioContextState");
+const emit = require("../utils/emit");
+const lock = require("../utils/lock");
+
 function create(api, BaseAudioContext) {
   class OfflineAudioContext extends BaseAudioContext {
+    constructor(numberOfChannels, length, sampleRate) {
+      lock.unlock()
+      super({ numberOfChannels, length, sampleRate });
+      lock.lock();
+
+      this._.className = "OfflineAudioContext";
+      this._.oncomplete = null;
+    }
+
     get length() {
-      void(this);
+      return this._.length;
     }
 
     get oncomplete() {
-      void(this);
+      return this._.oncomplete;
     }
 
     set oncomplete(value) {
-      void(this, value);
+      this._.oncomplete = value;
     }
 
     startRendering() {
-      void(this);
+      return startRendering.call(this, api);
     }
 
     suspend(suspendTime) {
       void(this, suspendTime);
+      return new Promise((resolve) => {
+        this._.state = AudioContextState.SUSPENDED;
+        emit(this, "statechange");
+        resolve();
+      });
     }
 
     resume() {
-      void(this);
+      return new Promise((resolve) => {
+        this._.state = AudioContextState.RUNNING;
+        emit(this, "statechange");
+        resolve();
+      });
     }
 
     close() {
-      void(this);
+      return new Promise((resolve) => {
+        this._.state = AudioContextState.CLOSED;
+        emit(this, "statechange");
+        resolve();
+      });
     }
   }
   return OfflineAudioContext;
 }
 
-module.exports = { create };
+function startRendering(api) {
+  const promise = new Promise((resolve) => {
+    const { numberOfChannels, length, sampleRate } = this._;
+    const renderedBuffer = this.createBuffer(numberOfChannels, length|0, sampleRate);
+
+    this._.state = AudioContextState.CLOSED;
+    emit(this, "statechange");
+    emit(this, "complete", { renderedBuffer });
+    resolve(renderedBuffer);
+  });
+
+  if (!api.get("/OfflineAudioContext/startRendering/void")) {
+    return promise;
+  }
+}
+
+module.exports = { create, startRendering };

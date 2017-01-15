@@ -1,21 +1,51 @@
 "use strict";
 
+const ChannelCountMode = require("../types/ChannelCountMode");
+const defaults = require("../utils/defaults");
+const lock = require("../utils/lock");
+
+const DEFAULT_DISABLE_NORMALIZATION = false;
+
 function create(api, AudioNode) {
   class ConvolverNode extends AudioNode {
+    constructor(context, opts = {}) {
+      if (lock.checkIllegalConstructor(api, "/ConvolverNode")) {
+        throw new TypeError("Illegal constructor");
+      }
+
+      const buffer = defaults(opts.buffer, null);
+      const disableNormalization = defaults(opts.disableNormalization, DEFAULT_DISABLE_NORMALIZATION);
+
+      lock.unlock();
+      super(context, opts, {
+        inputs: [ 1 ],
+        outputs: [ 1 ],
+        channelCount: 2,
+        channelCountMode: ChannelCountMode.CLAMPED_MAX,
+        allowedMaxChannelCount: 2,
+        allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ],
+      });
+      lock.lock();
+
+      this._.className = "ConvolverNode";
+      this._.buffer = buffer;
+      this._.normalize = !disableNormalization;
+    }
+
     get buffer() {
-      void(this);
+      return this._.buffer;
     }
 
     set buffer(value) {
-      void(this, value);
+      this._.buffer = value;
     }
 
     get normalize() {
-      void(this);
+      return this._.normalize;
     }
 
     set normalize(value) {
-      void(this, value);
+      this._.normalize = value;
     }
   }
   return ConvolverNode;
