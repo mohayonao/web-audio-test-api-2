@@ -1,19 +1,33 @@
 "use strict";
 
+const { EventEmitter } = require("events");
 const builder = require("./api/builder");
 const specs = require("./specs");
+const types = require("./types");
 
 function createAPI(name, options = {}) {
   if (!specs.hasOwnProperty(name)) {
     name = "spec";
   }
 
-  const { fullName, apiSpec } = specs[name];
-  const api = { name, fullName, apiSpec };
+  const spec = specs[name];
+  const api = new EventEmitter();
 
-  builder.apply(api, [ apiSpec, options ]);
+  api.name = spec.name;
+  api.apiSpec = clone(spec.apiSpec);
+  api.types = types;
+
+  if (spec.types) {
+    api.types = Object.assign({}, api.types, spec.types);
+  }
+
+  builder.apply(api, [ api.apiSpec, options ]);
 
   return api;
+}
+
+function clone(x) {
+  return JSON.parse(JSON.stringify(x));
 }
 
 module.exports = { createAPI };
