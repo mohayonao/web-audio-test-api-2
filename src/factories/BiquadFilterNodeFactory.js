@@ -33,14 +33,14 @@ function create(api, AudioNode) {
       /** @type {number} */
       const gain = defaults(opts.gain, DEFAULT_GAIN);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 1 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.MAX,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 1 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.MAX,
+        });
+      } finally { lock.lock(); }
 
       this._.className = "BiquadFilterNode";
       this._.type = type;

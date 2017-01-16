@@ -17,9 +17,9 @@ function create(api, AudioNode) {
       /** @type {MediaStream} */
       const mediaStream = defaults(opts.mediaStream, null);
 
-      lock.unlock();
-      super(context, opts, { inputs: [], outputs: [ 1 ] });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, { inputs: [], outputs: [ 1 ] });
+      } finally { lock.lock(); }
 
       this._.className = "MediaStreamAudioSourceNode";
       this._.mediaStream = mediaStream;

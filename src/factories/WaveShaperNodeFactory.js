@@ -23,14 +23,14 @@ function create(api, AudioNode) {
       /** @type {OverSampleType} */
       const oversample = defaults(opts.oversample, DEFAULT_OVERSAMPLE);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 1 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.MAX,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 1 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.MAX,
+        });
+      } finally { lock.lock(); }
 
       this._.className = "WaveShaperNode";
       this._.curve = curve;

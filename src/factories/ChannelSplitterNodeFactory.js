@@ -20,14 +20,14 @@ function create(api, AudioNode) {
       /** @type {number} */
       const numberOfOutputs = defaults(opts.numberOfOutputs, DEFAULT_NUMBER_OF_OUTPUTS);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: Array.from({ length: numberOfOutputs }, () => 1),
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.MAX,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: Array.from({ length: numberOfOutputs }, () => 1),
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.MAX,
+        });
+      } finally { lock.lock(); }
 
       this._.className = "ChannelSplitterNode";
     }

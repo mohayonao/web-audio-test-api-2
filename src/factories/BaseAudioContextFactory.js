@@ -18,10 +18,10 @@ function create(api, EventTarget) {
         throw new TypeError("Illegal constructor");
       }
 
-      lock.unlock();
-      super();
-      initialize.call(this, api, opts);
-      lock.lock();
+      try { lock.unlock();
+        super();
+        initialize.call(this, api, opts);
+      } finally { lock.lock(); }
     }
 
     /**

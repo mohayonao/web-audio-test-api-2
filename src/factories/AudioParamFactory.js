@@ -23,9 +23,9 @@ function create(api, BaseObject) {
       const maxValue = defaults(opts.maxValue, MAX_VALUE);
       const value = defaults(opts.value, defaultValue);
 
-      lock.unlock();
-      super();
-      lock.lock();
+      try { lock.unlock();
+        super();
+      } finally { lock.lock(); }
 
       this._.className = "AudioParam";
       this._.name = name;

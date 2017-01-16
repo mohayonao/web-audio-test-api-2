@@ -13,10 +13,10 @@ function create(api, BaseObject) {
       if (lock.checkIllegalConstructor(api, "/AudioListener")) {
         throw new TypeError("Illegal constructor");
       }
-      lock.unlock();
-      super(context, opts);
-      initialize.call(this, api, context, opts);
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts);
+        initialize.call(this, api, context, opts);
+      } finally { lock.lock(); }
 
       this._.className = "AudioListener";
       this._.dopplerFactor = 1;

@@ -13,15 +13,15 @@ function create(api, AudioNode) {
       if (lock.checkIllegalConstructor(api, "/MediaStreamAudioDestinationNode")) {
         throw new TypeError("Illegal constructor");
       }
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 2 ],
-        outputs: [],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.EXPLICIT,
-        allowedChannelCountMode: [ ChannelCountMode.EXPLICIT ],
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 2 ],
+          outputs: [],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.EXPLICIT,
+          allowedChannelCountMode: [ ChannelCountMode.EXPLICIT ],
+        });
+      } finally { lock.lock(); }
 
       this._.className = "MediaStreamAudioDestinationNode";
       this._.stream = new api.MediaStream();

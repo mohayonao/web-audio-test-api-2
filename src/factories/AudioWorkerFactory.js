@@ -9,9 +9,9 @@ function create(api, Worker) {
       if (lock.checkIllegalConstructor(api, "/AudioWorker")) {
         throw new TypeError("Illegal constructor");
       }
-      lock.unlock();
-      super(context, opts);
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts);
+      } finally { lock.lock(); }
 
       this._.className = "AudioWorker";
     }

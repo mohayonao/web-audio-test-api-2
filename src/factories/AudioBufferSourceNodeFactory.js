@@ -34,12 +34,12 @@ function create(api, AudioScheduledSourceNode) {
       /** @type {number} */
       const loopEnd = defaults(opts.loopEnd, DEFAULT_LOOP_END);
 
-      lock.unlock();
-      super(context, opts, { inputs: [], outputs: [ 1 ] });
-      if (!(this instanceof api.AudioScheduledSourceNode)) {
-        initialize.call(this, api, opts);
-      }
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, { inputs: [], outputs: [ 1 ] });
+        if (!(this instanceof api.AudioScheduledSourceNode)) {
+          initialize.call(this, api, opts);
+        }
+      } finally { lock.lock(); }
 
       this._.className = "AudioBufferSourceNode";
       this._.buffer = buffer;

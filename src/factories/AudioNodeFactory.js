@@ -30,9 +30,9 @@ function create(api, EventTarget) {
       /** @type {ChannelInterpretation} */
       const channelInterpretation = defaults(opts.channelInterpretation, config.channelInterpretation, ChannelInterpretation.SPEAKERS);
 
-      lock.unlock();
-      super(context, opts);
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts);
+      } finally { lock.lock(); }
 
       this._.className = "AudioNode";
       this._.context = context;

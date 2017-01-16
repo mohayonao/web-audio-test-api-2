@@ -19,9 +19,9 @@ function create(api, BaseObject) {
       /** @type {Float32Array} */
       const imag = defaults(opts.imag, null);
 
-      lock.unlock();
-      super(context, opts);
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts);
+      } finally { lock.lock(); }
 
       this._.className = "PeriodicWave";
       this._.real = real;

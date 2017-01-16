@@ -29,9 +29,9 @@ function create(api, BaseObject) {
       /** @type {number} */
       const sampleRate = defaults(opts.sampleRate, 0);
 
-      lock.unlock();
-      super();
-      lock.lock();
+      try { lock.unlock();
+        super();
+      } finally { lock.lock(); }
 
       this._.className = "AudioBuffer";
       this._.sampleRate = sampleRate;

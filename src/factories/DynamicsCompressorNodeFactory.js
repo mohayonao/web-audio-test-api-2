@@ -33,14 +33,14 @@ function create(api, AudioNode) {
       const release = defaults(opts.release, DEFAULT_RELEASE);
       const reduction = 0;
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 2 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.EXPLICIT,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 2 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.EXPLICIT,
+        });
+      } finally { lock.lock(); }
 
       this._.className = "DynamicsCompressorNode";
       this._.threshold = new api.AudioParam(context, {

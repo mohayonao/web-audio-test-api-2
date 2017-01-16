@@ -13,9 +13,9 @@ function create(api, AudioNode) {
       if (lock.checkIllegalConstructor(api, "/AudioSourceNode")) {
         throw new TypeError("Illegal constructor");
       }
-      lock.unlock();
-      super(context, opts, config);
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, config);
+      } finally { lock.lock(); }
 
       this._.className = "AudioSourceNode";
     }

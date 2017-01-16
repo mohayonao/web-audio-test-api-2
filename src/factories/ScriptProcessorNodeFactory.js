@@ -26,17 +26,17 @@ function create(api, AudioNode) {
       /** @type {number} */
       const numberOfOutputChannels = defaults(opts.numberOfOutputChannels, DEFAULT_NUMBER_OF_OUTPUT_CHANNELS);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ numberOfInputChannels ],
-        outputs: [ numberOfOutputChannels ],
-        channelCount: numberOfInputChannels,
-        channelCountMode: ChannelCountMode.EXPLICIT,
-        allowedMaxChannelCount: numberOfInputChannels,
-        allowedMinChannelCount: numberOfInputChannels,
-        allowedChannelCountMode: [ ChannelCountMode.EXPLICIT ]
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ numberOfInputChannels ],
+          outputs: [ numberOfOutputChannels ],
+          channelCount: numberOfInputChannels,
+          channelCountMode: ChannelCountMode.EXPLICIT,
+          allowedMaxChannelCount: numberOfInputChannels,
+          allowedMinChannelCount: numberOfInputChannels,
+          allowedChannelCountMode: [ ChannelCountMode.EXPLICIT ]
+        });
+      } finally { lock.lock(); }
 
       this._.className = "ScriptProcessorNode";
       this._.bufferSize = bufferSize;

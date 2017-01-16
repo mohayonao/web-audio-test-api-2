@@ -20,15 +20,15 @@ function create(api, AudioNode) {
       /** @type {number} */
       const numberOfChannels = defaults(opts.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ numberOfChannels ],
-        outputs: [],
-        channelCount: numberOfChannels,
-        channelCountMode: ChannelCountMode.EXPLICIT,
-        allowedMaxChannelCount: numberOfChannels,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ numberOfChannels ],
+          outputs: [],
+          channelCount: numberOfChannels,
+          channelCountMode: ChannelCountMode.EXPLICIT,
+          allowedMaxChannelCount: numberOfChannels,
+        });
+      } finally { lock.lock(); }
 
       this._.className = "AudioDestinationNode";
       this._.maxChannelCount = numberOfChannels;

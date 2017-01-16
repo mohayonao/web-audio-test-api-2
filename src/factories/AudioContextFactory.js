@@ -18,12 +18,12 @@ function create(api, BaseAudioContext) {
       /** @type {number} */
       const sampleRate = defaults(api.sampleRate, DEFAULT_SAMPLE_RATE);
 
-      lock.unlock();
-      super({ numberOfChannels, sampleRate });
-      if (!(this instanceof api.BaseAudioContext)) {
-        initialize.call(this, api, { numberOfChannels, sampleRate });
-      }
-      lock.lock();
+      try { lock.unlock();
+        super({ numberOfChannels, sampleRate });
+        if (!(this instanceof api.BaseAudioContext)) {
+          initialize.call(this, api, { numberOfChannels, sampleRate });
+        }
+      } finally { lock.lock(); }
 
       this._.className = "AudioContext";
       this._.state = AudioContextState.RUNNING;

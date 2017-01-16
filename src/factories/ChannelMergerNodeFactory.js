@@ -20,16 +20,16 @@ function create(api, AudioNode) {
       /** @type {number} */
       const numberOfInputs = defaults(opts.numberOfInputs, DEFAULT_NUMBER_OF_INPUTS);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: Array.from({ length: numberOfInputs}, () => 1),
-        outputs: [ numberOfInputs ],
-        channelCount: 1,
-        channelCountMode: ChannelCountMode.EXPLICIT,
-        allowedMaxChannelCount: 1,
-        allowedChannelCountMode: [ ChannelCountMode.EXPLICIT ],
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: Array.from({ length: numberOfInputs}, () => 1),
+          outputs: [ numberOfInputs ],
+          channelCount: 1,
+          channelCountMode: ChannelCountMode.EXPLICIT,
+          allowedMaxChannelCount: 1,
+          allowedChannelCountMode: [ ChannelCountMode.EXPLICIT ],
+        });
+      } finally { lock.lock(); }
 
       this._.className = "ChannelMergerNode";
     }

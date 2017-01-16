@@ -13,10 +13,10 @@ function create(api, AudioNode) {
       if (lock.checkIllegalConstructor(api, "/AudioScheduledSourceNode")) {
         throw new TypeError("Illegal constructor");
       }
-      lock.unlock();
-      super(context, opts, config);
-      initialize.call(this, api, opts);
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, config);
+        initialize.call(this, api, opts);
+      } finally { lock.lock(); }
 
       this._.className = "AudioScheduledSourceNode";
     }

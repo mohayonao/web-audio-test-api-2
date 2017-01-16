@@ -14,17 +14,17 @@ function create(api, AudioNode) {
       if (lock.checkIllegalConstructor(api, "/PannerNode")) {
         throw new TypeError("Illegal constructor");
       }
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 2 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.CLAMPED_MAX,
-        allowedMaxChannelCount: 2,
-        allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ]
-      });
-      initialize.call(this, api, context, opts);
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 2 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.CLAMPED_MAX,
+          allowedMaxChannelCount: 2,
+          allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ]
+        });
+        initialize.call(this, api, context, opts);
+      } finally { lock.lock(); }
 
       this._.className = "PannerNode";
       this._.coneGain = new api.AudioParam(context, {

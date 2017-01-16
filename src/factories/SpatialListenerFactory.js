@@ -12,10 +12,10 @@ function create(api, BaseObject) {
       if (lock.checkIllegalConstructor(api, "/SpatialListener")) {
         throw new TypeError("Illegal constructor");
       }
-      lock.unlock();
-      super(context, opts);
-      initialize.call(this, api, context, opts);
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts);
+        initialize.call(this, api, context, opts);
+      } finally { lock.lock(); }
 
       this._.className = "SpatialListener";
     }

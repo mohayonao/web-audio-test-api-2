@@ -20,12 +20,12 @@ function create(api, AudioScheduledSourceNode) {
       /** @type {number} */
       const offset = defaults(opts.offset, DEFAULT_OFFSET);
 
-      lock.unlock();
-      super(context, opts, { inputs: [], outputs: [ 1 ] });
-      if (!(this instanceof api.AudioScheduledSourceNode)) {
-        initialize.call(this, api, opts);
-      }
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, { inputs: [], outputs: [ 1 ] });
+        if (!(this instanceof api.AudioScheduledSourceNode)) {
+          initialize.call(this, api, opts);
+        }
+      } finally { lock.lock(); }
 
       this._.className = "ConstantSourceNode";
       this._.offset = new api.AudioParam(context, {

@@ -29,14 +29,14 @@ function create(api, AudioNode) {
       /** @type {number} */
       const smoothingTimeConstant = defaults(opts.smoothingTimeConstant, DEFAULT_SMOOTHING_TIME_CONSTANT);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 1 ],
-        channelCount: 1,
-        channelCountMode: ChannelCountMode.MAX,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 1 ],
+          channelCount: 1,
+          channelCountMode: ChannelCountMode.MAX,
+        });
+      } finally { lock.lock(); }
 
       this._.className = "AnalyserNode";
       this._.fftSize = fftSize;

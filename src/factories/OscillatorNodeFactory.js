@@ -29,12 +29,12 @@ function create(api, AudioNode) {
       /** @type {PeriodicWave?} */
       const periodicWave = defaults(opts.periodicWave, null);
 
-      lock.unlock();
-      super(context, opts, { inputs: [], outputs: [ 1 ] });
-      if (!(this instanceof api.AudioScheduledSourceNode)) {
-        initialize.call(this, api, opts);
-      }
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, { inputs: [], outputs: [ 1 ] });
+        if (!(this instanceof api.AudioScheduledSourceNode)) {
+          initialize.call(this, api, opts);
+        }
+      } finally { lock.lock(); }
 
       this._.className = "OscillatorNode";
       this._.type = type;

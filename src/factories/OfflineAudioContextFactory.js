@@ -12,9 +12,9 @@ function create(api, BaseAudioContext) {
      * @param {number} sampleRate
      */
     constructor(numberOfChannels, length, sampleRate) {
-      lock.unlock()
-      super({ numberOfChannels, length, sampleRate });
-      lock.lock();
+      try { lock.unlock()
+        super({ numberOfChannels, length, sampleRate });
+      } finally { lock.lock(); }
 
       this._.className = "OfflineAudioContext";
       this._.oncomplete = null;

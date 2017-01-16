@@ -20,16 +20,16 @@ function create(api, AudioNode) {
       /** @type {number} */
       const pan = defaults(opts.pan, DEFAULT_PAN);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 2 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.CLAMPED_MAX,
-        allowedMaxChannelCount: 2,
-        allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ],
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 2 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.CLAMPED_MAX,
+          allowedMaxChannelCount: 2,
+          allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ],
+        });
+      } finally { lock.lock(); }
 
       this._.className = "StereoPannerNode";
       this._.pan = new api.AudioParam(context, {
