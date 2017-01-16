@@ -20,6 +20,18 @@ function createAPI(opts = {}) {
         if (opts["illegal"] && /^\/\w+$/.test(apiPath)) {
           apiSpec[apiPath]["constructor"] = "illegal";
         }
+        if (opts["disabled"]) {
+          if (typeof opts["disabled"] === "string") {
+            if (apiPath.startsWith(opts["disabled"])) {
+              delete apiSpec[apiPath];
+            }
+          }
+          if (opts["disabled"] instanceof RegExp) {
+            if (opts["disabled"].test(apiPath)) {
+              delete apiSpec[apiPath];
+            }
+          }
+        }
       });
     }
   });

@@ -11,15 +11,18 @@ describe("api/installer", () => {
     const apiSpec = {
       "/A": { global: "A" },
       "/B": { global: "webkitB" },
+      "/C": {},
     };
-    const target = { "C": "C" };
+    const target = { "D": "D" };
 
     installer.apply(api, [ apiSpec ]);
 
     api.install(target);
-    assert.deepEqual(target, { "A": "A", "webkitB": "B", "C": "C" });
+    assert.deepEqual(target, { "A": "A", "webkitB": "B", "D": "D" });
+
+    target["webkitB"] =  "webkitB";
 
     api.uninstall(target);
-    assert.deepEqual(target, { "C": "C" });
+    assert.deepEqual(target, { "webkitB": "webkitB", "D": "D" });
   });
 });

@@ -15,16 +15,24 @@ describe("utils/emit(instance, type, ...args)", () => {
       },
     };
     const handler1 = sinon.spy();
-    const handler2 = sinon.spy();
 
     instance._.emitter.on("ended", handler1);
-    instance.onended = handler2;
 
     emit(instance, "ended", "arg1", "arg2");
 
     assert(handler1.callCount === 1);
-    assert(handler2.callCount === 1);
     assert.deepEqual(handler1.args[0], [ "arg1", "arg2" ]);
-    assert.deepEqual(handler2.args[0], [ "arg1", "arg2" ]);
+  });
+
+  it("works with onxxxx", () => {
+    const instance = {};
+    const handler1 = sinon.spy();
+
+    instance.onended = handler1;
+
+    emit(instance, "ended", "arg1", "arg2");
+
+    assert(handler1.callCount === 1);
+    assert.deepEqual(handler1.args[0], [ "arg1", "arg2" ]);
   });
 });

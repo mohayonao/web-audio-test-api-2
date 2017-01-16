@@ -15,6 +15,7 @@ function isLocked() {
 }
 
 function tr(fn) {
+  /* istanbul ignore next */
   if (_UNLOCKED !== 0) {
     throw new Error("lock error");
   }
@@ -25,6 +26,7 @@ function tr(fn) {
 
   _UNLOCKED -= 1;
 
+  /* istanbul ignore next */
   if (_UNLOCKED !== 0) {
     throw new Error("lock error");
   }

@@ -172,6 +172,17 @@ describe("AudioNodeFactory", () => {
         assert(node2 === context.destination);
       });
 
+      it("works with AudioParam", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, {
+          outputs: [ 1 ]
+        });
+        const node2 = node1.connect(new api.AudioParam(context));
+
+        assert(typeof node2 === "undefined");
+      });
+
       it("/AudioNode/connect/void: true", () => {
         const api = testTools.createAPI({ "/AudioNode/connect/void": true });
         const context = new api.AudioContext();

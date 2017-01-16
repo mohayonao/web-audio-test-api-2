@@ -65,6 +65,7 @@ describe("api/whitelist(api, apiSpec)", () => {
         "/Baz/bar": {},
         "/Baz/baz": {},
         "/Baz/quux": {},
+        "/Corge": {},
       };
 
       whitelist.apply(api, [ apiSpec ]);

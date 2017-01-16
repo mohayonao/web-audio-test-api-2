@@ -15,7 +15,7 @@ function create(api, BaseObject) {
       if (lock.isLocked() && api.get("/AudioBuffer/context")) {
         void(context);
       } else {
-        opts = context || {};
+        opts = context || /* istanbul ignore next */ {};
       }
 
       const numberOfChannels = defaults(opts.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);

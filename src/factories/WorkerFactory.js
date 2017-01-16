@@ -1,5 +1,6 @@
 "use strict";
 
+/* istanbul ignore next */
 function create(api, EventTarget) {
   class Worker extends EventTarget {
     get onmessage() {

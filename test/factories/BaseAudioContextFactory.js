@@ -486,8 +486,10 @@ describe("BaseAudioContextFactory", () => {
     describe("createMediaElementSource", () => {
       it("works", () => {
         const api = testTools.createAPI();
-        const context = new api.AudioContext();
-        const node = context.createMediaElementSource(null);
+        const context = new api.BaseAudioContext({
+          numberOfChannels: 2, sampleRate: 44100
+        });
+        const node = context.createMediaElementSource(new api.HTMLMediaElement());
 
         assert(node instanceof api.MediaElementAudioSourceNode);
       });
@@ -496,8 +498,10 @@ describe("BaseAudioContextFactory", () => {
     describe("createMediaStreamSource", () => {
       it("works", () => {
         const api = testTools.createAPI();
-        const context = new api.AudioContext();
-        const node = context.createMediaStreamSource(null);
+        const context = new api.BaseAudioContext({
+          numberOfChannels: 2, sampleRate: 44100
+        });
+        const node = context.createMediaStreamSource(new api.MediaStream());
 
         assert(node instanceof api.MediaStreamAudioSourceNode);
       });
@@ -506,7 +510,9 @@ describe("BaseAudioContextFactory", () => {
     describe("createMediaStreamDestination", () => {
       it("works", () => {
         const api = testTools.createAPI();
-        const context = new api.AudioContext();
+        const context = new api.BaseAudioContext({
+          numberOfChannels: 2, sampleRate: 44100
+        });
         const node = context.createMediaStreamDestination();
 
         assert(node instanceof api.MediaStreamAudioDestinationNode);
