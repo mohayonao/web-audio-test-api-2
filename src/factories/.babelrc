@@ -1,0 +1,6 @@
+{
+  "plugins": [
+    "../../babel/babel-plugin-jsdoc-to-test-api"
+  ],
+  "extends": "../../.babelrc"
+}

@@ -7,14 +7,14 @@ const whitelist = require("./whitelist");
 const installer = require("./installer");
 
 function apply(api, [ apiSpec, options = {} ]) {
+  api.get = (path) => getAPISpec(apiSpec, path);
+  api.set = (path, value) => setAPISpec(apiSpec, path, value);
+
   namespace.apply(api, [ apiSpec, options ]);
   readonly .apply(api, [ apiSpec, options ]);
   classprop.apply(api, [ apiSpec, options ]);
   whitelist.apply(api, [ apiSpec, options ]);
   installer.apply(api, [ apiSpec, options ]);
-
-  api.get = (path) => getAPISpec(apiSpec, path);
-  api.set = (path, value) => setAPISpec(apiSpec, path, value);
 
   return api;
 }
