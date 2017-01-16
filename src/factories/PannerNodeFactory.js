@@ -49,30 +49,6 @@ function create(api, AudioNode) {
 
     // Ancient properties /////////////////////////////////////////////////////////////////////////
 
-    static get EQUALPOWER() {
-      return api.types.PanningModelType.EQUALPOWER;
-    }
-
-    static get HRTF() {
-      return api.types.PanningModelType.HRTF;
-    }
-
-    static get SOUNDFIELD() {
-      return api.types.PanningModelType.SOUNDFIELD;
-    }
-
-    static get LINEAR_DISTANCE() {
-      return api.types.DistanceModelType.LINEAR;
-    }
-
-    static get INVERSE_DISTANCE() {
-      return api.types.DistanceModelType.INVERSE;
-    }
-
-    static get EXPONENTIAL_DISTANCE() {
-      return api.types.DistanceModelType.EXPONENTIAL;
-    }
-
     get EQUALPOWER() {
       return api.types.PanningModelType.EQUALPOWER;
     }

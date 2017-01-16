@@ -63,42 +63,6 @@ function create(api, AudioNode) {
 
     // Ancient properties /////////////////////////////////////////////////////////////////////////
 
-    static get SINE() {
-      return api.types.OscillatorType.SINE;
-    }
-
-    static get SQUARE() {
-      return api.types.OscillatorType.SQUARE;
-    }
-
-    static get SAWTOOTH() {
-      return api.types.OscillatorType.SAWTOOTH;
-    }
-
-    static get TRIANGLE() {
-      return api.types.OscillatorType.TRIANGLE;
-    }
-
-    static get CUSTOM() {
-      return api.types.OscillatorType.CUSTOM;
-    }
-
-    static get UNSCHEDULED_STATE() {
-      return api.types.PlaybackStateType.UNSCHEDULED_STATE;
-    }
-
-    static get SCHEDULED_STATE() {
-      return api.types.PlaybackStateType.SCHEDULED_STATE;
-    }
-
-    static get PLAYING_STATE() {
-      return api.types.PlaybackStateType.PLAYING_STATE;
-    }
-
-    static get FINISHED_STATE() {
-      return api.types.PlaybackStateType.FINISHED_STATE;
-    }
-
     get SINE() {
       return api.types.OscillatorType.SINE;
     }

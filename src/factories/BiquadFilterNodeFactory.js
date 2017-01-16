@@ -80,38 +80,6 @@ function create(api, AudioNode) {
 
     // Ancient properties /////////////////////////////////////////////////////////////////////////
 
-    static get LOWPASS() {
-      return api.types.BiquadFilterType.LOWPASS;
-    }
-
-    static get HIGHPASS() {
-      return api.types.BiquadFilterType.HIGHPASS;
-    }
-
-    static get BANDPASS() {
-      return api.types.BiquadFilterType.BANDPASS;
-    }
-
-    static get LOWSHELF() {
-      return api.types.BiquadFilterType.LOWSHELF;
-    }
-
-    static get HIGHSHELF() {
-      return api.types.BiquadFilterType.HIGHSHELF;
-    }
-
-    static get PEAKING() {
-      return api.types.BiquadFilterType.PEAKING;
-    }
-
-    static get NOTCH() {
-      return api.types.BiquadFilterType.NOTCH;
-    }
-
-    static get ALLPASS() {
-      return api.types.BiquadFilterType.ALLPASS;
-    }
-
     get LOWPASS() {
       return api.types.BiquadFilterType.LOWPASS;
     }

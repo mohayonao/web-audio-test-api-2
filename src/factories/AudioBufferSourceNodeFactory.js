@@ -95,22 +95,6 @@ function create(api, AudioScheduledSourceNode) {
 
     // Ancient properties /////////////////////////////////////////////////////////////////////////
 
-    static get UNSCHEDULED_STATE() {
-      return api.types.PlaybackStateType.UNSCHEDULED_STATE;
-    }
-
-    static get SCHEDULED_STATE() {
-      return api.types.PlaybackStateType.SCHEDULED_STATE;
-    }
-
-    static get PLAYING_STATE() {
-      return api.types.PlaybackStateType.PLAYING_STATE;
-    }
-
-    static get FINISHED_STATE() {
-      return api.types.PlaybackStateType.FINISHED_STATE;
-    }
-
     get UNSCHEDULED_STATE() {
       return api.types.PlaybackStateType.UNSCHEDULED_STATE;
     }
