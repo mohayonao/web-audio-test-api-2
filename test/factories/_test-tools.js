@@ -19,6 +19,7 @@ function createAPI(opts = {}) {
         }
         if (opts["illegal"] && /^\/\w+$/.test(apiPath)) {
           apiSpec[apiPath]["constructor"] = "illegal";
+          apiSpec[apiPath]["protected"] = true;
         }
         if (opts["disabled"]) {
           if (typeof opts["disabled"] === "string") {

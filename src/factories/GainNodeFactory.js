@@ -9,14 +9,11 @@ const DEFAULT_GAIN = 1;
 function create(api, AudioNode) {
   class GainNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/GainNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {number} */
       const gain = defaults(opts.gain, DEFAULT_GAIN);
 

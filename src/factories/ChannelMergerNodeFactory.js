@@ -9,14 +9,11 @@ const DEFAULT_NUMBER_OF_INPUTS = 6;
 function create(api, AudioNode) {
   class ChannelMergerNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/ChannelMergerNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {number} */
       const numberOfInputs = defaults(opts.numberOfInputs, DEFAULT_NUMBER_OF_INPUTS);
 

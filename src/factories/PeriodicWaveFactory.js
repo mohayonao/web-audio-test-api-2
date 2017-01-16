@@ -6,14 +6,11 @@ const lock = require("../utils/lock");
 function create(api, BaseObject) {
   class PeriodicWave extends BaseObject {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/PeriodicWave")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {Float32Array} */
       const real = defaults(opts.real, null);
       /** @type {Float32Array} */

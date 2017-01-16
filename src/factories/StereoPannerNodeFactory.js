@@ -9,14 +9,11 @@ const DEFAULT_PAN = 0;
 function create(api, AudioNode) {
   class StereoPannerNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/StereoPannerNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {number} */
       const pan = defaults(opts.pan, DEFAULT_PAN);
 

@@ -14,14 +14,11 @@ const DEFAULT_GAIN = 0;
 function create(api, AudioNode) {
   class BiquadFilterNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/BiquadFilterNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {BiquadFilterType} */
       const type = defaults(opts.type, DEFAULT_TYPE);
       /** @type {number} */

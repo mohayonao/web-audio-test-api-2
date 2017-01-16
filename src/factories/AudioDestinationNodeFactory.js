@@ -9,14 +9,11 @@ const DEFAULT_NUMBER_OF_CHANNELS = 2;
 function create(api, AudioNode) {
   class AudioDestinationNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/AudioDestinationNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {number} */
       const numberOfChannels = defaults(opts.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
 

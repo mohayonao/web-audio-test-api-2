@@ -11,14 +11,11 @@ const DEFAULT_NUMBER_OF_OUTPUT_CHANNELS = 1;
 function create(api, AudioNode) {
   class ScriptProcessorNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/ScriptProcessorNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {number} */
       const bufferSize = defaults(opts.bufferSize, DEFAULT_BUFFER_SIZE);
       /** @type {number} */

@@ -8,14 +8,11 @@ const DEFAULT_NUMBER_OF_CHANNELS = 1;
 function create(api, BaseObject) {
   class AudioBuffer extends BaseObject {
     /**
+     * @protected
      * @param {Object} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/AudioBuffer")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       if (lock.isLocked() && api.get("/AudioBuffer/context")) {
         void(context);
       } else {

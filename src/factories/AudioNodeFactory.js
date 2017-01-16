@@ -8,15 +8,12 @@ const lock = require("../utils/lock");
 function create(api, EventTarget) {
   class AudioNode extends EventTarget {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      * @param {Object} [config]
      */
     constructor(context, opts = {}, config = {}) {
-      if (lock.checkIllegalConstructor(api, "/AudioNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       const inputs = defaults(config.inputs, []);
       const outputs = defaults(config.outputs, []);
       const allowedMinChannelCount = defaults(config.allowedMinChannelCount, 1);

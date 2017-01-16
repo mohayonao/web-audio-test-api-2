@@ -12,14 +12,11 @@ const DEFAULT_SMOOTHING_TIME_CONSTANT = 0.8;
 function create(api, AudioNode) {
   class AnalyserNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {Object} opts
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/AnalyserNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {number} */
       const fftSize = defaults(opts.fftSize, DEFAULT_FFT_SIZE);
       /** @type {number} */

@@ -5,10 +5,12 @@ const readonly  = require("./readonly");
 const classprop = require("./classprop");
 const whitelist = require("./whitelist");
 const installer = require("./installer");
+const lock = require("../utils/lock");
 
 function apply(api, [ apiSpec, options = {} ]) {
   api.get = (path) => getAPISpec(apiSpec, path);
   api.set = (path, value) => setAPISpec(apiSpec, path, value);
+  api.protected = (path) => checkIllegalConstructor(apiSpec, path);
 
   namespace.apply(api, [ apiSpec, options ]);
   readonly .apply(api, [ apiSpec, options ]);
@@ -43,6 +45,14 @@ function setAPISpec(apiSpec, path, value) {
   }
 
   return value;
+}
+
+function checkIllegalConstructor(apiSpec, path) {
+  if (lock.isLocked() && apiSpec[path] && apiSpec[path]["JSDoc"]) {
+    if (apiSpec[path]["JSDoc"]["protected"] && apiSpec[path]["protected"]) {
+      throw new TypeError("Illegal constructor");
+    }
+  }
 }
 
 module.exports = { apply };

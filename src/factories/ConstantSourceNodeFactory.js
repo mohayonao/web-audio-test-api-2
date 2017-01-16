@@ -9,14 +9,11 @@ const DEFAULT_OFFSET = 1;
 function create(api, AudioScheduledSourceNode) {
   class ConstantSourceNode extends AudioScheduledSourceNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/ConstantSourceNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {number} */
       const offset = defaults(opts.offset, DEFAULT_OFFSET);
 

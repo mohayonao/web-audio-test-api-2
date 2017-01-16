@@ -12,14 +12,11 @@ const DEFAULT_DETUNE = 0;
 function create(api, AudioNode) {
   class OscillatorNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/OscillatorNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {OscillatorType} */
       const type = defaults(opts.type, DEFAULT_TYPE);
       /** @type {number} */

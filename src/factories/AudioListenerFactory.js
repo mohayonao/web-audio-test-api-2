@@ -6,13 +6,11 @@ const { initialize } = require("./SpatialListenerFactory");
 function create(api, BaseObject) {
   class AudioListener extends BaseObject {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/AudioListener")) {
-        throw new TypeError("Illegal constructor");
-      }
       try { lock.unlock();
         super(context, opts);
         initialize.call(this, api, context, opts);

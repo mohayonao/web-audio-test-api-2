@@ -9,14 +9,11 @@ const MAX_VALUE = +3.4028234663852886e+38;
 function create(api, BaseObject) {
   class AudioParam extends BaseObject {
     /**
+     * @protected
      * @param {AudioNode} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/AudioParam")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       const name = defaults(opts.name, "");
       const defaultValue = defaults(opts.defaultValue, 0);
       const minValue = defaults(opts.minValue, MIN_VALUE);

@@ -9,14 +9,11 @@ const DEFAULT_NUMBER_OF_OUTPUTS = 6;
 function create(api, AudioNode) {
   class ChannelSplitterNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/ChannelSplitterNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {number} */
       const numberOfOutputs = defaults(opts.numberOfOutputs, DEFAULT_NUMBER_OF_OUTPUTS);
 

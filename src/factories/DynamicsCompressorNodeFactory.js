@@ -13,14 +13,11 @@ const DEFAULT_RELEASE = 0.25;
 function create(api, AudioNode) {
   class DynamicsCompressorNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/DynamicsCompressorNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {number} */
       const threshold = defaults(opts.threshold, DEFAULT_THRESHOLD);
       /** @type {number} */

@@ -24,13 +24,11 @@ const DEFAULT_ORIENTATION_Z = 0;
 function create(api, AudioNode) {
   class SpatialPannerNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/SpatialPannerNode")) {
-        throw new TypeError("Illegal constructor");
-      }
       try { lock.unlock();
         super(context, opts, {
           inputs: [ 1 ],

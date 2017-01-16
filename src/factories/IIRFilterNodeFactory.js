@@ -7,14 +7,11 @@ const lock = require("../utils/lock");
 function create(api, AudioNode) {
   class IIRFilterNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/IIRFilterNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {number[]} */
       const feedforward = defaults(opts.feedforward, null);
       /** @type {number[]} */

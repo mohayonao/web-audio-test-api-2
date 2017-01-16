@@ -13,14 +13,11 @@ const DEFAULT_LOOP_END = 0;
 function create(api, AudioScheduledSourceNode) {
   class AudioBufferSourceNode extends AudioScheduledSourceNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/AudioBufferSourceNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {AudioBuffer?} */
       const buffer = defaults(opts.buffer, null);
       /** @type {number} */

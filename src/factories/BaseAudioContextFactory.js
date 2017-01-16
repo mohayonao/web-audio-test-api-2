@@ -11,13 +11,10 @@ const DEFAULT_SAMPLE_RATE = 44100;
 function create(api, EventTarget) {
   class BaseAudioContext extends EventTarget {
     /**
+     * @protected
      * @param {Object} [opts]
      */
     constructor(opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/BaseAudioContext")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       try { lock.unlock();
         super();
         initialize.call(this, api, opts);

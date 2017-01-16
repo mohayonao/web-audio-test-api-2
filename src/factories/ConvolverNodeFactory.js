@@ -9,14 +9,11 @@ const DEFAULT_DISABLE_NORMALIZATION = false;
 function create(api, AudioNode) {
   class ConvolverNode extends AudioNode {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/ConvolverNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       /** @type {AudioBuffer?} */
       const buffer = defaults(opts.buffer, null);
       /** @type {boolean} */

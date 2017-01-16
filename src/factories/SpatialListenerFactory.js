@@ -5,13 +5,11 @@ const lock = require("../utils/lock");
 function create(api, BaseObject) {
   class SpatialListener extends BaseObject {
     /**
+     * @protected
      * @param {AudioContext} context
      * @param {Object} [opts]
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/SpatialListener")) {
-        throw new TypeError("Illegal constructor");
-      }
       try { lock.unlock();
         super(context, opts);
         initialize.call(this, api, context, opts);
