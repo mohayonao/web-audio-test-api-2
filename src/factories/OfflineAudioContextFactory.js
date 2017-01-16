@@ -6,6 +6,11 @@ const lock = require("../utils/lock");
 
 function create(api, BaseAudioContext) {
   class OfflineAudioContext extends BaseAudioContext {
+    /**
+     * @param {number} numberOfChannels
+     * @param {number} length
+     * @param {number} sampleRate
+     */
     constructor(numberOfChannels, length, sampleRate) {
       lock.unlock()
       super({ numberOfChannels, length, sampleRate });
@@ -15,10 +20,16 @@ function create(api, BaseAudioContext) {
       this._.oncomplete = null;
     }
 
+    /**
+     * @type {number}
+     */
     get length() {
       return this._.length;
     }
 
+    /**
+     * @type {function?}
+     */
     get oncomplete() {
       return this._.oncomplete;
     }
@@ -27,10 +38,17 @@ function create(api, BaseAudioContext) {
       this._.oncomplete = value;
     }
 
+    /**
+     * @return {Promise<AudioBuffer>}
+     */
     startRendering() {
       return startRendering.call(this, api);
     }
 
+    /**
+     * @param {number} suspendTime
+     * @return {Promise<void>}
+     */
     suspend(suspendTime) {
       void(this, suspendTime);
       return new Promise((resolve) => {
@@ -40,6 +58,9 @@ function create(api, BaseAudioContext) {
       });
     }
 
+    /**
+     * @return {Promise<void>}
+     */
     resume() {
       return new Promise((resolve) => {
         this._.state = AudioContextState.RUNNING;

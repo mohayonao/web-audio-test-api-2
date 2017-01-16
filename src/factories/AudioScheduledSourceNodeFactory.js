@@ -4,6 +4,11 @@ const lock = require("../utils/lock");
 
 function create(api, AudioNode) {
   class AudioScheduledSourceNode extends AudioNode {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     * @param {Object} [config]
+     */
     constructor(context, opts = {}, config = {}) {
       if (lock.checkIllegalConstructor(api, "/AudioScheduledSourceNode")) {
         throw new TypeError("Illegal constructor");
@@ -16,6 +21,9 @@ function create(api, AudioNode) {
       this._.className = "AudioScheduledSourceNode";
     }
 
+    /**
+     * @type {function?}
+     */
     get onended() {
       return this._.onended;
     }
@@ -24,10 +32,18 @@ function create(api, AudioNode) {
       this._.onended = value;
     }
 
+    /**
+     * @param {number} [when]
+     * @return {void}
+     */
     start(when = 0) {
       start.call(this, when);
     }
 
+    /**
+     * @param {number} [when]
+     * @return {void}
+     */
     stop(when = 0) {
       stop.call(this, when);
     }

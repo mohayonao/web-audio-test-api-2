@@ -13,15 +13,24 @@ const DEFAULT_GAIN = 0;
 
 function create(api, AudioNode) {
   class BiquadFilterNode extends AudioNode {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/BiquadFilterNode")) {
         throw new TypeError("Illegal constructor");
       }
 
+      /** @type {BiquadFilterType} */
       const type = defaults(opts.type, DEFAULT_TYPE);
+      /** @type {number} */
       const frequency = defaults(opts.frequency, DEFAULT_FREQUENCY);
+      /** @type {number} */
       const detune = defaults(opts.detune, DEFAULT_DETUNE);
+      /** @type {number} */
       const Q = defaults(opts.Q, DEFAULT_Q);
+      /** @type {number} */
       const gain = defaults(opts.gain, DEFAULT_GAIN);
 
       lock.unlock();
@@ -50,6 +59,9 @@ function create(api, AudioNode) {
       });
     }
 
+    /**
+     * @type {BiquadFilterType}
+     */
     get type() {
       return this._.type;
     }
@@ -58,56 +70,104 @@ function create(api, AudioNode) {
       this._.type = value;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get frequency() {
       return this._.frequency;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get detune() {
       return this._.detune;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get Q() {
       return this._.Q;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get gain() {
       return this._.gain;
     }
 
+    /**
+     * @param {Float32Array} frequencyHz
+     * @param {Float32Array} magResponse
+     * @param {Float32Array} phaseResponse
+     * @return {void}
+     */
     getFrequencyResponse(frequencyHz, magResponse, phaseResponse) {
       void(this, frequencyHz, magResponse, phaseResponse);
     }
 
-    // Ancient properties /////////////////////////////////////////////////////////////////////////
-
+    /**
+     * @deprecated
+     * @type {BiquadFilterType}
+     */
     get LOWPASS() {
       return api.types.BiquadFilterType.LOWPASS;
     }
 
+    /**
+     * @deprecated
+     * @type {BiquadFilterType}
+     */
     get HIGHPASS() {
       return api.types.BiquadFilterType.HIGHPASS;
     }
 
+    /**
+     * @deprecated
+     * @type {BiquadFilterType}
+     */
     get BANDPASS() {
       return api.types.BiquadFilterType.BANDPASS;
     }
 
+    /**
+     * @deprecated
+     * @type {BiquadFilterType}
+     */
     get LOWSHELF() {
       return api.types.BiquadFilterType.LOWSHELF;
     }
 
+    /**
+     * @deprecated
+     * @type {BiquadFilterType}
+     */
     get HIGHSHELF() {
       return api.types.BiquadFilterType.HIGHSHELF;
     }
 
+    /**
+     * @deprecated
+     * @type {BiquadFilterType}
+     */
     get PEAKING() {
       return api.types.BiquadFilterType.PEAKING;
     }
 
+    /**
+     * @deprecated
+     * @type {BiquadFilterType}
+     */
     get NOTCH() {
       return api.types.BiquadFilterType.NOTCH;
     }
 
+    /**
+     * @deprecated
+     * @type {BiquadFilterType}
+     */
     get ALLPASS() {
       return api.types.BiquadFilterType.ALLPASS;
     }

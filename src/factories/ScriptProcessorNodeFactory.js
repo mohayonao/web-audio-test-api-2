@@ -10,13 +10,20 @@ const DEFAULT_NUMBER_OF_OUTPUT_CHANNELS = 1;
 
 function create(api, AudioNode) {
   class ScriptProcessorNode extends AudioNode {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/ScriptProcessorNode")) {
         throw new TypeError("Illegal constructor");
       }
 
+      /** @type {number} */
       const bufferSize = defaults(opts.bufferSize, DEFAULT_BUFFER_SIZE);
+      /** @type {number} */
       const numberOfInputChannels = defaults(opts.numberOfInputChannels, DEFAULT_NUMBER_OF_INPUT_CHANNELS);
+      /** @type {number} */
       const numberOfOutputChannels = defaults(opts.numberOfOutputChannels, DEFAULT_NUMBER_OF_OUTPUT_CHANNELS);
 
       lock.unlock();
@@ -36,10 +43,16 @@ function create(api, AudioNode) {
       this._.onaudioprocess = null;
     }
 
+    /**
+     * @type {number}
+     */
     get bufferSize() {
       return this._.bufferSize;
     }
 
+    /**
+     * @type {function?}
+     */
     get onaudioprocess() {
       return this._.onaudioprocess;
     }

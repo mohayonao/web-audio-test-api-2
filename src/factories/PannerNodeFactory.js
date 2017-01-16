@@ -6,6 +6,10 @@ const { initialize } = require("./SpatialPannerNodeFactory");
 
 function create(api, AudioNode) {
   class PannerNode extends AudioNode {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/PannerNode")) {
         throw new TypeError("Illegal constructor");
@@ -31,52 +35,100 @@ function create(api, AudioNode) {
       });
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     * @return {void}
+     */
     setPosition(x, y, z) {
       this._.positionX.value = x;
       this._.positionY.value = y;
       this._.positionZ.value = z;
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     * @return {void}
+     */
     setOrientation(x, y, z) {
       this._.orientationX.value = x;
       this._.orientationY.value = y;
       this._.orientationZ.value = z;
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     * @return {void}
+     */
     setVelocity(x, y, z) {
       void(this, x, y, z);
     }
 
-    // Ancient properties /////////////////////////////////////////////////////////////////////////
-
+    /**
+     * @deprecated
+     * @type {PanningModelType}
+     */
     get EQUALPOWER() {
       return api.types.PanningModelType.EQUALPOWER;
     }
 
+    /**
+     * @deprecated
+     * @type {PanningModelType}
+     */
     get HRTF() {
       return api.types.PanningModelType.HRTF;
     }
 
+    /**
+     * @deprecated
+     * @type {PanningModelType}
+     */
     get SOUNDFIELD() {
       return api.types.PanningModelType.SOUNDFIELD;
     }
 
+    /**
+     * @deprecated
+     * @type {DistanceModelType}
+     */
     get LINEAR_DISTANCE() {
       return api.types.DistanceModelType.LINEAR;
     }
 
+    /**
+     * @deprecated
+     * @type {DistanceModelType}
+     */
     get INVERSE_DISTANCE() {
       return api.types.DistanceModelType.INVERSE;
     }
 
+    /**
+     * @deprecated
+     * @type {DistanceModelType}
+     */
     get EXPONENTIAL_DISTANCE() {
       return api.types.DistanceModelType.EXPONENTIAL;
     }
 
+    /**
+     * @deprecated
+     * @type {AudioParam}
+     */
     get coneGain() {
       return this._.coneGain;
     }
 
+    /**
+     * @deprecated
+     * @type {AudioParam}
+     */
     get distanceGain() {
       return this._.distanceGain;
     }

@@ -12,15 +12,24 @@ const DEFAULT_RELEASE = 0.25;
 
 function create(api, AudioNode) {
   class DynamicsCompressorNode extends AudioNode {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/DynamicsCompressorNode")) {
         throw new TypeError("Illegal constructor");
       }
 
+      /** @type {number} */
       const threshold = defaults(opts.threshold, DEFAULT_THRESHOLD);
+      /** @type {number} */
       const knee = defaults(opts.knee, DEFAULT_KNEE);
+      /** @type {number} */
       const ratio = defaults(opts.ratio, DEFAULT_RATIO);
+      /** @type {number} */
       const attack = defaults(opts.attack, DEFAULT_ATTACK);
+      /** @type {number} */
       const release = defaults(opts.release, DEFAULT_RELEASE);
       const reduction = 0;
 
@@ -59,18 +68,30 @@ function create(api, AudioNode) {
       });
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get threshold() {
       return this._.threshold;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get knee() {
       return this._.knee;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get ratio() {
       return this._.ratio;
     }
 
+    /**
+     * @type {number}
+     */
     get reduction() {
       if (api.get("/DynamicsCompressorNode/reduction/AudioParam")) {
         return this._.reduction;
@@ -78,10 +99,16 @@ function create(api, AudioNode) {
       return this._.reduction.value;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get attack() {
       return this._.attack;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get release() {
       return this._.release;
     }

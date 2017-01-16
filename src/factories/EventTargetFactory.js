@@ -9,10 +9,20 @@ function create(api, BaseObject) {
       this._.emitter = new EventEmitter();
     }
 
+    /**
+     * @param {string} type
+     * @param {function} eventHandler
+     * @return {void}
+     */
     addEventListener(type, eventHandler) {
       this._.emitter.addListener(type, eventHandler);
     }
 
+    /**
+     * @param {string} type
+     * @param {function} eventHandler
+     * @return {void}
+     */
     removeEventListener(type, eventHandler) {
       this._.emitter.removeListener(type, eventHandler);
     }

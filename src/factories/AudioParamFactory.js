@@ -8,6 +8,10 @@ const MAX_VALUE = +3.4028234663852886e+38;
 
 function create(api, BaseObject) {
   class AudioParam extends BaseObject {
+    /**
+     * @param {AudioNode} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/AudioParam")) {
         throw new TypeError("Illegal constructor");
@@ -31,6 +35,9 @@ function create(api, BaseObject) {
       this._.value = value;
     }
 
+    /**
+     * @type {number}
+     */
     get value() {
       return this._.value;
     }
@@ -39,18 +46,32 @@ function create(api, BaseObject) {
       this._.value = value;
     }
 
+    /**
+     * @type {number}
+     */
     get defaultValue() {
       return this._.defaultValue;
     }
 
+    /**
+     * @type {number}
+     */
     get minValue() {
       return this._.minValue;
     }
 
+    /**
+     * @type {number}
+     */
     get maxValue() {
       return this._.maxValue;
     }
 
+    /**
+     * @param {number} value
+     * @param {number} startTime
+     * @return {AudioParam}
+     */
     setValueAtTime(value, startTime) {
       void(this, value, startTime);
       if (!api.get("/AudioParam/setValueAtTime/void")) {
@@ -58,6 +79,11 @@ function create(api, BaseObject) {
       }
     }
 
+    /**
+     * @param {number} value
+     * @param {number} endTime
+     * @return {AudioParam}
+     */
     linearRampToValueAtTime(value, endTime) {
       void(this, value, endTime);
       if (!api.get("/AudioParam/linearRampToValueAtTime/void")) {
@@ -65,6 +91,11 @@ function create(api, BaseObject) {
       }
     }
 
+    /**
+     * @param {number} value
+     * @param {number} endTime
+     * @return {AudioParam}
+     */
     exponentialRampToValueAtTime(value, endTime) {
       void(this, value, endTime);
       if (!api.get("/AudioParam/exponentialRampToValueAtTime/void")) {
@@ -72,6 +103,12 @@ function create(api, BaseObject) {
       }
     }
 
+    /**
+     * @param {number} target
+     * @param {number} startTime
+     * @param {number} timeConstant
+     * @return {AudioParam}
+     */
     setTargetAtTime(target, startTime, timeConstant) {
       void(this, target, startTime, timeConstant);
       if (!api.get("/AudioParam/setTargetAtTime/void")) {
@@ -79,6 +116,12 @@ function create(api, BaseObject) {
       }
     }
 
+    /**
+     * @param {Float32Array} curve
+     * @param {number} startTime
+     * @param {number} duration
+     * @return {AudioParam}
+     */
     setValueCurveAtTime(curve, startTime, duration) {
       void(this, curve, startTime, duration);
       if (!api.get("/AudioParam/setValueCurveAtTime/void")) {
@@ -86,6 +129,10 @@ function create(api, BaseObject) {
       }
     }
 
+    /**
+     * @param {number} cancelTime
+     * @return {AudioParam}
+     */
     cancelScheduledValues(cancelTime) {
       void(this, cancelTime);
       if (!api.get("/AudioParam/cancelScheduledValues/void")) {
@@ -93,6 +140,10 @@ function create(api, BaseObject) {
       }
     }
 
+    /**
+     * @param {number} cancelTime
+     * @return {AudioParam}
+     */
     cancelAndHoldAtTime(cancelTime) {
       void(this, cancelTime);
       if (!api.get("/AudioParam/cancelAndHoldAtTime/void")) {
@@ -100,20 +151,37 @@ function create(api, BaseObject) {
       }
     }
 
-    // Ancient properties /////////////////////////////////////////////////////////////////////////
-
+    /**
+     * @deprecated
+     * @type {string}
+     */
     get name() {
       return this._.name;
     }
 
+    /**
+     * @deprecated
+     * @type {number}
+     */
     get units() {
       return 0;
     }
 
+    /**
+     * @deprecated
+     * @type {number}
+     */
     get computedValue() {
       return this._.value;
     }
 
+    /**
+     * @deprecated
+     * @param {number} target
+     * @param {number} startTime
+     * @param {number} timeConstant
+     * @return {AudioParam}
+     */
     setTargetValueAtTime(target, startTime, timeConstant) {
       void(this, target, startTime, timeConstant);
       if (!api.get("/AudioParam/setTargetValueAtTime/void")) {

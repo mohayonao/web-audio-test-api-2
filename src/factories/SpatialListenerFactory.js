@@ -4,6 +4,10 @@ const lock = require("../utils/lock");
 
 function create(api, BaseObject) {
   class SpatialListener extends BaseObject {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/SpatialListener")) {
         throw new TypeError("Illegal constructor");
@@ -16,38 +20,65 @@ function create(api, BaseObject) {
       this._.className = "SpatialListener";
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get positionX() {
       return this._.positionX;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get positionY() {
       return this._.positionY;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get positionZ() {
       return this._.positionZ;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get forwardX() {
       return this._.forwardX;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get forwardY() {
       return this._.forwardY;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get forwardZ() {
       return this._.forwardZ;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get upX() {
       return this._.upX;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get upY() {
       return this._.upY;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get upZ() {
       return this._.upZ;
     }

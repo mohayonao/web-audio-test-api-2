@@ -9,12 +9,18 @@ const DEFAULT_OVERSAMPLE = OverSampleType.NONE;
 
 function create(api, AudioNode) {
   class WaveShaperNode extends AudioNode {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/WaveShaperNode")) {
         throw new TypeError("Illegal constructor");
       }
 
+      /** @type {Float32Array?} */
       const curve = defaults(opts.curve, null);
+      /** @type {OverSampleType} */
       const oversample = defaults(opts.oversample, DEFAULT_OVERSAMPLE);
 
       lock.unlock();
@@ -31,6 +37,9 @@ function create(api, AudioNode) {
       this._.oversample = oversample;
     }
 
+    /**
+     * @type {Float32Array?}
+     */
     get curve() {
       return this._.curve;
     }
@@ -39,6 +48,9 @@ function create(api, AudioNode) {
       this._.curve = value;
     }
 
+    /**
+     * @type {OverSampleType}
+     */
     get oversample() {
       return this._.oversample;
     }

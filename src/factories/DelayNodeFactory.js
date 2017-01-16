@@ -9,12 +9,18 @@ const DEFAULT_DELAY_TIME = 0;
 
 function create(api, AudioNode) {
   class DelayNode extends AudioNode {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/DelayNode")) {
         throw new TypeError("Illegal constructor");
       }
 
+      /** @type {number} */
       const maxDelayTime = defaults(opts.maxDelayTime, DEFAULT_MAX_DELAY_TIME);
+      /** @type {number} */
       const delayTime = defaults(opts.delayTime, DEFAULT_DELAY_TIME);
 
       lock.unlock();
@@ -34,6 +40,9 @@ function create(api, AudioNode) {
       });
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get delayTime() {
       return this._.delayTime;
     }
