@@ -23,6 +23,10 @@ const DEFAULT_ORIENTATION_Z = 0;
 
 function create(api, AudioNode) {
   class SpatialPannerNode extends AudioNode {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/SpatialPannerNode")) {
         throw new TypeError("Illegal constructor");
@@ -42,6 +46,9 @@ function create(api, AudioNode) {
       this._.className = "SpatialPannerNode";
     }
 
+    /**
+     * @type {PanningModelType}
+     */
     get panningModel() {
       return this._.panningModel;
     }
@@ -50,6 +57,9 @@ function create(api, AudioNode) {
       this._.panningModel = value;
     }
 
+    /**
+     * @type {DistanceModelType}
+     */
     get distanceModel() {
       return this._.distanceModel;
     }
@@ -58,6 +68,9 @@ function create(api, AudioNode) {
       this._.distanceModel = value;
     }
 
+    /**
+     * @type {number}
+     */
     get refDistance() {
       return this._.refDistance;
     }
@@ -66,6 +79,9 @@ function create(api, AudioNode) {
       this._.refDistance = value;
     }
 
+    /**
+     * @type {number}
+     */
     get maxDistance() {
       return this._.maxDistance;
     }
@@ -74,6 +90,9 @@ function create(api, AudioNode) {
       this._.maxDistance = value;
     }
 
+    /**
+     * @type {number}
+     */
     get rolloffFactor() {
       return this._.rolloffFactor;
     }
@@ -82,6 +101,9 @@ function create(api, AudioNode) {
       this._.rolloffFactor = value;
     }
 
+    /**
+     * @type {number}
+     */
     get coneInnerAngle() {
       return this._.coneInnerAngle;
     }
@@ -90,6 +112,9 @@ function create(api, AudioNode) {
       this._.coneInnerAngle = value;
     }
 
+    /**
+     * @type {number}
+     */
     get coneOuterAngle() {
       return this._.coneOuterAngle;
     }
@@ -98,6 +123,9 @@ function create(api, AudioNode) {
       this._.coneOuterAngle = value;
     }
 
+    /**
+     * @type {number}
+     */
     get coneOuterGain() {
       return this._.coneOuterGain;
     }
@@ -106,26 +134,44 @@ function create(api, AudioNode) {
       this._.coneOuterGain = value;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get positionX() {
       return this._.positionX;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get positionY() {
       return this._.positionY;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get positionZ() {
       return this._.positionZ;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get orientationX() {
       return this._.orientationX;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get orientationY() {
       return this._.orientationY;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get orientationZ() {
       return this._.orientationZ;
     }

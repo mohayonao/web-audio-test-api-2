@@ -8,12 +8,18 @@ const DEFAULT_DISABLE_NORMALIZATION = false;
 
 function create(api, AudioNode) {
   class ConvolverNode extends AudioNode {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/ConvolverNode")) {
         throw new TypeError("Illegal constructor");
       }
 
+      /** @type {AudioBuffer?} */
       const buffer = defaults(opts.buffer, null);
+      /** @type {boolean} */
       const disableNormalization = defaults(opts.disableNormalization, DEFAULT_DISABLE_NORMALIZATION);
 
       lock.unlock();
@@ -32,6 +38,9 @@ function create(api, AudioNode) {
       this._.normalize = !disableNormalization;
     }
 
+    /**
+     * @type {AudioBuffer}
+     */
     get buffer() {
       return this._.buffer;
     }
@@ -40,6 +49,9 @@ function create(api, AudioNode) {
       this._.buffer = value;
     }
 
+    /**
+     * @type {boolean}
+     */
     get normalize() {
       return this._.normalize;
     }

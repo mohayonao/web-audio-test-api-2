@@ -11,14 +11,22 @@ const DEFAULT_SMOOTHING_TIME_CONSTANT = 0.8;
 
 function create(api, AudioNode) {
   class AnalyserNode extends AudioNode {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/AnalyserNode")) {
         throw new TypeError("Illegal constructor");
       }
 
+      /** @type {number} */
       const fftSize = defaults(opts.fftSize, DEFAULT_FFT_SIZE);
+      /** @type {number} */
       const minDecibels = defaults(opts.minDecibels, DEFAULT_MIN_DECIBELS);
+      /** @type {number} */
       const maxDecibels = defaults(opts.maxDecibels, DEFAULT_MAX_DECIBELS);
+      /** @type {number} */
       const smoothingTimeConstant = defaults(opts.smoothingTimeConstant, DEFAULT_SMOOTHING_TIME_CONSTANT);
 
       lock.unlock();
@@ -37,6 +45,9 @@ function create(api, AudioNode) {
       this._.smoothingTimeConstant = smoothingTimeConstant;
     }
 
+    /**
+     * @type {number}
+     */
     get fftSize() {
       return this._.fftSize;
     }
@@ -45,10 +56,16 @@ function create(api, AudioNode) {
       this._.fftSize = value;
     }
 
+    /**
+     * @type {number}
+     */
     get frequencyBinCount() {
       return this._.fftSize / 2;
     }
 
+    /**
+     * @type {number}
+     */
     get maxDecibels() {
       return this._.maxDecibels;
     }
@@ -57,6 +74,9 @@ function create(api, AudioNode) {
       this._.maxDecibels = value;
     }
 
+    /**
+     * @type {number}
+     */
     get minDecibels() {
       return this._.minDecibels;
     }
@@ -65,6 +85,9 @@ function create(api, AudioNode) {
       this._.minDecibels = value;
     }
 
+    /**
+     * @type {number}
+     */
     get smoothingTimeConstant() {
       return this._.smoothingTimeConstant;
     }
@@ -73,18 +96,34 @@ function create(api, AudioNode) {
       this._.smoothingTimeConstant = value;
     }
 
+    /**
+     * @param {Uint8Array} array
+     * @return {void}
+     */
     getByteFrequencyData(array) {
       void(this, array);
     }
 
+    /**
+     * @param {Uint8Array} array
+     * @return {void}
+     */
     getByteTimeDomainData(array) {
       void(this, array);
     }
 
+    /**
+     * @param {Float32Array} array
+     * @return {void}
+     */
     getFloatFrequencyData(array) {
       void(this, array);
     }
 
+    /**
+     * @param {Float32Array} array
+     * @return {void}
+     */
     getFloatTimeDomainData(array) {
       void(this, array);
     }

@@ -6,12 +6,18 @@ const lock = require("../utils/lock");
 
 function create(api, AudioNode) {
   class IIRFilterNode extends AudioNode {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/IIRFilterNode")) {
         throw new TypeError("Illegal constructor");
       }
 
+      /** @type {number[]} */
       const feedforward = defaults(opts.feedforward, null);
+      /** @type {number[]} */
       const feedback = defaults(opts.feedback, null);
 
       lock.unlock();
@@ -28,6 +34,12 @@ function create(api, AudioNode) {
       this._.feedback = feedback;
     }
 
+    /**
+     * @param {Float32Array} frequencyHz
+     * @param {Float32Array} magResponse
+     * @param {Float32Array} phaseResponse
+     * @return {void}
+     */
     getFrequencyResponse(frequencyHz, magResponse, phaseResponse) {
       void(this, frequencyHz, magResponse, phaseResponse);
     }

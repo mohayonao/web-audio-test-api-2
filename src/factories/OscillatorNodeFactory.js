@@ -11,14 +11,22 @@ const DEFAULT_DETUNE = 0;
 
 function create(api, AudioNode) {
   class OscillatorNode extends AudioNode {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/OscillatorNode")) {
         throw new TypeError("Illegal constructor");
       }
 
+      /** @type {OscillatorType} */
       const type = defaults(opts.type, DEFAULT_TYPE);
+      /** @type {number} */
       const frequency = defaults(opts.frequency, DEFAULT_FREQUENCY);
+      /** @type {number} */
       const detune = defaults(opts.detune, DEFAULT_DETUNE);
+      /** @type {PeriodicWave?} */
       const periodicWave = defaults(opts.periodicWave, null);
 
       lock.unlock();
@@ -40,6 +48,9 @@ function create(api, AudioNode) {
       this._.periodicWave = periodicWave;
     }
 
+    /**
+     * @type {OscillatorType}
+     */
     get type() {
       return this._.type;
     }
@@ -49,92 +60,104 @@ function create(api, AudioNode) {
       this._.periodicWave = null;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get frequency() {
       return this._.frequency;
     }
 
+    /**
+     * @type {AudioParam}
+     */
     get detune() {
       return this._.detune;
     }
 
+    /**
+     * @param {PeriodicWave} periodicWave
+     * @return {void}
+     */
     setPeriodicWave(periodicWave) {
       this._.periodicWave = periodicWave;
     }
 
-    // Ancient properties /////////////////////////////////////////////////////////////////////////
-
-    static get SINE() {
-      return api.types.OscillatorType.SINE;
-    }
-
-    static get SQUARE() {
-      return api.types.OscillatorType.SQUARE;
-    }
-
-    static get SAWTOOTH() {
-      return api.types.OscillatorType.SAWTOOTH;
-    }
-
-    static get TRIANGLE() {
-      return api.types.OscillatorType.TRIANGLE;
-    }
-
-    static get CUSTOM() {
-      return api.types.OscillatorType.CUSTOM;
-    }
-
-    static get UNSCHEDULED_STATE() {
-      return api.types.PlaybackStateType.UNSCHEDULED_STATE;
-    }
-
-    static get SCHEDULED_STATE() {
-      return api.types.PlaybackStateType.SCHEDULED_STATE;
-    }
-
-    static get PLAYING_STATE() {
-      return api.types.PlaybackStateType.PLAYING_STATE;
-    }
-
-    static get FINISHED_STATE() {
-      return api.types.PlaybackStateType.FINISHED_STATE;
-    }
-
+    /**
+     * @deprecated
+     * @type {OscillatorType}
+     */
     get SINE() {
       return api.types.OscillatorType.SINE;
     }
 
+    /**
+     * @deprecated
+     * @type {OscillatorType}
+     */
     get SQUARE() {
       return api.types.OscillatorType.SQUARE;
     }
 
+    /**
+     * @deprecated
+     * @type {OscillatorType}
+     */
     get SAWTOOTH() {
       return api.types.OscillatorType.SAWTOOTH;
     }
 
+    /**
+     * @deprecated
+     * @type {OscillatorType}
+     */
     get TRIANGLE() {
       return api.types.OscillatorType.TRIANGLE;
     }
 
+    /**
+     * @deprecated
+     * @type {OscillatorType}
+     */
     get CUSTOM() {
       return api.types.OscillatorType.CUSTOM;
     }
 
+    /**
+     * @deprecated
+     * @type {PlaybackStateType}
+     */
     get UNSCHEDULED_STATE() {
       return api.types.PlaybackStateType.UNSCHEDULED_STATE;
     }
 
+    /**
+     * @deprecated
+     * @type {PlaybackStateType}
+     */
     get SCHEDULED_STATE() {
       return api.types.PlaybackStateType.SCHEDULED_STATE;
     }
 
+    /**
+     * @deprecated
+     * @type {PlaybackStateType}
+     */
     get PLAYING_STATE() {
       return api.types.PlaybackStateType.PLAYING_STATE;
     }
 
+    /**
+     * @deprecated
+     * @type {PlaybackStateType}
+     */
     get FINISHED_STATE() {
       return api.types.PlaybackStateType.FINISHED_STATE;
     }
 
+    /**
+     * @deprecated
+     * @type {PlaybackStateType}
+     */
     get playbackState() {
       if (this._.startTime === Infinity) {
         return api.types.PlaybackStateType.UNSCHEDULED_STATE;
@@ -153,14 +176,29 @@ function create(api, AudioNode) {
       return api.types.PlaybackStateType.PLAYING_STATE;
     }
 
+    /**
+     * @deprecated
+     * @param {number} [when]
+     * @return {void}
+     */
     noteOn(when = 0) {
       start.call(this, when);
     }
 
+    /**
+     * @deprecated
+     * @param {number} [when]
+     * @return {void}
+     */
     noteOff(when = 0) {
       stop.call(this, when);
     }
 
+    /**
+     * @deprecated
+     * @param {PeriodicWave} waveTable
+     * @return {void}
+     */
     setWaveTable(waveTable) {
       this._.type = OscillatorType.CUSTOM;
       this._.periodicWave = waveTable;

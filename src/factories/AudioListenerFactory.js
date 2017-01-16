@@ -5,6 +5,10 @@ const { initialize } = require("./SpatialListenerFactory");
 
 function create(api, BaseObject) {
   class AudioListener extends BaseObject {
+    /**
+     * @param {AudioContext} context
+     * @param {Object} [opts]
+     */
     constructor(context, opts = {}) {
       if (lock.checkIllegalConstructor(api, "/AudioListener")) {
         throw new TypeError("Illegal constructor");
@@ -20,12 +24,27 @@ function create(api, BaseObject) {
       this._.gain = 1;
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     * @return {void}
+     */
     setPosition(x, y, z) {
       this._.positionX.value = x;
       this._.positionY.value = y;
       this._.positionZ.value = z;
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     * @param {number} xUp
+     * @param {number} yUp
+     * @param {number} zUp
+     * @return {void}
+     */
     setOrientation(x, y, z, xUp, yUp, zUp) {
       this._.forwardX.value = x;
       this._.forwardY.value = y;
@@ -35,12 +54,20 @@ function create(api, BaseObject) {
       this._.upZ.value = zUp;
     }
 
+    /**
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     * @return {void}
+     */
     setVelocity(x, y, z) {
       void(this, x, y, z);
     }
 
-    // Ancient properties /////////////////////////////////////////////////////////////////////////
-
+    /**
+     * @deprecated
+     * @type {number}
+     */
     get gain() {
       return this._.gain;
     }
@@ -49,6 +76,10 @@ function create(api, BaseObject) {
       this._.gain = value;
     }
 
+    /**
+     * @deprecated
+     * @type {number}
+     */
     get dopplerFactor() {
       return this._.dopplerFactor;
     }
@@ -57,6 +88,10 @@ function create(api, BaseObject) {
       this._.dopplerFactor = value;
     }
 
+    /**
+     * @deprecated
+     * @type {number}
+     */
     get speedOfSound() {
       return this._.speedOfSound;
     }

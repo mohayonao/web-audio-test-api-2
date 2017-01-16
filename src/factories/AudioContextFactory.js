@@ -13,7 +13,9 @@ const DEFAULT_SAMPLE_RATE = 44100;
 function create(api, BaseAudioContext) {
   class AudioContext extends BaseAudioContext {
     constructor() {
+      /** @type {number} */
       const numberOfChannels = defaults(api.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
+      /** @type {number} */
       const sampleRate = defaults(api.sampleRate, DEFAULT_SAMPLE_RATE);
 
       lock.unlock();
@@ -28,14 +30,23 @@ function create(api, BaseAudioContext) {
       this._.oncomplete = null;
     }
 
+    /**
+     * @type {number}
+     */
     get baseLatency() {
       return 2 * 128 / this._.sampleRate;
     }
 
+    /**
+     * @type {number}
+     */
     get outputLatency() {
       return 0;
     }
 
+    /**
+     * @return {Object}
+     */
     getOutputTimestamp() {
       const contextTime = this.currentTime + 0.01795;
       const performanceTime = contextTime + 1000;
@@ -43,6 +54,9 @@ function create(api, BaseAudioContext) {
       return { contextTime, performanceTime };
     }
 
+    /**
+     * @return {Promise<void>}
+     */
     close() {
       return new Promise((resolve) => {
         this._.state = AudioContextState.CLOSED;
@@ -51,6 +65,9 @@ function create(api, BaseAudioContext) {
       });
     }
 
+    /**
+     * @return {Promise<void>}
+     */
     suspend() {
       return new Promise((resolve) => {
         this._.state = AudioContextState.SUSPENDED;
@@ -59,24 +76,42 @@ function create(api, BaseAudioContext) {
       });
     }
 
+    /**
+     * @param {HTMLMediaElement} mediaElement
+     * @return {MediaElementAudioSourceNode}
+     */
     createMediaElementSource(mediaElement) {
       return lock.tr(() => new api.MediaElementAudioSourceNode(this, { mediaElement }));
     }
 
+    /**
+     * @param {MediaStream} mediaStream
+     * @return {MediaStreamAudioSourceNode}
+     */
     createMediaStreamSource(mediaStream) {
       return lock.tr(() => new api.MediaStreamAudioSourceNode(this, { mediaStream }));
     }
 
+    /**
+     * @param {AudioMediaStreamTrack} mediaStreamTrack
+     * @return {MediaStreamTrackAudioSourceNode}
+     */
     createMediaStreamTrackSource(mediaStreamTrack) {
       return lock.tr(() => new api.MediaStreamTrackAudioSourceNode(this, { mediaStreamTrack }));
     }
 
+    /**
+     * @return {MediaStreamAudioDestinationNode}
+     */
     createMediaStreamDestination() {
       return lock.tr(() => new api.MediaStreamAudioDestinationNode(this));
     }
 
-    // OfflineAudioContext ////////////////////////////////////////////////////////////////////////
-
+    /**
+     * This property is for OfflineAudioContext only.
+     * But in webkit(Safari10), defined at AudioContext.
+     * @type {function?}
+     */
     get oncomplete() {
       return this._.oncomplete;
     }
@@ -85,28 +120,57 @@ function create(api, BaseAudioContext) {
       this._.oncomplete = value;
     }
 
+    /**
+     * This method is for OfflineAudioContext only.
+     * But in webkit(Safari10), defined at AudioContext.
+     * @return {Promise<void>}
+     */
     startRendering() {
       return startRendering.call(this, api);
     }
 
-    // Ancient properties /////////////////////////////////////////////////////////////////////////
-
+    /**
+     * @deprecated
+     * @type {number}
+     */
     get activeSourceCount() {
       return 0;
     }
 
-    createJavaScriptNode(bufferSize, numberOfInputChannels, numberOfOutputChannels) {
+    /**
+     * @deprecated
+     * @param {number} [bufferSize]
+     * @param {number} [numberOfInputChannels]
+     * @param {number} [numberOfOutputChannels]
+     * @return {ScriptProcessorNode}
+     */
+    createJavaScriptNode(bufferSize = 0, numberOfInputChannels = 0, numberOfOutputChannels = 0) {
       return lock.tr(() => new api.ScriptProcessorNode(this, { bufferSize, numberOfInputChannels, numberOfOutputChannels }));
     }
 
+    /**
+     * @deprecated
+     * @return {GainNode}
+     */
     createGainNode() {
       return lock.tr(() => new api.GainNode(this));
     }
 
+    /**
+     * @deprecated
+     * @param {number} [maxDelayTime]
+     * @return {DelayNode}
+     */
     createDelayNode(maxDelayTime = 1) {
       return lock.tr(() => new api.DelayNode(this, { maxDelayTime }));
     }
 
+    /**
+     * @deprecated
+     * @param {Float32Array} real
+     * @param {Float32Array} imag
+     * @return {PeriodicWave}
+     */
     createWaveTable(real, imag) {
       return lock.tr(() => new api.PeriodicWave(this, { real, imag }));
     }
