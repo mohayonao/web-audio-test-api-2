@@ -41,7 +41,7 @@
     "url": "https://github.com/mohayonao/web-audio-test-api-2.git"
   },
   "scripts": {
-    "build": "BABEL_ENV=production babel -d lib src",
+    "build": "BABEL_DISABLE_CACHE=1 BABEL_ENV=production babel -d lib src",
     "clean": "rm -rf lib coverage .nyc_output *.log",
     "cover": "BABEL_ENV=coverage nyc --reporter text --reporter html npm test",
     "lint": "eslint src test",
@@ -49,6 +49,9 @@
     "prepublish": "npm-run-all clean lint test build",
     "preversion": "npm-run-all clean lint test",
     "test": "mocha",
-    "travis": "npm-run-all lint test"
+    "travis": "BABEL_DISABLE_CACHE=1 npm-run-all lint test"
+  },
+  "devDependencies": {
+    "doctrine": "^2.0.0"
   }
 }
