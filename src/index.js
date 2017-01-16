@@ -17,10 +17,6 @@ function createAPI(name, options = {}) {
   api.apiSpec = clone(spec.apiSpec);
   api.types = types;
 
-  if (spec.types) {
-    api.types = Object.assign({}, api.types, spec.types);
-  }
-
   builder.apply(api, [ api.apiSpec, options ]);
 
   return api;

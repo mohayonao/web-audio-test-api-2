@@ -35,6 +35,27 @@ describe("OscillatorNodeFactory", () => {
         const node = new api.OscillatorNode(context, {});
 
         assert(node instanceof api.OscillatorNode);
+        assert(node instanceof api.AudioScheduledSourceNode);
+      });
+
+      it("new instance extends AudioSourceNode", () => {
+        const api = testTools.createAPI({ disabled: "/AudioScheduledSourceNode" });
+        const context = new api.AudioContext();
+        const node = new api.OscillatorNode(context, {});
+
+        assert(node instanceof api.OscillatorNode);
+        assert(!(node instanceof api.AudioScheduledSourceNode));
+        assert(node instanceof api.AudioSourceNode);
+      });
+
+      it("new instance extends AudioNode", () => {
+        const api = testTools.createAPI({ disabled: /\/Audio(Scheduled)?SourceNode/ });
+        const context = new api.AudioContext();
+        const node = new api.OscillatorNode(context, {});
+
+        assert(node instanceof api.OscillatorNode);
+        assert(!(node instanceof api.AudioSourceNode));
+        assert(node instanceof api.AudioNode);
       });
 
       it("new instance, but Illegal constructor", () => {
@@ -56,6 +77,21 @@ describe("OscillatorNodeFactory", () => {
         assert(node.frequency.value === 440);
         assert(node.detune instanceof api.AudioParam);
         assert(node.detune.value === 0);
+      });
+    });
+
+    describe("type", () => {
+      it("works", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.OscillatorNode(context, {
+          type: "square"
+        });
+
+        assert(node.type === "square");
+
+        node.type = "sawtooth";
+        assert(node.type === "sawtooth");
       });
     });
 
@@ -96,6 +132,89 @@ describe("OscillatorNodeFactory", () => {
   });
 
   describe("ancient properties", () => {
+    describe("constants", () => {
+      it("SINE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.OscillatorNode(context, {});
+
+        assert(node.SINE === api.types.OscillatorType.SINE);
+        assert(node.SINE === api.OscillatorNode.SINE);
+      });
+
+      it("SQUARE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.OscillatorNode(context, {});
+
+        assert(node.SQUARE === api.types.OscillatorType.SQUARE);
+        assert(node.SQUARE === api.OscillatorNode.SQUARE);
+      });
+
+      it("SAWTOOTH", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.OscillatorNode(context, {});
+
+        assert(node.SAWTOOTH === api.types.OscillatorType.SAWTOOTH);
+        assert(node.SAWTOOTH === api.OscillatorNode.SAWTOOTH);
+      });
+
+      it("TRIANGLE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.OscillatorNode(context, {});
+
+        assert(node.TRIANGLE === api.types.OscillatorType.TRIANGLE);
+        assert(node.TRIANGLE === api.OscillatorNode.TRIANGLE);
+      });
+
+      it("CUSTOM", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.OscillatorNode(context, {});
+
+        assert(node.CUSTOM === api.types.OscillatorType.CUSTOM);
+        assert(node.CUSTOM === api.OscillatorNode.CUSTOM);
+      });
+
+      it("UNSCHEDULED_STATE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.OscillatorNode(context, {});
+
+        assert(node.UNSCHEDULED_STATE === api.types.PlaybackStateType.UNSCHEDULED_STATE);
+        assert(node.UNSCHEDULED_STATE === api.OscillatorNode.UNSCHEDULED_STATE);
+      });
+
+      it("SCHEDULED_STATE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.OscillatorNode(context, {});
+
+        assert(node.SCHEDULED_STATE === api.types.PlaybackStateType.SCHEDULED_STATE);
+        assert(node.SCHEDULED_STATE === api.OscillatorNode.SCHEDULED_STATE);
+      });
+
+      it("PLAYING_STATE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.OscillatorNode(context, {});
+
+        assert(node.PLAYING_STATE === api.types.PlaybackStateType.PLAYING_STATE);
+        assert(node.PLAYING_STATE === api.OscillatorNode.PLAYING_STATE);
+      });
+
+      it("FINISHED_STATE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.OscillatorNode(context, {});
+
+        assert(node.FINISHED_STATE === api.types.PlaybackStateType.FINISHED_STATE);
+        assert(node.FINISHED_STATE === api.OscillatorNode.FINISHED_STATE);
+      });
+    });
+
     describe("playbackState", () => {
       it("UNSCHEDULED_STATE", () => {
         const api = testTools.createAPI();

@@ -35,6 +35,27 @@ describe("AudioBufferSourceNodeFactory", () => {
         const node = new api.AudioBufferSourceNode(context, {});
 
         assert(node instanceof api.AudioBufferSourceNode);
+        assert(node instanceof api.AudioScheduledSourceNode);
+      });
+
+      it("new instance extends AudioSourceNode", () => {
+        const api = testTools.createAPI({ disabled: "/AudioScheduledSourceNode" });
+        const context = new api.AudioContext();
+        const node = new api.AudioBufferSourceNode(context, {});
+
+        assert(node instanceof api.AudioBufferSourceNode);
+        assert(!(node instanceof api.AudioScheduledSourceNode));
+        assert(node instanceof api.AudioSourceNode);
+      });
+
+      it("new instance extends AudioNode", () => {
+        const api = testTools.createAPI({ disabled: /^\/Audio(Scheduled)?SourceNode/ });
+        const context = new api.AudioContext();
+        const node = new api.AudioBufferSourceNode(context, {});
+
+        assert(node instanceof api.AudioBufferSourceNode);
+        assert(!(node instanceof api.AudioSourceNode));
+        assert(node instanceof api.AudioNode);
       });
 
       it("new instance, but Illegal constructor", () => {
@@ -157,6 +178,44 @@ describe("AudioBufferSourceNodeFactory", () => {
   });
 
   describe("ancient properties", () => {
+    describe("constants", () => {
+      it("UNSCHEDULED_STATE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AudioBufferSourceNode(context, {});
+
+        assert(node.UNSCHEDULED_STATE === api.types.PlaybackStateType.UNSCHEDULED_STATE);
+        assert(node.UNSCHEDULED_STATE === api.AudioBufferSourceNode.UNSCHEDULED_STATE);
+      });
+
+      it("SCHEDULED_STATE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AudioBufferSourceNode(context, {});
+
+        assert(node.SCHEDULED_STATE === api.types.PlaybackStateType.SCHEDULED_STATE);
+        assert(node.SCHEDULED_STATE === api.AudioBufferSourceNode.SCHEDULED_STATE);
+      });
+
+      it("PLAYING_STATE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AudioBufferSourceNode(context, {});
+
+        assert(node.PLAYING_STATE === api.types.PlaybackStateType.PLAYING_STATE);
+        assert(node.PLAYING_STATE === api.AudioBufferSourceNode.PLAYING_STATE);
+      });
+
+      it("FINISHED_STATE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AudioBufferSourceNode(context, {});
+
+        assert(node.FINISHED_STATE === api.types.PlaybackStateType.FINISHED_STATE);
+        assert(node.FINISHED_STATE === api.AudioBufferSourceNode.FINISHED_STATE);
+      });
+    });
+
     describe("playbackState", () => {
       it("UNSCHEDULED_STATE", () => {
         const api = testTools.createAPI();

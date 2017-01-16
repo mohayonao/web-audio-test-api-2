@@ -9,22 +9,10 @@ function apply(api, [ apiSpec, options = {} ]) {
   whitelist.apply(api, [ apiSpec, options ]);
   installer.apply(api, [ apiSpec, options ]);
 
-  api.set = (path, value) => setAPISpec(apiSpec, path, value);
   api.get = (path) => getAPISpec(apiSpec, path);
+  api.set = (path, value) => setAPISpec(apiSpec, path, value);
 
   return api;
-}
-
-function setAPISpec(apiSpec, path, value) {
-  const items = path.split("/");
-  const propName = items.pop();
-  const apiPath = items.join("/");
-
-  if (apiSpec.hasOwnProperty(apiPath)) {
-    apiSpec[apiPath][propName] = value;
-  }
-
-  return value;
 }
 
 function getAPISpec(apiSpec, path) {
@@ -39,6 +27,18 @@ function getAPISpec(apiSpec, path) {
   }
 
   return null;
+}
+
+function setAPISpec(apiSpec, path, value) {
+  const items = path.split("/");
+  const propName = items.pop();
+  const apiPath = items.join("/");
+
+  if (apiSpec.hasOwnProperty(apiPath)) {
+    apiSpec[apiPath][propName] = value;
+  }
+
+  return value;
 }
 
 module.exports = { apply };

@@ -2,6 +2,7 @@
 
 const lock = require("../utils/lock");
 
+/* istanbul ignore next */
 function create(api, AudioNode) {
   class AudioWorkerNode extends AudioNode {
     constructor(context, opts = {}) {

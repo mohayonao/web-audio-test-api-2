@@ -36,4 +36,39 @@ describe("AudioScheduledSourceNodeFactory", () => {
       });
     });
   });
+
+  describe("onended", () => {
+    it("works", () => {
+      const api = testTools.createAPI();
+      const context = new api.AudioContext();
+      const node = new api.AudioScheduledSourceNode(context, {});
+      const onended = () => {};
+
+      assert(node.onended === null);
+
+      node.onended = onended;
+      assert(node.onended === onended);
+    });
+  });
+
+  describe("start", () => {
+    it("works", () => {
+      const api = testTools.createAPI();
+      const context = new api.AudioContext();
+      const node = new api.AudioScheduledSourceNode(context, {});
+
+      node.start(0);
+    });
+  });
+
+  describe("stop", () => {
+    it("works", () => {
+      const api = testTools.createAPI();
+      const context = new api.AudioContext();
+      const node = new api.AudioScheduledSourceNode(context, {});
+
+      node.start(0);
+      node.stop(1);
+    });
+  });
 });

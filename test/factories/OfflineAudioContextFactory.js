@@ -108,7 +108,7 @@ describe("OfflineAudioContextFactory", () => {
     describe("suspend", () => {
       it("works", () => {
         const api = testTools.createAPI();
-        const context = new api.AudioContext();
+        const context = new api.OfflineAudioContext(1, 128, 44100);
         const handler1 = sinon.spy();
         const handler2 = sinon.spy();
 
@@ -126,7 +126,7 @@ describe("OfflineAudioContextFactory", () => {
     describe("resume", () => {
       it("works", () => {
         const api = testTools.createAPI();
-        const context = new api.AudioContext();
+        const context = new api.OfflineAudioContext(1, 128, 44100);
         const handler1 = sinon.spy();
         const handler2 = sinon.spy();
 
@@ -135,24 +135,6 @@ describe("OfflineAudioContextFactory", () => {
 
         return context.resume().then(() => {
           assert(context.state === "running");
-          assert(handler1.callCount === 1);
-          assert(handler2.callCount === 1);
-        });
-      });
-    });
-
-    describe("close", () => {
-      it("works", () => {
-        const api = testTools.createAPI();
-        const context = new api.AudioContext();
-        const handler1 = sinon.spy();
-        const handler2 = sinon.spy();
-
-        context.onstatechange = handler1;
-        context.addEventListener("statechange", handler2);
-
-        return context.close().then(() => {
-          assert(context.state === "closed");
           assert(handler1.callCount === 1);
           assert(handler2.callCount === 1);
         });

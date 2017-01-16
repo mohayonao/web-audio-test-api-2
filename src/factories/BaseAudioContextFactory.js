@@ -79,6 +79,7 @@ function create(api, EventTarget) {
 
     decodeAudioData(audioData, successCallback, errorCallback) {
       function decodeAudioData(result) {
+        /* istanbul ignore else */
         if (!handler.done) {
           handler.done = true;
           if (result instanceof api.AudioBuffer) {

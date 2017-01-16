@@ -27,6 +27,16 @@ describe("AudioContextFactory", () => {
         const context = new api.AudioContext();
 
         assert(context instanceof api.AudioContext);
+        assert(context instanceof api.BaseAudioContext);
+      });
+
+      it("new instance", () => {
+        const api = testTools.createAPI({ "disabled": "/BaseAudioContext" });
+        const context = new api.AudioContext();
+
+        assert(context instanceof api.AudioContext);
+        assert(!(context instanceof api.BaseAudioContext));
+        assert(context instanceof api.EventTarget);
       });
 
       it("default parameters", () => {
@@ -107,7 +117,7 @@ describe("AudioContextFactory", () => {
       it("works", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
-        const node = context.createMediaElementSource(null);
+        const node = context.createMediaElementSource(new api.HTMLMediaElement());
 
         assert(node instanceof api.MediaElementAudioSourceNode);
       });
@@ -117,7 +127,7 @@ describe("AudioContextFactory", () => {
       it("works", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
-        const node = context.createMediaStreamSource(null);
+        const node = context.createMediaStreamSource(new api.MediaStream());
 
         assert(node instanceof api.MediaStreamAudioSourceNode);
       });
@@ -127,7 +137,7 @@ describe("AudioContextFactory", () => {
       it("works", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
-        const node = context.createMediaStreamTrackSource(null);
+        const node = context.createMediaStreamTrackSource(new api.AudioMediaStreamTrack());
 
         assert(node instanceof api.MediaStreamTrackAudioSourceNode);
       });

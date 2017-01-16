@@ -47,14 +47,6 @@ function create(api, BaseAudioContext) {
         resolve();
       });
     }
-
-    close() {
-      return new Promise((resolve) => {
-        this._.state = AudioContextState.CLOSED;
-        emit(this, "statechange");
-        resolve();
-      });
-    }
   }
   return OfflineAudioContext;
 }

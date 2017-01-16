@@ -87,6 +87,62 @@ describe("PannerNodeFactory", () => {
   });
 
   describe("ancient properties", () => {
+    describe("constants", () => {
+      it("EQUALPOWER", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.PannerNode(context, {});
+
+        assert(node.EQUALPOWER === api.types.PanningModelType.EQUALPOWER);
+        assert(node.EQUALPOWER === api.PannerNode.EQUALPOWER);
+      });
+
+      it("HRTF", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.PannerNode(context, {});
+
+        assert(node.HRTF === api.types.PanningModelType.HRTF);
+        assert(node.HRTF === api.PannerNode.HRTF);
+      });
+
+      it("SOUNDFIELD", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.PannerNode(context, {});
+
+        assert(node.SOUNDFIELD === api.types.PanningModelType.SOUNDFIELD);
+        assert(node.SOUNDFIELD === api.PannerNode.SOUNDFIELD);
+      });
+
+      it("LINEAR_DISTANCE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.PannerNode(context, {});
+
+        assert(node.LINEAR_DISTANCE === api.types.DistanceModelType.LINEAR);
+        assert(node.LINEAR_DISTANCE === api.PannerNode.LINEAR_DISTANCE);
+      });
+
+      it("INVERSE_DISTANCE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.PannerNode(context, {});
+
+        assert(node.INVERSE_DISTANCE === api.types.DistanceModelType.INVERSE);
+        assert(node.INVERSE_DISTANCE === api.PannerNode.INVERSE_DISTANCE);
+      });
+
+      it("EXPONENTIAL_DISTANCE", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.PannerNode(context, {});
+
+        assert(node.EXPONENTIAL_DISTANCE === api.types.DistanceModelType.EXPONENTIAL);
+        assert(node.EXPONENTIAL_DISTANCE === api.PannerNode.EXPONENTIAL_DISTANCE);
+      });
+    });
+
     describe("coneGain", () => {
       it("works", () => {
         const api = testTools.createAPI();

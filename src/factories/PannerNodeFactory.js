@@ -62,15 +62,15 @@ function create(api, AudioNode) {
     }
 
     static get LINEAR_DISTANCE() {
-      return api.types.DistanceModelType.LINEAR_DISTANCE;
+      return api.types.DistanceModelType.LINEAR;
     }
 
     static get INVERSE_DISTANCE() {
-      return api.types.DistanceModelType.INVERSE_DISTANCE;
+      return api.types.DistanceModelType.INVERSE;
     }
 
     static get EXPONENTIAL_DISTANCE() {
-      return api.types.DistanceModelType.EXPONENTIAL_DISTANCE;
+      return api.types.DistanceModelType.EXPONENTIAL;
     }
 
     get EQUALPOWER() {
@@ -86,15 +86,15 @@ function create(api, AudioNode) {
     }
 
     get LINEAR_DISTANCE() {
-      return api.types.DistanceModelType.LINEAR_DISTANCE;
+      return api.types.DistanceModelType.LINEAR;
     }
 
     get INVERSE_DISTANCE() {
-      return api.types.DistanceModelType.INVERSE_DISTANCE;
+      return api.types.DistanceModelType.INVERSE;
     }
 
     get EXPONENTIAL_DISTANCE() {
-      return api.types.DistanceModelType.EXPONENTIAL_DISTANCE;
+      return api.types.DistanceModelType.EXPONENTIAL;
     }
 
     get coneGain() {

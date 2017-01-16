@@ -32,6 +32,27 @@ describe("ConstantSourceNodeFactory", () => {
         const node = new api.ConstantSourceNode(context, {});
 
         assert(node instanceof api.ConstantSourceNode);
+        assert(node instanceof api.AudioScheduledSourceNode);
+      });
+
+      it("new instance extends AudioSourceNode", () => {
+        const api = testTools.createAPI({ disabled: "/AudioScheduledSourceNode" });
+        const context = new api.AudioContext();
+        const node = new api.ConstantSourceNode(context, {});
+
+        assert(node instanceof api.ConstantSourceNode);
+        assert(!(node instanceof api.AudioScheduledSourceNode));
+        assert(node instanceof api.AudioSourceNode);
+      });
+
+      it("new instance extends AudioNode", () => {
+        const api = testTools.createAPI({ disabled: /^Audio(Scheduled)?SourceNode/ });
+        const context = new api.AudioContext();
+        const node = new api.ConstantSourceNode(context, {});
+
+        assert(node instanceof api.ConstantSourceNode);
+        assert(!(node instanceof api.AudioSourceNode));
+        assert(node instanceof api.AudioNode);
       });
 
       it("new instance, but Illegal constructor", () => {

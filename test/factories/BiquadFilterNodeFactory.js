@@ -136,4 +136,80 @@ describe("BiquadFilterNodeFactory", () => {
       });
     });
   });
+
+  describe("ancient properties", () => {
+    describe("constants", () => {
+      it("LOWPASS", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.BiquadFilterNode(context, {});
+
+        assert(node.LOWPASS === api.types.BiquadFilterType.LOWPASS);
+        assert(node.LOWPASS === api.BiquadFilterNode.LOWPASS);
+      });
+
+      it("HIGHPASS", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.BiquadFilterNode(context, {});
+
+        assert(node.HIGHPASS === api.types.BiquadFilterType.HIGHPASS);
+        assert(node.HIGHPASS === api.BiquadFilterNode.HIGHPASS);
+      });
+
+      it("BANDPASS", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.BiquadFilterNode(context, {});
+
+        assert(node.BANDPASS === api.types.BiquadFilterType.BANDPASS);
+        assert(node.BANDPASS === api.BiquadFilterNode.BANDPASS);
+      });
+
+      it("LOWSHELF", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.BiquadFilterNode(context, {});
+
+        assert(node.LOWSHELF === api.types.BiquadFilterType.LOWSHELF);
+        assert(node.LOWSHELF === api.BiquadFilterNode.LOWSHELF);
+      });
+
+      it("HIGHSHELF", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.BiquadFilterNode(context, {});
+
+        assert(node.HIGHSHELF === api.types.BiquadFilterType.HIGHSHELF);
+        assert(node.HIGHSHELF === api.BiquadFilterNode.HIGHSHELF);
+      });
+
+      it("PEAKING", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.BiquadFilterNode(context, {});
+
+        assert(node.PEAKING === api.types.BiquadFilterType.PEAKING);
+        assert(node.PEAKING === api.BiquadFilterNode.PEAKING);
+      });
+
+      it("NOTCH", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.BiquadFilterNode(context, {});
+
+        assert(node.NOTCH === api.types.BiquadFilterType.NOTCH);
+        assert(node.NOTCH === api.BiquadFilterNode.NOTCH);
+      });
+
+      it("ALLPASS", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.BiquadFilterNode(context, {});
+
+        assert(node.ALLPASS === api.types.BiquadFilterType.ALLPASS);
+        assert(node.ALLPASS === api.BiquadFilterNode.ALLPASS);
+      });
+    });
+  });
 });

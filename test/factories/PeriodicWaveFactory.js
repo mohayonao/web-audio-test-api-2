@@ -41,7 +41,7 @@ describe("PeriodicWaveFactory", () => {
         const context = new api.AudioContext();
 
         assert.throws(() => {
-          return new api.PeriodicWaveNode(context, {
+          return new api.PeriodicWave(context, {
             real: [ 0, 0 ], imag: [ 0, 1 ]
           });
         }, TypeError);
