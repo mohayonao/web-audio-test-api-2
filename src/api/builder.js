@@ -1,12 +1,14 @@
 "use strict";
 
 const namespace = require("./namespace");
+const readonly  = require("./readonly");
 const classprop = require("./classprop");
 const whitelist = require("./whitelist");
 const installer = require("./installer");
 
 function apply(api, [ apiSpec, options = {} ]) {
   namespace.apply(api, [ apiSpec, options ]);
+  readonly .apply(api, [ apiSpec, options ]);
   classprop.apply(api, [ apiSpec, options ]);
   whitelist.apply(api, [ apiSpec, options ]);
   installer.apply(api, [ apiSpec, options ]);
