@@ -16,7 +16,7 @@ const FooFactory = {
 };
 
 describe("api/classprop", () => {
-  it("apply(api, [ apiSpec, options ])", () => {
+  it("apply(api, [ spec ])", () => {
     const Foo = FooFactory.create({}, class {});
     const api = { Foo };
 

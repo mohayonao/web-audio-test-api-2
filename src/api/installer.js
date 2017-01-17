@@ -1,10 +1,10 @@
 "use strict";
 
-function apply(api, [ apiSpec ]) {
+function apply(api, [ spec ]) {
   function install(target = global) {
-    Object.keys(apiSpec).forEach((apiPath) => {
+    Object.keys(spec).forEach((apiPath) => {
       const className = apiPath.split("/")[1];
-      const exportName = apiSpec[apiPath]["global"];
+      const exportName = spec[apiPath]["global"];
 
       if (exportName && api[className]) {
         target[exportName] = api[className];
@@ -14,9 +14,9 @@ function apply(api, [ apiSpec ]) {
   }
 
   function uninstall(target = global) {
-    Object.keys(apiSpec).forEach((apiPath) => {
+    Object.keys(spec).forEach((apiPath) => {
       const className = apiPath.split("/")[1];
-      const exportName = apiSpec[apiPath]["global"];
+      const exportName = spec[apiPath]["global"];
 
       if (exportName && api[className]) {
         if (target[exportName] === api[className]) {

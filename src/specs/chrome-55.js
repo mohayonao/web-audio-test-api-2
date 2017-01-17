@@ -2,7 +2,7 @@
 
 const name = "chrome:55";
 
-const apiSpec = {
+const spec = {
   "/BaseAudioContext": { "global": false, "protected": true },
   "/BaseAudioContext/createAnalyser": {},
   "/BaseAudioContext/createBiquadFilter": {},
@@ -202,4 +202,4 @@ const apiSpec = {
   "/MediaStreamAudioDestinationNode/stream": {}
 };
 
-module.exports = { name, apiSpec };
+module.exports = { name, spec };

@@ -6,16 +6,16 @@ const assert = require("assert");
 const installer = require("../../src/api/installer");
 
 describe("api/installer", () => {
-  it("apply(api, [ globals, options ])", () => {
+  it("apply(api, [ spec ])", () => {
     const api = { "A": "A", "B": "B" };
-    const apiSpec = {
+    const spec = {
       "/A": { global: "A" },
       "/B": { global: "webkitB" },
       "/C": {},
     };
     const target = { "D": "D" };
 
-    installer.apply(api, [ apiSpec ]);
+    installer.apply(api, [ spec ]);
 
     api.install(target);
     assert.deepEqual(target, { "A": "A", "webkitB": "B", "D": "D" });

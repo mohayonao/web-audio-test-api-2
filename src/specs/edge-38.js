@@ -2,7 +2,7 @@
 
 const name = "edge:38";
 
-const apiSpec = {
+const spec = {
   "/AudioContext": { "global": "AudioContext" },
   "/AudioContext/close": {},
   "/AudioContext/createAnalyser": {},
@@ -174,4 +174,4 @@ const apiSpec = {
   "/MediaStreamAudioSourceNode": { "global": "MediaStreamAudioSourceNode", "protected": true }
 };
 
-module.exports = { name, apiSpec };
+module.exports = { name, spec };

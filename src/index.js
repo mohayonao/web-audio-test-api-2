@@ -5,19 +5,19 @@ const builder = require("./api/builder");
 const specs = require("./specs");
 const types = require("./types");
 
-function createAPI(name, options = {}) {
-  if (!specs.hasOwnProperty(name)) {
-    name = "spec";
+function createAPI(specName, options = {}) {
+  if (!specs.hasOwnProperty(specName)) {
+    specName = "spec";
   }
 
-  const spec = specs[name];
+  const { spec, name } = specs[specName];
   const api = new EventEmitter();
 
-  api.name = spec.name;
-  api.apiSpec = clone(spec.apiSpec);
+  api.name = name;
+  api.spec = clone(spec);
   api.types = types;
 
-  builder.apply(api, [ api.apiSpec, options ]);
+  builder.apply(api, [ api.spec, options ]);
 
   return api;
 }

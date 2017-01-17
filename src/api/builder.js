@@ -9,59 +9,59 @@ const lock = require("../utils/lock");
 const format = require("../utils/format");
 const typeChecker = require("../utils/typeChecker");
 
-function apply(api, [ apiSpec, options = {} ]) {
-  api.get = (path) => getAPISpec(apiSpec, path);
-  api.set = (path, value) => setAPISpec(apiSpec, path, value);
-  api.protected = (path) => _protected(apiSpec, path);
-  api.deprecated = (path) => deprecated(apiSpec, path);
+function apply(api, [ spec, options = {} ]) {
+  api.get = (path) => getSpec(spec, path);
+  api.set = (path, value) => setSpec(spec, path, value);
+  api.protected = (path) => _protected(spec, path);
+  api.deprecated = (path) => deprecated(spec, path);
   api.typecheck = (path, type, value, name) => typecheck(api, path, type, value, name);
 
-  namespace.apply(api, [ apiSpec, options ]);
-  readonly .apply(api, [ apiSpec, options ]);
-  classprop.apply(api, [ apiSpec, options ]);
-  whitelist.apply(api, [ apiSpec, options ]);
-  installer.apply(api, [ apiSpec, options ]);
+  namespace.apply(api, [ spec, options ]);
+  readonly .apply(api, [ spec, options ]);
+  classprop.apply(api, [ spec, options ]);
+  whitelist.apply(api, [ spec, options ]);
+  installer.apply(api, [ spec, options ]);
 
   return api;
 }
 
-function getAPISpec(apiSpec, path) {
+function getSpec(spec, path) {
   const items = path.split("/");
   const propName = items.pop();
   const apiPath = items.join("/");
 
-  if (apiSpec.hasOwnProperty(apiPath)) {
-    if (apiSpec[apiPath].hasOwnProperty(propName)) {
-      return apiSpec[apiPath][propName];
+  if (spec.hasOwnProperty(apiPath)) {
+    if (spec[apiPath].hasOwnProperty(propName)) {
+      return spec[apiPath][propName];
     }
   }
 
   return null;
 }
 
-function setAPISpec(apiSpec, path, value) {
+function setSpec(spec, path, value) {
   const items = path.split("/");
   const propName = items.pop();
   const apiPath = items.join("/");
 
-  if (apiSpec.hasOwnProperty(apiPath)) {
-    apiSpec[apiPath][propName] = value;
+  if (spec.hasOwnProperty(apiPath)) {
+    spec[apiPath][propName] = value;
   }
 
   return value;
 }
 
-function _protected(apiSpec, path) {
-  if (lock.isLocked() && apiSpec[path] && apiSpec[path]["JSDoc"]) {
-    if (apiSpec[path]["JSDoc"]["protected"] && apiSpec[path]["protected"]) {
+function _protected(spec, path) {
+  if (lock.isLocked() && spec[path] && spec[path]["JSDoc"]) {
+    if (spec[path]["JSDoc"]["protected"] && spec[path]["protected"]) {
       throw new TypeError("Illegal constructor");
     }
   }
 }
 
-function deprecated(apiSpec, path) {
-  if (apiSpec[path] && apiSpec[path]["JSDoc"]) {
-    if (apiSpec[path]["JSDoc"]["deprecated"] && apiSpec[path]["deprecated"]) {
+function deprecated(spec, path) {
+  if (spec[path] && spec[path]["JSDoc"]) {
+    if (spec[path]["JSDoc"]["deprecated"] && spec[path]["deprecated"]) {
       const [ className, methodName ] = path.split("/").slice(1);
       const message = methodName ?
         `

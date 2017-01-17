@@ -2,7 +2,7 @@
 
 const name = "safari:10";
 
-const apiSpec = {
+const spec = {
   "/AudioContext": { "global": "webkitAudioContext" },
   "/AudioContext/activeSourceCount": { "deprecated": true },
   "/AudioContext/close": {},
@@ -204,4 +204,4 @@ const apiSpec = {
   "/PeriodicWave": { "global": "PeriodicWave", "protected": true }
 };
 
-module.exports = { name, apiSpec };
+module.exports = { name, spec };

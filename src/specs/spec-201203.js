@@ -2,7 +2,7 @@
 
 const name = "spec:201203";
 
-const apiSpec = {
+const spec = {
   "/AudioContext": { "global": "AudioContext" },
   "/AudioContext/createAnalyser": {},
   "/AudioContext/createBiquadFilter": {},
@@ -151,4 +151,4 @@ const apiSpec = {
   "/WaveShaperNode/curve": {}
 };
 
-module.exports = { name, apiSpec };
+module.exports = { name, spec };

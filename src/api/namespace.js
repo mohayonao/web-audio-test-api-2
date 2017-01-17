@@ -44,13 +44,13 @@ const AudioMediaStreamTrackFactory = require("../factories/AudioMediaStreamTrack
 
 const mixin = require("../utils/mixin");
 
-function apply(api, [ apiSpec ]) {
+function apply(api, [ spec ]) {
   api.BaseObject = BaseObjectFactory.create(api);
   api.EventTarget = EventTargetFactory.create(api, api.BaseObject);
   api.Worker = WorkerFactory.create(api, api.EventTarget);
   api.BaseAudioContext = BaseAudioContextFactory.create(api, api.EventTarget);
 
-  if (apiSpec["/BaseAudioContext"]) {
+  if (spec["/BaseAudioContext"]) {
     api.AudioContext = AudioContextFactory.create(api, api.BaseAudioContext);
     api.OfflineAudioContext = OfflineAudioContextFactory.create(api, api.BaseAudioContext);
   } else {
@@ -89,11 +89,11 @@ function apply(api, [ apiSpec ]) {
   api.MediaStream = MediaStreamFactory.create(api, api.BaseObject);
   api.AudioMediaStreamTrack = AudioMediaStreamTrackFactory.create(api, api.BaseObject);
 
-  if (apiSpec["/AudioScheduledSourceNode"]) {
+  if (spec["/AudioScheduledSourceNode"]) {
     api.AudioBufferSourceNode = AudioBufferSourceNodeFactory.create(api, api.AudioScheduledSourceNode);
     api.ConstantSourceNode = ConstantSourceNodeFactory.create(api, api.AudioScheduledSourceNode);
     api.OscillatorNode = OscillatorNodeFactory.create(api, api.AudioScheduledSourceNode);
-  } else if (apiSpec["/AudioSourceNode"]) {
+  } else if (spec["/AudioSourceNode"]) {
     api.AudioBufferSourceNode = mixin(AudioBufferSourceNodeFactory.create(api, api.AudioSourceNode), api.AudioScheduledSourceNode);
     api.ConstantSourceNode = mixin(ConstantSourceNodeFactory.create(api, api.AudioSourceNode), api.AudioScheduledSourceNode);
     api.OscillatorNode = mixin(OscillatorNodeFactory.create(api, api.AudioSourceNode), api.AudioScheduledSourceNode);
@@ -103,7 +103,7 @@ function apply(api, [ apiSpec ]) {
     api.OscillatorNode = mixin(OscillatorNodeFactory.create(api, api.AudioNode), api.AudioScheduledSourceNode);
   }
 
-  if (apiSpec["/AudioSourceNode"]) {
+  if (spec["/AudioSourceNode"]) {
     api.MediaElementAudioSourceNode = MediaElementAudioSourceNodeFactory.create(api, api.AudioSourceNode);
     api.MediaStreamTrackAudioSourceNode = MediaStreamTrackAudioSourceNodeFactory.create(api, api.AudioSourceNode);
     api.MediaStreamAudioSourceNode = MediaStreamAudioSourceNodeFactory.create(api, api.AudioSourceNode);

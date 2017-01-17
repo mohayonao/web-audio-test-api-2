@@ -2,7 +2,7 @@
 
 const name = "spec:201512";
 
-const apiSpec = {
+const spec = {
   "/BaseAudioContext": { "global": false, "protected": true },
   "/BaseAudioContext/close": {},
   "/BaseAudioContext/createAnalyser": {},
@@ -220,4 +220,4 @@ const apiSpec = {
   "/MediaStreamAudioDestinationNode/stream": {}
 };
 
-module.exports = { name, apiSpec };
+module.exports = { name, spec };

@@ -1,14 +1,14 @@
 "use strict";
 
-function apply(api, [ apiSpec ]) {
-  const map = buildAPIMap(apiSpec);
+function apply(api, [ spec ]) {
+  const map = buildAPIMap(spec);
 
   Object.keys(map).forEach((className) => {
     if (api[className]) {
       const klass = api[className];
       const proto = klass.prototype;
 
-      // Delete class properties not included apiSpec
+      // Delete class properties not included spec
       Object.getOwnPropertyNames(klass).forEach((name) => {
         if (/^[A-Z_]+$/.test(name)) {
           if (!map[className].includes(name)) {
@@ -17,7 +17,7 @@ function apply(api, [ apiSpec ]) {
         }
       });
 
-      // Delete instance properties not included apiSpec
+      // Delete instance properties not included spec
       Object.getOwnPropertyNames(proto).forEach((name) => {
         if (name !== "constructor") {
           if (!map[className].includes(name)) {
@@ -31,10 +31,10 @@ function apply(api, [ apiSpec ]) {
   return api;
 }
 
-function buildAPIMap(apiSpec) {
+function buildAPIMap(spec) {
   const map = {};
 
-  Object.keys(apiSpec).forEach((apiPath) => {
+  Object.keys(spec).forEach((apiPath) => {
     const [ className, methodName ] = apiPath.split("/").slice(1);
 
     if (!map[className]) {
