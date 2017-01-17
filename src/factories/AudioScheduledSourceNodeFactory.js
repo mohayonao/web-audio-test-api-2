@@ -1,5 +1,6 @@
 "use strict";
 
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 
 function create(api, AudioNode) {
@@ -34,6 +35,12 @@ function create(api, AudioNode) {
      * @return {void}
      */
     start(when = 0) {
+      if (!(this._.startTime === Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'start' on '${ this._.className }':
+          Cannot call start more than once.
+        `));
+      }
       start.call(this, when);
     }
 
@@ -42,6 +49,18 @@ function create(api, AudioNode) {
      * @return {void}
      */
     stop(when = 0) {
+      if (!(this._.startTime !== Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'stop' on '${ this._.className }':
+          Cannot call stop without calling start first.
+        `));
+      }
+      if (!(this._.stopTime === Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'stop' on '${ this._.className }':
+          Cannot call stop more than once.
+        `));
+      }
       stop.call(this, when);
     }
   }

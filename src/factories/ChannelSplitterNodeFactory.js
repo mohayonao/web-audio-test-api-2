@@ -2,6 +2,7 @@
 
 const ChannelCountMode = require("../types/ChannelCountMode");
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 
 const DEFAULT_NUMBER_OF_OUTPUTS = 6;
@@ -26,6 +27,13 @@ function create(api, AudioNode) {
         });
         this._.className = "ChannelSplitterNode";
       } finally { lock.lock(); }
+
+      if (!(1 <= numberOfOutputs && numberOfOutputs <= 32)) {
+        throw new TypeError(format(`
+          Failed to construct 'ChannelSplitterNode':
+          The number of outputs must be in the range [1, 32], but got ${ numberOfOutputs }.
+        `));
+      }
     }
   }
   return ChannelSplitterNode;

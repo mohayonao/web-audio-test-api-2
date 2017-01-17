@@ -3,6 +3,7 @@
 const AudioContextState = require("../types/AudioContextState");
 const defaults = require("../utils/defaults");
 const emit = require("../utils/emit");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 
 const DEFAULT_NUMBER_OF_CHANNELS = 2;
@@ -72,6 +73,12 @@ function create(api, EventTarget) {
      * @return {Promise<void>}
      */
     suspend() {
+      if (this._.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to execute 'suspend' on '${ this._.className }':
+          Cannot suspend a context that has already been closed.
+        `));
+      }
       return new Promise((resolve) => {
         this._.state = AudioContextState.SUSPENDED;
         emit(this, "statechange");
@@ -83,6 +90,12 @@ function create(api, EventTarget) {
      * @return {Promise<void>}
      */
     resume() {
+      if (this._.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to execute 'suspend' on '${ this._.className }':
+          Cannot resume a context that has already been closed.
+        `));
+      }
       return new Promise((resolve) => {
         this._.state = AudioContextState.RUNNING;
         emit(this, "statechange");
@@ -94,6 +107,12 @@ function create(api, EventTarget) {
      * @return {Promise<void>}
      */
     close() {
+      if (this._.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to execute 'suspend' on '${ this._.className }':
+          Cannot close a context that has already been closed.
+        `));
+      }
       return new Promise((resolve) => {
         this._.state = AudioContextState.CLOSED;
         emit(this, "statechange");
@@ -335,6 +354,19 @@ function initialize(api, opts) {
   const numberOfChannels = defaults(opts.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
   const length = defaults(opts.length, Infinity);
   const sampleRate = defaults(opts.sampleRate, DEFAULT_SAMPLE_RATE);
+
+  if (!(1 <= numberOfChannels && numberOfChannels <= 32)) {
+    throw new TypeError(format(`
+      Failed to construct 'BaseAudioContext':
+      The number of channels must be in the range [1, 32], but got ${ numberOfChannels }.
+    `));
+  }
+  if (!(3000 <= sampleRate && sampleRate <= 192000)) {
+    throw new TypeError(format(`
+      Failed to construct 'BaseAudioContext':
+      The sample rate must be in the range [3000, 192000], but got ${ sampleRate }.
+    `));
+  }
 
   this._.numberOfChannels = numberOfChannels;
   this._.length = length;

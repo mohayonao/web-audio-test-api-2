@@ -3,6 +3,7 @@
 const AudioContextState = require("../types/AudioContextState");
 const defaults = require("../utils/defaults");
 const emit = require("../utils/emit");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 const { initialize } = require("./BaseAudioContextFactory");
 const { startRendering } = require("./OfflineAudioContextFactory");
@@ -56,6 +57,12 @@ function create(api, BaseAudioContext) {
      * @return {Promise<void>}
      */
     close() {
+      if (this._.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to execute 'close' on 'AudioContext':
+          Cannot close a context that has already been closed.
+        `));
+      }
       return new Promise((resolve) => {
         this._.state = AudioContextState.CLOSED;
         emit(this, "statechange");
@@ -67,6 +74,12 @@ function create(api, BaseAudioContext) {
      * @return {Promise<void>}
      */
     suspend() {
+      if (this._.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to execute 'suspend' on 'AudioContext':
+          Cannot suspend a context that has already been closed.
+        `));
+      }
       return new Promise((resolve) => {
         this._.state = AudioContextState.SUSPENDED;
         emit(this, "statechange");
@@ -142,7 +155,7 @@ function create(api, BaseAudioContext) {
      * @param {number} numberOfOutputChannels
      * @return {ScriptProcessorNode}
      */
-    createJavaScriptNode(bufferSize = 0, numberOfInputChannels = 0, numberOfOutputChannels = 0) {
+    createJavaScriptNode(bufferSize = 0, numberOfInputChannels = 2, numberOfOutputChannels = 2) {
       return lock.tr(() => new api.ScriptProcessorNode(this, { bufferSize, numberOfInputChannels, numberOfOutputChannels }));
     }
 

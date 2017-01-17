@@ -3,6 +3,7 @@
 const ChannelCountMode = require("../types/ChannelCountMode");
 const BiquadFilterType = require("../types/BiquadFilterType");
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 
 const DEFAULT_TYPE = BiquadFilterType.LOWPASS;
@@ -42,17 +43,17 @@ function create(api, AudioNode) {
 
       this._.type = type;
       this._.frequency = new api.AudioParam(context, {
-        name: "frequency", defaultValue: DEFAULT_FREQUENCY, value: frequency,
+        name: "BiquadFilter.frequency", defaultValue: DEFAULT_FREQUENCY, value: frequency,
         minValue: 0, maxValue: context.sampleRate / 2
       });
       this._.detune = new api.AudioParam(context, {
-        name: "detune", defaultValue: DEFAULT_DETUNE, value: detune
+        name: "BiquadFilter.detune", defaultValue: DEFAULT_DETUNE, value: detune
       });
       this._.Q = new api.AudioParam(context, {
-        name: "Q", defaultValue: DEFAULT_Q, value: Q
+        name: "BiquadFilter.Q", defaultValue: DEFAULT_Q, value: Q
       });
       this._.gain = new api.AudioParam(context, {
-        name: "gain", defaultValue: DEFAULT_GAIN, value: gain
+        name: "BiquadFilter.gain", defaultValue: DEFAULT_GAIN, value: gain
       });
     }
 
@@ -102,7 +103,12 @@ function create(api, AudioNode) {
      * @return {void}
      */
     getFrequencyResponse(frequencyHz, magResponse, phaseResponse) {
-      void(this, frequencyHz, magResponse, phaseResponse);
+      if (!(frequencyHz.length === magResponse.length && frequencyHz.length === phaseResponse.length)) {
+        throw new TypeError(format(`
+          Failed to execute 'getFrequencyResponse' on 'BiquadFilterNode':
+          The three parameters must be the same length, but got (${ frequencyHz.length }, ${ magResponse.length }, ${ phaseResponse.length }).
+        `));
+      }
     }
 
     /**

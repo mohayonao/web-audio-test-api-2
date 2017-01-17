@@ -28,7 +28,7 @@ function create(api, AudioNode) {
       } finally { lock.lock(); }
 
       this._.gain = new api.AudioParam(context, {
-        name: "gain", defaultValue: DEFAULT_GAIN, value: gain
+        name: "Gain.gain", defaultValue: DEFAULT_GAIN, value: gain
       });
     }
 

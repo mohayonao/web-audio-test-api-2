@@ -30,7 +30,7 @@ function create(api, AudioNode) {
       } finally { lock.lock(); }
 
       this._.pan = new api.AudioParam(context, {
-        name: "pan", defaultValue: DEFAULT_PAN, value: pan,
+        name: "StereoPanner.pan", defaultValue: DEFAULT_PAN, value: pan,
         minValue: -1, maxValue: 1
       });
     }

@@ -2,6 +2,7 @@
 
 const AudioContextState = require("../types/AudioContextState");
 const emit = require("../utils/emit");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 
 function create(api, BaseAudioContext) {
@@ -50,6 +51,12 @@ function create(api, BaseAudioContext) {
      * @return {Promise<void>}
      */
     suspend(suspendTime) {
+      if (this._.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to execute 'suspend' on 'OfflineAudioContext':
+          Cannot suspend a context that has already been closed.
+        `));
+      }
       void(this, suspendTime);
       return new Promise((resolve) => {
         this._.state = AudioContextState.SUSPENDED;
@@ -62,6 +69,12 @@ function create(api, BaseAudioContext) {
      * @return {Promise<void>}
      */
     resume() {
+      if (this._.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to execute 'suspend' on 'OfflineAudioContext':
+          Cannot resume a context that has already been closed.
+        `));
+      }
       return new Promise((resolve) => {
         this._.state = AudioContextState.RUNNING;
         emit(this, "statechange");

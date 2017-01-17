@@ -2,6 +2,7 @@
 
 const ChannelCountMode = require("../types/ChannelCountMode");
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 
 const DEFAULT_FFT_SIZE = 2048;
@@ -40,6 +41,11 @@ function create(api, AudioNode) {
       this._.minDecibels = minDecibels;
       this._.maxDecibels = maxDecibels;
       this._.smoothingTimeConstant = smoothingTimeConstant;
+
+      this.fftSize = fftSize;
+      this.minDecibels = minDecibels;
+      this.maxDecibels = maxDecibels;
+      this.smoothingTimeConstant = smoothingTimeConstant;
     }
 
     /**
@@ -50,6 +56,12 @@ function create(api, AudioNode) {
     }
 
     set fftSize(value) {
+      if (![ 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768 ].includes(value)) {
+        throw new TypeError(format(`
+          Failed to set the 'fftSize' property on 'AnalyserNode':
+          The FFT size muse be a power of two in the range [ 32, 32768 ], but got ${ value }.
+        `));
+      }
       this._.fftSize = value;
     }
 
@@ -68,6 +80,12 @@ function create(api, AudioNode) {
     }
 
     set maxDecibels(value) {
+      if (!(this._.minDecibels < value)) {
+        throw new TypeError(format(`
+          Failed to set the 'maxDecibels' property on 'AnalyserNode':
+          The maxDecibels must be greater than the minDecibels (${ this._.minDecibels }), but got ${ value }.
+        `));
+      }
       this._.maxDecibels = value;
     }
 
@@ -79,6 +97,12 @@ function create(api, AudioNode) {
     }
 
     set minDecibels(value) {
+      if (!(value < this._.maxDecibels)) {
+        throw new TypeError(format(`
+          Failed to set the 'minDecibels' property on 'AnalyserNode':
+          The minDecibels must be less than the maxDecibels (${ this._.maxDecibels}), but got ${ value }.
+        `));
+      }
       this._.minDecibels = value;
     }
 
@@ -90,6 +114,12 @@ function create(api, AudioNode) {
     }
 
     set smoothingTimeConstant(value) {
+      if (!(0 <= value && value <= 1)) {
+        throw new TypeError(format(`
+          Failed to set the 'smoothingTimeConstant' property on 'AnalyserNode':
+          The smoothingTimeConstant must be in the range [ 0, 1 ], but got ${ value }.
+        `));
+      }
       this._.smoothingTimeConstant = value;
     }
 

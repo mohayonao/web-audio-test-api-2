@@ -2,6 +2,7 @@
 
 const OscillatorType = require("../types/OscillatorType");
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 const { initialize, start, stop } = require("./AudioScheduledSourceNodeFactory");
 
@@ -36,13 +37,17 @@ function create(api, AudioNode) {
 
       this._.type = type;
       this._.frequency = new api.AudioParam(context, {
-        name: "frequency", defaultValue: DEFAULT_FREQUENCY, value: frequency,
+        name: "Oscillator.frequency", defaultValue: DEFAULT_FREQUENCY, value: frequency,
         minValue: -context.sampleRate / 2, maxValue: context.sampleRate / 2
       });
       this._.detune = new api.AudioParam(context, {
-        name: "detune", defaultValue: DEFAULT_DETUNE, value: detune
+        name: "Oscillator.detune", defaultValue: DEFAULT_DETUNE, value: detune
       });
       this._.periodicWave = periodicWave;
+
+      if (periodicWave !== null) {
+        this._.type = OscillatorType.CUSTOM;
+      }
     }
 
     /**
@@ -76,6 +81,7 @@ function create(api, AudioNode) {
      * @return {void}
      */
     setPeriodicWave(periodicWave) {
+      this._.type = OscillatorType.CUSTOM;
       this._.periodicWave = periodicWave;
     }
 
@@ -179,6 +185,12 @@ function create(api, AudioNode) {
      * @return {void}
      */
     noteOn(when = 0) {
+      if (!(this._.startTime === Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'noteOn' on 'OscillatorNode':
+          Cannot call start more than once.
+        `));
+      }
       start.call(this, when);
     }
 
@@ -188,6 +200,18 @@ function create(api, AudioNode) {
      * @return {void}
      */
     noteOff(when = 0) {
+      if (!(this._.startTime !== Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'noteOff' on 'OscillatorNode':
+          Cannot call stop without calling start first.
+        `));
+      }
+      if (!(this._.stopTime === Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'noteOff' on 'OscillatorNode':
+          Cannot call stop more than once.
+        `));
+      }
       stop.call(this, when);
     }
 

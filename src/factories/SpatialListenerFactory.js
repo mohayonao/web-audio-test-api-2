@@ -86,31 +86,31 @@ function create(api, BaseObject) {
 
 function initialize(api, context) {
   this._.positionX = new api.AudioParam(context, {
-    name: "positionX", defaultValue: 0
+    name: "Listener.positionX", defaultValue: 0
   });
   this._.positionY = new api.AudioParam(context, {
-    name: "positionY", defaultValue: 0
+    name: "Listener.positionY", defaultValue: 0
   });
   this._.positionZ = new api.AudioParam(context, {
-    name: "positionZ", defaultValue: 0
+    name: "Listener.positionZ", defaultValue: 0
   });
   this._.forwardX = new api.AudioParam(context, {
-    name: "forwardX", defaultValue: 0
+    name: "Listener.forwardX", defaultValue: 0
   });
   this._.forwardY = new api.AudioParam(context, {
-    name: "forwardY", defaultValue: 0
+    name: "Listener.forwardY", defaultValue: 0
   });
   this._.forwardZ = new api.AudioParam(context, {
-    name: "forwardZ", defaultValue: -1
+    name: "Listener.forwardZ", defaultValue: -1
   });
   this._.upX = new api.AudioParam(context, {
-    name: "upX", defaultValue: 0
+    name: "Listener.upX", defaultValue: 0
   });
   this._.upY = new api.AudioParam(context, {
-    name: "upY", defaultValue: 1
+    name: "Listener.upY", defaultValue: 1
   });
   this._.upZ = new api.AudioParam(context, {
-    name: "upZ", defaultValue: 0
+    name: "Listener.upZ", defaultValue: 0
   });
 }
 

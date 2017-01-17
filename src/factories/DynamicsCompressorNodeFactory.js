@@ -41,27 +41,27 @@ function create(api, AudioNode) {
       } finally { lock.lock(); }
 
       this._.threshold = new api.AudioParam(context, {
-        name: "threshold", defaultValue: DEFAULT_THRESHOLD, value: threshold,
+        name: "DynamicsCompressor.threshold", defaultValue: DEFAULT_THRESHOLD, value: threshold,
         minValue: -100, maxValue: 0
       });
       this._.knee = new api.AudioParam(context, {
-        name: "knee", defaultValue: DEFAULT_KNEE, value: knee,
+        name: "DynamicsCompressor.knee", defaultValue: DEFAULT_KNEE, value: knee,
         minValue: 0, maxValue: 40
       });
       this._.ratio = new api.AudioParam(context, {
-        name: "ratio", defaultValue: DEFAULT_RATIO, value: ratio,
+        name: "DynamicsCompressor.ratio", defaultValue: DEFAULT_RATIO, value: ratio,
         minValue: 1, maxValue: 20
       });
       this._.attack = new api.AudioParam(context, {
-        name: "attack", defaultValue: DEFAULT_ATTACK, value: attack,
+        name: "DynamicsCompressor.attack", defaultValue: DEFAULT_ATTACK, value: attack,
         minValue: 0, maxValue: 1
       });
       this._.release = new api.AudioParam(context, {
-        name: "release", defaultValue: DEFAULT_RELEASE, value: release,
+        name: "DynamicsCompressor.release", defaultValue: DEFAULT_RELEASE, value: release,
         minValue: 0, maxValue: 1
       });
       this._.reduction = new api.AudioParam(context, {
-        name: "reduction", defaultValue: reduction, value: reduction
+        name: "DynamicsCompressor.reduction", defaultValue: reduction, value: reduction
       });
     }
 

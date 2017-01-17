@@ -1,6 +1,7 @@
 "use strict";
 
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 
 const DEFAULT_NUMBER_OF_CHANNELS = 1;
@@ -30,6 +31,19 @@ function create(api, BaseObject) {
         super();
         this._.className = "AudioBuffer";
       } finally { lock.lock(); }
+
+      if (!(1 <= numberOfChannels && numberOfChannels <= 32)) {
+        throw new TypeError(format(`
+          Failed to construct 'AudioBuffer':
+          The number of channels must be in the range [1, 32], but got ${ numberOfChannels }.
+        `));
+      }
+      if (!(3000 <= sampleRate && sampleRate <= 192000)) {
+        throw new TypeError(format(`
+          Failed to construct 'AudioBuffer':
+          The sample rate must be in the range [3000, 192000], but got ${ sampleRate }.
+        `));
+      }
 
       this._.sampleRate = sampleRate;
       this._.length = length;
@@ -71,6 +85,12 @@ function create(api, BaseObject) {
      * @return {Float32Array}
      */
     getChannelData(channel) {
+      if (!(0 <= channel && channel < this._.numberOfChannels)) {
+        throw new TypeError(format(`
+          Failed to execute 'getChannelData' on 'AudioBuffer':
+          The channel must be in the range [0, ${ this._.numberOfChannels }), but got ${ channel }.
+        `));
+      }
       return this._.channelData[channel|0];
     }
 
@@ -81,6 +101,19 @@ function create(api, BaseObject) {
      * @return {void}
      */
     copyFromChannel(destination, channelNumber, startInChannel = 0) {
+      if (!(0 <= channelNumber && channelNumber < this._.numberOfChannels)) {
+        throw new TypeError(format(`
+          Failed to execute 'copyFromChannel' on 'AudioBuffer':
+          The channelNumber must be in the range [0, ${ this._.numberOfChannels }), but got ${ channelNumber }.
+        `));
+      }
+      if (!(0 <= startInChannel && startInChannel < this._.length)) {
+        throw new TypeError(format(`
+          Failed to execute 'copyFromChannel' on 'AudioBuffer':
+          The startInChannel must be in the range [0, ${ this._.length }), but got ${ startInChannel }.
+        `));
+      }
+
       const source = this._.channelData[channelNumber|0];
 
       startInChannel = startInChannel|0;
@@ -95,6 +128,19 @@ function create(api, BaseObject) {
      * @return {void}
      */
     copyToChannel(source, channelNumber, startInChannel = 0) {
+      if (!(0 <= channelNumber && channelNumber < this._.numberOfChannels)) {
+        throw new TypeError(format(`
+          Failed to execute 'copyToChannel' on 'AudioBuffer':
+          The channelNumber must be in the range [0, ${ this._.numberOfChannels }), but got ${ channelNumber }.
+        `));
+      }
+      if (!(0 <= startInChannel && startInChannel < this._.length)) {
+        throw new TypeError(format(`
+          Failed to execute 'copyToChannel' on 'AudioBuffer':
+          The startInChannel must be in the range [0, ${ this._.length }), but got ${ startInChannel }.
+        `));
+      }
+
       const destination = this._.channelData[channelNumber|0];
 
       startInChannel = startInChannel|0;

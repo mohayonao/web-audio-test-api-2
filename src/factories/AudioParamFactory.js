@@ -25,11 +25,14 @@ function create(api, BaseObject) {
         this._.className = "AudioParam";
       } finally { lock.lock(); }
 
+      this._.context = context;
       this._.name = name;
       this._.defaultValue = defaultValue;
       this._.minValue = minValue;
       this._.maxValue = maxValue;
       this._.value = value;
+
+      this.value = value;
     }
 
     /**

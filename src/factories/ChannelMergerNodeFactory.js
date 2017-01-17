@@ -2,6 +2,7 @@
 
 const ChannelCountMode = require("../types/ChannelCountMode");
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 
 const DEFAULT_NUMBER_OF_INPUTS = 6;
@@ -28,6 +29,13 @@ function create(api, AudioNode) {
         });
         this._.className = "ChannelMergerNode";
       } finally { lock.lock(); }
+
+      if (!(1 <= numberOfInputs && numberOfInputs <= 32)) {
+        throw new TypeError(format(`
+          Failed to construct 'ChannelMergerNode':
+          The number of inputs must be in the range [1, 32], but got ${ numberOfInputs }.
+        `));
+      }
     }
   }
   return ChannelMergerNode;

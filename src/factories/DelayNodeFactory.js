@@ -32,7 +32,7 @@ function create(api, AudioNode) {
 
       this._.maxDelayTime = maxDelayTime;
       this._.delayTime = new api.AudioParam(context, {
-        name: "delayTime", defaultValue: DEFAULT_DELAY_TIME, value: delayTime,
+        name: "Delay.delayTime", defaultValue: DEFAULT_DELAY_TIME, value: delayTime,
         minValue: 0, maxValue: maxDelayTime
       });
     }

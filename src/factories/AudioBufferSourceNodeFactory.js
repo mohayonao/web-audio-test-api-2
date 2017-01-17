@@ -1,6 +1,7 @@
 "use strict";
 
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 const { initialize, stop } = require("./AudioScheduledSourceNodeFactory");
 
@@ -41,13 +42,13 @@ function create(api, AudioScheduledSourceNode) {
 
       this._.buffer = buffer;
       this._.playbackRate = new api.AudioParam(context, {
-        name: "playbackRate", defaultValue: DEFAULT_PLAYBACK_RATE, value: playbackRate
+        name: "BufferSource.playbackRate", defaultValue: DEFAULT_PLAYBACK_RATE, value: playbackRate
       });
       this._.detune = new api.AudioParam(context, {
-        name: "detune", defaultValue: DEFAULT_DETUNE, value: detune
+        name: "BufferSource.detune", defaultValue: DEFAULT_DETUNE, value: detune
       });
       this._.gain = new api.AudioParam(context, {
-        name: "gain", defaultValue: 1
+        name: "BufferSource.gain", defaultValue: 1
       });
       this._.loop = loop;
       this._.loopStart = loopStart;
@@ -64,6 +65,12 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     set buffer(value) {
+      if (!(this._.buffer === null)) {
+        throw new TypeError(format(`
+          Failed to set the 'buffer' property on 'AudioBufferSourceNode':
+          Cannot set buffer after it has been already been set.
+        `));
+      }
       this._.buffer = value;
     }
 
@@ -121,6 +128,12 @@ function create(api, AudioScheduledSourceNode) {
      * @return {void}
      */
     start(when = 0, offset = 0, duration = Infinity) {
+      if (!(this._.startTime === Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'start' on 'AudioBufferSourceNode':
+          Cannot call start more than once.
+        `));
+      }
       start.call(this, when, offset, duration);
     }
 
@@ -204,6 +217,12 @@ function create(api, AudioScheduledSourceNode) {
      * @return {void}
      */
     noteOn(when = 0) {
+      if (!(this._.startTime === Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'noteOn' on 'AudioBufferSourceNode':
+          Cannot call start more than once.
+        `));
+      }
       start.call(this, when, 0, Infinity);
     }
 
@@ -215,6 +234,12 @@ function create(api, AudioScheduledSourceNode) {
      * @return {void}
      */
     noteGrainOn(when = 0, grainOffset = 0, grainDuration = 0) {
+      if (!(this._.startTime === Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'noteGrainOn' on 'AudioBufferSourceNode':
+          Cannot call start more than once.
+        `));
+      }
       start.call(this, when, grainOffset, grainDuration);
     }
 
@@ -224,6 +249,18 @@ function create(api, AudioScheduledSourceNode) {
      * @return {void}
      */
     noteOff(when = 0) {
+      if (!(this._.startTime !== Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'noteOff' on 'AudioBufferSourceNode':
+          Cannot call stop without calling start first.
+        `));
+      }
+      if (!(this._.stopTime === Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'noteOff' on 'AudioBufferSourceNode':
+          Cannot call stop more than once.
+        `));
+      }
       stop.call(this, when);
     }
   }

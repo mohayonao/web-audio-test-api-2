@@ -2,6 +2,7 @@
 
 const ChannelCountMode = require("../types/ChannelCountMode");
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 
 function create(api, AudioNode) {
@@ -38,7 +39,12 @@ function create(api, AudioNode) {
      * @return {void}
      */
     getFrequencyResponse(frequencyHz, magResponse, phaseResponse) {
-      void(this, frequencyHz, magResponse, phaseResponse);
+      if (!(frequencyHz.length === magResponse.length && frequencyHz.length === phaseResponse.length)) {
+        throw new TypeError(format(`
+          Failed to execute 'getFrequencyResponse' on 'IIRFilterNode':
+          The three parameters must be the same length, but got (${ frequencyHz.length }, ${ magResponse.length }, ${ phaseResponse.length }).
+        `));
+      }
     }
   }
   return IIRFilterNode;

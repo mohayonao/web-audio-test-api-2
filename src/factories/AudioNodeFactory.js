@@ -1,8 +1,10 @@
 "use strict";
 
+const AudioContextState = require("../types/AudioContextState");
 const ChannelCountMode = require("../types/ChannelCountMode");
 const ChannelInterpretation = require("../types/ChannelInterpretation");
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 
 function create(api, EventTarget) {
@@ -32,6 +34,13 @@ function create(api, EventTarget) {
         this._.className = "AudioNode";
       } finally { lock.lock(); }
 
+      if (context.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to construct 'AudioNode':
+          AudioContext has been closed.
+        `));
+      }
+
       this._.context = context;
       this._.inputs = inputs;
       this._.outputs = outputs;
@@ -42,6 +51,10 @@ function create(api, EventTarget) {
       this._.allowedMaxChannelCount = allowedMaxChannelCount;
       this._.allowedChannelCountMode = allowedChannelCountMode;
       this._.allowedChannelInterpretation = allowedChannelInterpretation;
+
+      this.channelCount = channelCount;
+      this.channelCountMode = channelCountMode;
+      this.channelInterpretation = channelInterpretation;
     }
 
     /**
@@ -73,6 +86,12 @@ function create(api, EventTarget) {
     }
 
     set channelCount(value) {
+      if (!(this._.allowedMinChannelCount <= value && value <= this._.allowedMaxChannelCount)) {
+        throw new TypeError(format(`
+          Failed to set the 'channelCount' property on 'AudioNode':
+          The channel count must be in the range [ ${ this._.allowedMinChannelCount }, ${ this._.allowedMaxChannelCount } ], but got ${ value }.
+        `));
+      }
       this._.channelCount = value;
     }
 
@@ -84,6 +103,12 @@ function create(api, EventTarget) {
     }
 
     set channelCountMode(value) {
+      if (!this._.allowedChannelCountMode.includes(value)) {
+        throw new TypeError(format(`
+          Failed to set the 'channelCountMode' property on 'AudioNode':
+          The channel count mode must be ${ this._.allowedChannelCountMode.join(" or ") }, but got ${ value }.
+        `));
+      }
       this._.channelCountMode = value;
     }
 
@@ -95,6 +120,12 @@ function create(api, EventTarget) {
     }
 
     set channelInterpretation(value) {
+      if (!this._.allowedChannelInterpretation.includes(value)) {
+        throw new TypeError(format(`
+          Failed to set the 'channelInterpretation' property on 'AudioNode':
+          The channel interpretation must be ${ this._.allowedChannelInterpretation.join(" or ") }, but got ${ value }.
+        `));
+      }
       this._.channelInterpretation = value;
     }
 
@@ -105,7 +136,29 @@ function create(api, EventTarget) {
      * @return {AudioNode}
      */
     connect(destination, output = 0, input = 0) {
-      void(this, destination, output, input);
+      if (!(destination._.context === this._.context)) {
+        throw new TypeError(format(`
+          Failed to execute 'connect' on 'AudioNode':
+          Cannot connect to a destination belonging to a different AudioContext.
+        `));
+      }
+      if (!(output < this.numberOfOutputs)) {
+        throw new TypeError(format(`
+          Failed to execute 'connect' on 'AudioNode':
+          The output must be less than number of outputs (${ this.numberOfOutputs }), but got ${ output }.
+        `));
+      }
+      if (destination instanceof api.AudioNode) {
+        if (!(input < destination.numberOfInputs)) {
+          throw new TypeError(format(`
+            Failed to execute 'connect' on 'AudioNode':
+            The input must be less than number of destination's inputs (${ destination.numberOfInputs }), but got ${ input }.
+          `));
+        }
+      } else {
+        input = 0;
+      }
+
       if (destination instanceof api.AudioNode) {
         if (!api.get("/AudioNode/connect/void")) {
           return destination;
@@ -114,6 +167,7 @@ function create(api, EventTarget) {
     }
 
     disconnect(...args) {
+      // TODO: selective disconnect ??
       void(this, args);
     }
   }

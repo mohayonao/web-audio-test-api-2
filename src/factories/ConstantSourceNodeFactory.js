@@ -26,7 +26,7 @@ function create(api, AudioScheduledSourceNode) {
       } finally { lock.lock(); }
 
       this._.offset = new api.AudioParam(context, {
-        name: "offset", defaultValue: DEFAULT_OFFSET, value: offset
+        name: "ConstantSource.offset", defaultValue: DEFAULT_OFFSET, value: offset
       });
     }
 

@@ -201,22 +201,22 @@ function initialize(api, context, opts) {
   this._.coneOuterAngle = coneOuterAngle;
   this._.coneOuterGain = coneOuterGain;
   this._.positionX = new api.AudioParam(context, {
-    name: "positionX", defaultValue: DEFAULT_POSITION_X, value: positionX
+    name: "Panner.positionX", defaultValue: DEFAULT_POSITION_X, value: positionX
   });
   this._.positionY = new api.AudioParam(context, {
-    name: "positionY", defaultValue: DEFAULT_POSITION_Y, value: positionY
+    name: "Panner.positionY", defaultValue: DEFAULT_POSITION_Y, value: positionY
   });
   this._.positionZ = new api.AudioParam(context, {
-    name: "positionZ", defaultValue: DEFAULT_POSITION_Z, value: positionZ
+    name: "Panner.positionZ", defaultValue: DEFAULT_POSITION_Z, value: positionZ
   });
   this._.orientationX = new api.AudioParam(context, {
-    name: "orientationX", defaultValue: DEFAULT_ORIENTATION_X, value: orientationX
+    name: "Panner.orientationX", defaultValue: DEFAULT_ORIENTATION_X, value: orientationX
   });
   this._.orientationY = new api.AudioParam(context, {
-    name: "orientationY", defaultValue: DEFAULT_ORIENTATION_Y, value: orientationY
+    name: "Panner.orientationY", defaultValue: DEFAULT_ORIENTATION_Y, value: orientationY
   });
   this._.orientationZ = new api.AudioParam(context, {
-    name: "orientationZ", defaultValue: DEFAULT_ORIENTATION_Z, value: orientationZ
+    name: "Panner.orientationZ", defaultValue: DEFAULT_ORIENTATION_Z, value: orientationZ
   });
 }
 
