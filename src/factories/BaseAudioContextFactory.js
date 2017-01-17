@@ -295,7 +295,7 @@ function create(api, EventTarget) {
      * @param {object} constraints
      * @return {PeriodicWave}
      */
-    createPeriodicWave(real, imag, constraints) {
+    createPeriodicWave(real, imag, constraints = {}) {
       return lock.tr(() => new api.PeriodicWave(this, { real, imag, constraints }));
     }
 
