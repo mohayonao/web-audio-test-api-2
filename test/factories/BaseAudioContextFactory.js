@@ -477,7 +477,7 @@ describe("BaseAudioContextFactory", () => {
         const context = new api.BaseAudioContext({
           numberOfChannels: 2, sampleRate: 44100
         });
-        const node = context.createPeriodicWave([ 0, 0 ], [ 0, 1 ]);
+        const node = context.createPeriodicWave(new Float32Array([ 0, 0 ]), new Float32Array([ 0, 1 ]));
 
         assert(node instanceof api.PeriodicWave);
       });

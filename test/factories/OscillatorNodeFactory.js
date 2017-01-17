@@ -124,7 +124,10 @@ describe("OscillatorNodeFactory", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
         const node = new api.OscillatorNode(context, {});
-        const wave = new api.PeriodicWave([ 0, 0 ], [ 0, 1 ]);
+        const wave = new api.PeriodicWave(context, {
+          real: new Float32Array([ 0, 0 ]),
+          imag: new Float32Array([ 0, 1 ]),
+        });
 
         node.setPeriodicWave(wave);
       });
@@ -286,7 +289,10 @@ describe("OscillatorNodeFactory", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
         const node = new api.OscillatorNode(context, {});
-        const wave = new api.PeriodicWave([ 0, 0 ], [ 0, 1 ]);
+        const wave = new api.PeriodicWave(context, {
+          real: new Float32Array([ 0, 0 ]),
+          imag: new Float32Array([ 0, 1 ])
+        });
 
         node.setWaveTable(wave);
       });

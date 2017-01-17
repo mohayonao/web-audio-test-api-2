@@ -30,7 +30,7 @@ describe("AudioContextFactory", () => {
         assert(context instanceof api.BaseAudioContext);
       });
 
-      it("new instance", () => {
+      it("new instance without BaseAudioContext", () => {
         const api = testTools.createAPI({ "disabled": "/BaseAudioContext" });
         const context = new api.AudioContext();
 
@@ -262,7 +262,7 @@ describe("AudioContextFactory", () => {
       it("works", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
-        const node = context.createWaveTable([ 0, 0 ], [ 0, 1 ]);
+        const node = context.createWaveTable(new Float32Array([ 0, 0 ]), new Float32Array([ 0, 1 ]));
 
         assert(node instanceof api.PeriodicWave);
       });

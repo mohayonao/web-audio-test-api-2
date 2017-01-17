@@ -173,7 +173,7 @@ describe("AudioParamFactory", () => {
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
-        assert(param.setValueCurveAtTime([ 0, 0.5 ], 1, 2) === param);
+        assert(param.setValueCurveAtTime(new Float32Array([ 0, 0.5 ]), 1, 2) === param);
       });
 
       it("/AudioParam/setValueCurveAtTime/void: true", () => {
@@ -181,7 +181,7 @@ describe("AudioParamFactory", () => {
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
-        assert(typeof param.setValueCurveAtTime([ 0, 0.5 ], 1, 2) === "undefined");
+        assert(typeof param.setValueCurveAtTime(new Float32Array([ 0, 0.5 ]), 1, 2) === "undefined");
       });
     });
 

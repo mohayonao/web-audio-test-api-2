@@ -21,7 +21,7 @@ describe("PeriodicWaveFactory", () => {
       it("audioContext.createPeriodicWave()", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
-        const node = context.createPeriodicWave([ 0, 0 ], [ 0, 1 ]);
+        const node = context.createPeriodicWave(new Float32Array([ 0, 0 ]), new Float32Array([ 0, 1 ]));
 
         assert(node instanceof api.PeriodicWave);
       });
@@ -30,7 +30,7 @@ describe("PeriodicWaveFactory", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
         const node = new api.PeriodicWave(context, {
-          real: [ 0, 0 ], imag: [ 0, 1 ]
+          real: new Float32Array([ 0, 0 ]), imag: new Float32Array([ 0, 1 ])
         });
 
         assert(node instanceof api.PeriodicWave);
@@ -42,7 +42,7 @@ describe("PeriodicWaveFactory", () => {
 
         assert.throws(() => {
           return new api.PeriodicWave(context, {
-            real: [ 0, 0 ], imag: [ 0, 1 ]
+            real: new Float32Array([ 0, 0 ]), imag: new Float32Array([ 0, 1 ])
           });
         }, TypeError);
       });

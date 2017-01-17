@@ -115,7 +115,7 @@ describe("OfflineAudioContextFactory", () => {
         context.onstatechange = handler1;
         context.addEventListener("statechange", handler2);
 
-        return context.suspend().then(() => {
+        return context.suspend(0).then(() => {
           assert(context.state === "suspended");
           assert(handler1.callCount === 1);
           assert(handler2.callCount === 1);
