@@ -29,7 +29,7 @@ describe("BaseAudioContextFactory", () => {
       });
 
       it("new instance, but Illegal constructor", () => {
-        const api = testTools.createAPI({ illegal: true });
+        const api = testTools.createAPI({ protected: true });
 
         assert.throws(() => {
           return new api.BaseAudioContext({

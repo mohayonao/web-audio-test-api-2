@@ -17,8 +17,7 @@ function createAPI(opts = {}) {
         if (opts["merge"]) {
           Object.assign(spec[apiPath], specs[specName].spec[apiPath]);
         }
-        if (opts["illegal"] && /^\/\w+$/.test(apiPath)) {
-          spec[apiPath]["constructor"] = "illegal";
+        if (opts["protected"] && /^\/\w+$/.test(apiPath)) {
           spec[apiPath]["protected"] = true;
         }
         if (opts["disabled"]) {

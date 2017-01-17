@@ -37,7 +37,7 @@ describe("PeriodicWaveFactory", () => {
       });
 
       it("new instance, but Illegal constructor", () => {
-        const api = testTools.createAPI({ illegal: true });
+        const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
         assert.throws(() => {
