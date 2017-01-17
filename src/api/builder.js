@@ -6,6 +6,7 @@ const classprop = require("./classprop");
 const whitelist = require("./whitelist");
 const installer = require("./installer");
 const lock = require("../utils/lock");
+const format = require("../utils/format");
 const typeChecker = require("../utils/typeChecker");
 
 function apply(api, [ apiSpec, options = {} ]) {
@@ -61,32 +62,39 @@ function _protected(apiSpec, path) {
 function deprecated(apiSpec, path) {
   if (apiSpec[path] && apiSpec[path]["JSDoc"]) {
     if (apiSpec[path]["JSDoc"]["deprecated"] && apiSpec[path]["deprecated"]) {
-      let [ className, methodName ] = path.split("/").slice(1);
+      const [ className, methodName ] = path.split("/").slice(1);
+      const message = methodName ?
+        `
+          Failed to execute '${ methodName }' on '${ className }'.
+          The ${ methodName } is deprecated.
+        `
+        :
+        `
+          Failed to construct '${ className }'.
+          The ${ className } is deprecated.
+        `;
 
-      if (!methodName) {
-        methodName = "constructor";
-      }
-
-      throw new TypeError(`
-        Failed to execute '${ methodName }' on '${ className }'.
-        The ${ methodName } is deprecated.
-      `.trim().replace(/^\s+/gm, "\t\t"));
+      throw new TypeError(format(message));
     }
   }
 }
 
 function typecheck(api, path, type, value, name) {
   if (!typeChecker.check(api, type, value)) {
-    let [ className, methodName ] = path.split("/").slice(1);
+    const [ className, methodName ] = path.split("/").slice(1);
+    const caption = methodName ?
+      name === "value" ?
+      `Failed to set the '${ methodName }' property on '${ className }'`
+      :
+      `Failed to execute '${ methodName }' on ${ className }`
+      :
+      `Failed to construct '${ className }'`;
+    const message = `
+      ${ caption }:
+      The parameter '${ name }' must be ${ type }, but got ${ typeChecker.toString(value) }.
+    `;
 
-    if (!methodName) {
-      methodName = "constructor";
-    }
-
-    throw new TypeError(`
-      Failed to execute '${ methodName }' on '${ className }'.
-      The parameter '${ name }' should be ${ type }, but got ${ typeChecker.toString(value) }.
-    `.trim().replace(/^\s+/gm, "\t\t"));
+    throw new TypeError(format(message));
   }
 }
 
