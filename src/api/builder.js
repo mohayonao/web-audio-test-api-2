@@ -10,7 +10,8 @@ const lock = require("../utils/lock");
 function apply(api, [ apiSpec, options = {} ]) {
   api.get = (path) => getAPISpec(apiSpec, path);
   api.set = (path, value) => setAPISpec(apiSpec, path, value);
-  api.protected = (path) => checkIllegalConstructor(apiSpec, path);
+  api.protected = (path) => _protected(apiSpec, path);
+  api.deprecated = (path) => deprecated(apiSpec, path);
 
   namespace.apply(api, [ apiSpec, options ]);
   readonly .apply(api, [ apiSpec, options ]);
@@ -47,10 +48,23 @@ function setAPISpec(apiSpec, path, value) {
   return value;
 }
 
-function checkIllegalConstructor(apiSpec, path) {
+function _protected(apiSpec, path) {
   if (lock.isLocked() && apiSpec[path] && apiSpec[path]["JSDoc"]) {
     if (apiSpec[path]["JSDoc"]["protected"] && apiSpec[path]["protected"]) {
       throw new TypeError("Illegal constructor");
+    }
+  }
+}
+
+function deprecated(apiSpec, path) {
+  if (apiSpec[path] && apiSpec[path]["JSDoc"]) {
+    if (apiSpec[path]["JSDoc"]["deprecated"] && apiSpec[path]["deprecated"]) {
+      const [ className, methodName ] = path.split("/").slice(1);
+
+      throw new TypeError(`
+        Failed to execute '${ methodName }' on '${ className }'.
+        The ${ methodName } is deprecated.
+      `.trim().replace(/^\s+/gm, "\t\t"));
     }
   }
 }
