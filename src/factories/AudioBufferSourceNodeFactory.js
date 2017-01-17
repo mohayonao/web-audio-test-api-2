@@ -14,21 +14,21 @@ function create(api, AudioScheduledSourceNode) {
   class AudioBufferSourceNode extends AudioScheduledSourceNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {AudioBuffer?} opts.buffer
+     * @param {number} opts.playbackRate
+     * @param {number} opts.detune
+     * @param {boolean} opts.loop
+     * @param {number} opts.loopStart
+     * @param {number} opts.loopEnd
      */
     constructor(context, opts = {}) {
-      /** @type {AudioBuffer?} */
       const buffer = defaults(opts.buffer, null);
-      /** @type {number} */
       const playbackRate = defaults(opts.playbackRate, DEFAULT_PLAYBACK_RATE);
-      /** @type {number} */
       const detune = defaults(opts.detune, DEFAULT_DETUNE);
-      /** @type {boolean} */
       const loop = defaults(opts.loop, DEFAULT_LOOP);
-      /** @type {number} */
       const loopStart = defaults(opts.loopStart, DEFAULT_LOOP_START);
-      /** @type {number} */
       const loopEnd = defaults(opts.loopEnd, DEFAULT_LOOP_END);
 
       try { lock.unlock();
@@ -115,9 +115,9 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @param {number} [when]
-     * @param {number} [offset]
-     * @param {number} [duration]
+     * @param {number} when
+     * @param {number} offset
+     * @param {number} duration
      * @return {void}
      */
     start(when = 0, offset = 0, duration = Infinity) {
@@ -200,7 +200,7 @@ function create(api, AudioScheduledSourceNode) {
 
     /**
      * @deprecated
-     * @param {number} [when]
+     * @param {number} when
      * @return {void}
      */
     noteOn(when = 0) {
@@ -209,9 +209,9 @@ function create(api, AudioScheduledSourceNode) {
 
     /**
      * @deprecated
-     * @param {number} [when]
-     * @param {number} [grainOffset]
-     * @param {number} [grainDuration]
+     * @param {number} when
+     * @param {number} grainOffset
+     * @param {number} grainDuration
      * @return {void}
      */
     noteGrainOn(when = 0, grainOffset = 0, grainDuration = 0) {
@@ -220,7 +220,7 @@ function create(api, AudioScheduledSourceNode) {
 
     /**
      * @deprecated
-     * @param {number} [when]
+     * @param {number} when
      * @return {void}
      */
     noteOff(when = 0) {

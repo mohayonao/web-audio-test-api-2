@@ -6,9 +6,9 @@ function create(api, AudioNode) {
   class AudioSourceNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
-     * @param {Object} [config]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {object} config
      */
     constructor(context, opts = {}, config = {}) {
       try { lock.unlock();

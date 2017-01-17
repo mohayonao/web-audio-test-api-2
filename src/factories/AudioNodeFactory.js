@@ -9,9 +9,12 @@ function create(api, EventTarget) {
   class AudioNode extends EventTarget {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
-     * @param {Object} [config]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.channelCount
+     * @param {ChannelCountMode} opts.channelCountMode
+     * @param {ChannelInterpretation} opts.channelInterpretation
+     * @param {object} config
      */
     constructor(context, opts = {}, config = {}) {
       const inputs = defaults(config.inputs, []);
@@ -20,11 +23,8 @@ function create(api, EventTarget) {
       const allowedMaxChannelCount = defaults(config.allowedMaxChannelCount, 32);
       const allowedChannelCountMode = defaults(config.allowedChannelCountMode, [ ChannelCountMode.MAX, ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ]);
       const allowedChannelInterpretation = defaults(config.allowedChannelInterpretation, [ ChannelInterpretation.DISCRETE, ChannelInterpretation.SPEAKERS ]);
-      /** @type {number} */
       const channelCount = defaults(opts.channelCount, config.channelCount, 1);
-      /** @type {ChannelCountMode} */
       const channelCountMode = defaults(opts.channelCountMode, config.channelCountMode, ChannelCountMode.MAX);
-      /** @type {ChannelInterpretation} */
       const channelInterpretation = defaults(opts.channelInterpretation, config.channelInterpretation, ChannelInterpretation.SPEAKERS);
 
       try { lock.unlock();
@@ -100,8 +100,8 @@ function create(api, EventTarget) {
 
     /**
      * @param {AudioNode|AudioParam} destination
-     * @param {number} [output]
-     * @param {number} [input]
+     * @param {number} output
+     * @param {number} input
      * @return {AudioNode}
      */
     connect(destination, output = 0, input = 0) {

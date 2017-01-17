@@ -10,11 +10,11 @@ function create(api, AudioNode) {
   class GainNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.gain
      */
     constructor(context, opts = {}) {
-      /** @type {number} */
       const gain = defaults(opts.gain, DEFAULT_GAIN);
 
       try { lock.unlock();

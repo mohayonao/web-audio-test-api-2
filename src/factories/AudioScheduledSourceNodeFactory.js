@@ -6,9 +6,9 @@ function create(api, AudioNode) {
   class AudioScheduledSourceNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
-     * @param {Object} [config]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {object} config
      */
     constructor(context, opts = {}, config = {}) {
       try { lock.unlock();
@@ -31,7 +31,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @param {number} [when]
+     * @param {number} when
      * @return {void}
      */
     start(when = 0) {
@@ -39,7 +39,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @param {number} [when]
+     * @param {number} when
      * @return {void}
      */
     stop(when = 0) {

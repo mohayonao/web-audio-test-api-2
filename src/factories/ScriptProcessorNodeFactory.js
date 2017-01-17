@@ -12,15 +12,15 @@ function create(api, AudioNode) {
   class ScriptProcessorNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.bufferSize
+     * @param {number} opts.numberOfInputChannels
+     * @param {number} opts.numberOfOutputChannels
      */
     constructor(context, opts = {}) {
-      /** @type {number} */
       const bufferSize = defaults(opts.bufferSize, DEFAULT_BUFFER_SIZE);
-      /** @type {number} */
       const numberOfInputChannels = defaults(opts.numberOfInputChannels, DEFAULT_NUMBER_OF_INPUT_CHANNELS);
-      /** @type {number} */
       const numberOfOutputChannels = defaults(opts.numberOfOutputChannels, DEFAULT_NUMBER_OF_OUTPUT_CHANNELS);
 
       try { lock.unlock();

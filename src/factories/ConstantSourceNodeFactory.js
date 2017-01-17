@@ -10,11 +10,11 @@ function create(api, AudioScheduledSourceNode) {
   class ConstantSourceNode extends AudioScheduledSourceNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.offset
      */
     constructor(context, opts = {}) {
-      /** @type {number} */
       const offset = defaults(opts.offset, DEFAULT_OFFSET);
 
       try { lock.unlock();

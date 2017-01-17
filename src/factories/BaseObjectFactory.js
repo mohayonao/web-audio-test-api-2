@@ -1,7 +1,6 @@
 "use strict";
 
-/* eslint-disable */
-function create(api) {
+function create() {
   class BaseObject {
     constructor() {
       this._ = {};
@@ -10,6 +9,5 @@ function create(api) {
   }
   return BaseObject;
 }
-/* eslint-enable */
 
 module.exports = { create };

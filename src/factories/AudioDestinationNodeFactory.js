@@ -10,11 +10,11 @@ function create(api, AudioNode) {
   class AudioDestinationNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.numberOfChannels
      */
     constructor(context, opts = {}) {
-      /** @type {number} */
       const numberOfChannels = defaults(opts.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
 
       try { lock.unlock();

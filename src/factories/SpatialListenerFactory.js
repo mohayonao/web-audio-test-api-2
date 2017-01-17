@@ -6,8 +6,8 @@ function create(api, BaseObject) {
   class SpatialListener extends BaseObject {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
      */
     constructor(context, opts = {}) {
       try { lock.unlock();

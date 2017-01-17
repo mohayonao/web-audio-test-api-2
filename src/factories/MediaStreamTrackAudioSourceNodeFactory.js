@@ -7,11 +7,11 @@ function create(api, AudioNode) {
   class MediaStreamTrackAudioSourceNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {AudioMediaStreamTrack} opts.mediaStreamTrack
      */
     constructor(context, opts = {}) {
-      /** @type {AudioMediaStreamTrack} */
       const mediaStreamTrack = defaults(opts.mediaStreamTrack, null);
 
       try { lock.unlock();

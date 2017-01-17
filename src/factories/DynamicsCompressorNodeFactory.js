@@ -14,19 +14,19 @@ function create(api, AudioNode) {
   class DynamicsCompressorNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.threshold
+     * @param {number} opts.knee
+     * @param {number} opts.ratio
+     * @param {number} opts.attack
+     * @param {number} opts.release
      */
     constructor(context, opts = {}) {
-      /** @type {number} */
       const threshold = defaults(opts.threshold, DEFAULT_THRESHOLD);
-      /** @type {number} */
       const knee = defaults(opts.knee, DEFAULT_KNEE);
-      /** @type {number} */
       const ratio = defaults(opts.ratio, DEFAULT_RATIO);
-      /** @type {number} */
       const attack = defaults(opts.attack, DEFAULT_ATTACK);
-      /** @type {number} */
       const release = defaults(opts.release, DEFAULT_RELEASE);
       const reduction = 0;
 

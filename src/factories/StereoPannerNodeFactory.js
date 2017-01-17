@@ -10,11 +10,11 @@ function create(api, AudioNode) {
   class StereoPannerNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.pan
      */
     constructor(context, opts = {}) {
-      /** @type {number} */
       const pan = defaults(opts.pan, DEFAULT_PAN);
 
       try { lock.unlock();

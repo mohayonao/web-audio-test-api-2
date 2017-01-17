@@ -8,13 +8,13 @@ function create(api, AudioNode) {
   class IIRFilterNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number[]} opts.feedforward
+     * @param {number[]} opts.feedback
      */
     constructor(context, opts = {}) {
-      /** @type {number[]} */
       const feedforward = defaults(opts.feedforward, null);
-      /** @type {number[]} */
       const feedback = defaults(opts.feedback, null);
 
       try { lock.unlock();

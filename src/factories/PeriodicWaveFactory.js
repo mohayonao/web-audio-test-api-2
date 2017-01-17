@@ -7,13 +7,13 @@ function create(api, BaseObject) {
   class PeriodicWave extends BaseObject {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {Float32Array} opts.real
+     * @param {Float32Array} opts.imag
      */
     constructor(context, opts = {}) {
-      /** @type {Float32Array} */
       const real = defaults(opts.real, null);
-      /** @type {Float32Array} */
       const imag = defaults(opts.imag, null);
 
       try { lock.unlock();

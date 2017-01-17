@@ -11,13 +11,13 @@ function create(api, AudioNode) {
   class DelayNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.maxDelayTime
+     * @param {number} opts.delayTime
      */
     constructor(context, opts = {}) {
-      /** @type {number} */
       const maxDelayTime = defaults(opts.maxDelayTime, DEFAULT_MAX_DELAY_TIME);
-      /** @type {number} */
       const delayTime = defaults(opts.delayTime, DEFAULT_DELAY_TIME);
 
       try { lock.unlock();

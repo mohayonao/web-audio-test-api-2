@@ -10,11 +10,11 @@ function create(api, AudioNode) {
   class ChannelSplitterNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.numberOfOutputs
      */
     constructor(context, opts = {}) {
-      /** @type {number} */
       const numberOfOutputs = defaults(opts.numberOfOutputs, DEFAULT_NUMBER_OF_OUTPUTS);
 
       try { lock.unlock();

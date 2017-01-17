@@ -12,7 +12,7 @@ function create(api, EventTarget) {
   class BaseAudioContext extends EventTarget {
     /**
      * @protected
-     * @param {Object} [opts]
+     * @param {object} opts
      */
     constructor(opts = {}) {
       try { lock.unlock();
@@ -176,9 +176,9 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} [bufferSize]
-     * @param {number} [numberOfInputChannels]
-     * @param {number} [numberOfOutputChannels]
+     * @param {number} bufferSize
+     * @param {number} numberOfInputChannels
+     * @param {number} numberOfOutputChannels
      * @return {ScriptProcessorNode}
      */
     createScriptProcessor(bufferSize = 0, numberOfInputChannels = 2, numberOfOutputChannels = 2) {
@@ -200,7 +200,7 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} [maxDelayTime]
+     * @param {number} maxDelayTime
      * @return {DelayNode}
      */
     createDelay(maxDelayTime = 1) {
@@ -259,7 +259,7 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} [numberOfOutputs]
+     * @param {number} numberOfOutputs
      * @return {ChannelSplitterNode}
      */
     createChannelSplitter(numberOfOutputs = 6) {
@@ -267,7 +267,7 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} [numberOfInputs]
+     * @param {number} numberOfInputs
      * @return {ChannelMergerNode}
      */
     createChannelMerger(numberOfInputs = 6) {
@@ -291,7 +291,7 @@ function create(api, EventTarget) {
     /**
      * @param {Float32Array} real
      * @param {Float32Array} imag
-     * @param {Object} [constraints]
+     * @param {object} constraints
      * @return {PeriodicWave}
      */
     createPeriodicWave(real, imag, constraints) {

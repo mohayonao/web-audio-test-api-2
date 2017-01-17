@@ -10,8 +10,8 @@ function create(api, BaseObject) {
   class AudioParam extends BaseObject {
     /**
      * @protected
-     * @param {AudioNode} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
      */
     constructor(context, opts = {}) {
       const name = defaults(opts.name, "");

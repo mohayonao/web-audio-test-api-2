@@ -13,17 +13,17 @@ function create(api, AudioNode) {
   class AnalyserNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} opts
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.fftSize
+     * @param {number} opts.minDecibels
+     * @param {number} opts.maxDecibels
+     * @param {number} opts.smoothingTimeConstant
      */
     constructor(context, opts = {}) {
-      /** @type {number} */
       const fftSize = defaults(opts.fftSize, DEFAULT_FFT_SIZE);
-      /** @type {number} */
       const minDecibels = defaults(opts.minDecibels, DEFAULT_MIN_DECIBELS);
-      /** @type {number} */
       const maxDecibels = defaults(opts.maxDecibels, DEFAULT_MAX_DECIBELS);
-      /** @type {number} */
       const smoothingTimeConstant = defaults(opts.smoothingTimeConstant, DEFAULT_SMOOTHING_TIME_CONSTANT);
 
       try { lock.unlock();

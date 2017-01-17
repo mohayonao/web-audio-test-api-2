@@ -13,9 +13,7 @@ const DEFAULT_SAMPLE_RATE = 44100;
 function create(api, BaseAudioContext) {
   class AudioContext extends BaseAudioContext {
     constructor() {
-      /** @type {number} */
       const numberOfChannels = defaults(api.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
-      /** @type {number} */
       const sampleRate = defaults(api.sampleRate, DEFAULT_SAMPLE_RATE);
 
       try { lock.unlock();
@@ -45,7 +43,7 @@ function create(api, BaseAudioContext) {
     }
 
     /**
-     * @return {Object}
+     * @return {object}
      */
     getOutputTimestamp() {
       const contextTime = this.currentTime + 0.01795;
@@ -139,9 +137,9 @@ function create(api, BaseAudioContext) {
 
     /**
      * @deprecated
-     * @param {number} [bufferSize]
-     * @param {number} [numberOfInputChannels]
-     * @param {number} [numberOfOutputChannels]
+     * @param {number} bufferSize
+     * @param {number} numberOfInputChannels
+     * @param {number} numberOfOutputChannels
      * @return {ScriptProcessorNode}
      */
     createJavaScriptNode(bufferSize = 0, numberOfInputChannels = 0, numberOfOutputChannels = 0) {
@@ -158,7 +156,7 @@ function create(api, BaseAudioContext) {
 
     /**
      * @deprecated
-     * @param {number} [maxDelayTime]
+     * @param {number} maxDelayTime
      * @return {DelayNode}
      */
     createDelayNode(maxDelayTime = 1) {

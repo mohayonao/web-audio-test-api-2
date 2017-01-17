@@ -11,13 +11,13 @@ function create(api, AudioNode) {
   class WaveShaperNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {Float32Array?} opts.curve
+     * @param {OverSampleType} opts.oversample
      */
     constructor(context, opts = {}) {
-      /** @type {Float32Array?} */
       const curve = defaults(opts.curve, null);
-      /** @type {OverSampleType} */
       const oversample = defaults(opts.oversample, DEFAULT_OVERSAMPLE);
 
       try { lock.unlock();

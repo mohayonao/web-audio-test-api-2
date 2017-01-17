@@ -13,17 +13,17 @@ function create(api, AudioNode) {
   class OscillatorNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {OscillatorType} opts.type
+     * @param {number} opts.frequency
+     * @param {number} opts.detune
+     * @param {PeriodicWave?} opts.periodicWave
      */
     constructor(context, opts = {}) {
-      /** @type {OscillatorType} */
       const type = defaults(opts.type, DEFAULT_TYPE);
-      /** @type {number} */
       const frequency = defaults(opts.frequency, DEFAULT_FREQUENCY);
-      /** @type {number} */
       const detune = defaults(opts.detune, DEFAULT_DETUNE);
-      /** @type {PeriodicWave?} */
       const periodicWave = defaults(opts.periodicWave, null);
 
       try { lock.unlock();
@@ -175,7 +175,7 @@ function create(api, AudioNode) {
 
     /**
      * @deprecated
-     * @param {number} [when]
+     * @param {number} when
      * @return {void}
      */
     noteOn(when = 0) {
@@ -184,7 +184,7 @@ function create(api, AudioNode) {
 
     /**
      * @deprecated
-     * @param {number} [when]
+     * @param {number} when
      * @return {void}
      */
     noteOff(when = 0) {

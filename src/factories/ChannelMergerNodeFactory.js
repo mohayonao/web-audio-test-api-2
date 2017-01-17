@@ -10,11 +10,11 @@ function create(api, AudioNode) {
   class ChannelMergerNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.numberOfInputs
      */
     constructor(context, opts = {}) {
-      /** @type {number} */
       const numberOfInputs = defaults(opts.numberOfInputs, DEFAULT_NUMBER_OF_INPUTS);
 
       try { lock.unlock();

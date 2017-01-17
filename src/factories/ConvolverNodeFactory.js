@@ -10,13 +10,13 @@ function create(api, AudioNode) {
   class ConvolverNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {AudioBuffer?} opts.buffer
+     * @param {boolean} opts.disableNormalization
      */
     constructor(context, opts = {}) {
-      /** @type {AudioBuffer?} */
       const buffer = defaults(opts.buffer, null);
-      /** @type {boolean} */
       const disableNormalization = defaults(opts.disableNormalization, DEFAULT_DISABLE_NORMALIZATION);
 
       try { lock.unlock();

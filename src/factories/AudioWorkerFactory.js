@@ -7,8 +7,8 @@ function create(api, Worker) {
   class AudioWorker extends Worker {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
      */
     constructor(context, opts = {}) {
       try { lock.unlock();

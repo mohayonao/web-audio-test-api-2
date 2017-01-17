@@ -7,11 +7,11 @@ function create(api, AudioNode) {
   class MediaElementAudioSourceNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {HTMLMediaElement} opts.mediaElement
      */
     constructor(context, opts = {}) {
-      /** @type {HTMLMediaElement} */
       const mediaElement = defaults(opts.mediaElement, null);
 
       try { lock.unlock();

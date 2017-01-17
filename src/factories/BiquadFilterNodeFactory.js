@@ -15,19 +15,19 @@ function create(api, AudioNode) {
   class BiquadFilterNode extends AudioNode {
     /**
      * @protected
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {BiquadFilterType} opts.type
+     * @param {number} opts.frequency
+     * @param {number} opts.detune
+     * @param {number} opts.Q
+     * @param {number} opts.gain
      */
     constructor(context, opts = {}) {
-      /** @type {BiquadFilterType} */
       const type = defaults(opts.type, DEFAULT_TYPE);
-      /** @type {number} */
       const frequency = defaults(opts.frequency, DEFAULT_FREQUENCY);
-      /** @type {number} */
       const detune = defaults(opts.detune, DEFAULT_DETUNE);
-      /** @type {number} */
       const Q = defaults(opts.Q, DEFAULT_Q);
-      /** @type {number} */
       const gain = defaults(opts.gain, DEFAULT_GAIN);
 
       try { lock.unlock();
