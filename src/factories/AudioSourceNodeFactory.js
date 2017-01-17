@@ -13,9 +13,8 @@ function create(api, AudioNode) {
     constructor(context, opts = {}, config = {}) {
       try { lock.unlock();
         super(context, opts, config);
+        this._.className = "AudioSourceNode";
       } finally { lock.lock(); }
-
-      this._.className = "AudioSourceNode";
     }
   }
   return AudioSourceNode;

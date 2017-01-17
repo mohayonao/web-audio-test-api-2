@@ -26,9 +26,8 @@ function create(api, AudioNode) {
           allowedMaxChannelCount: 1,
           allowedChannelCountMode: [ ChannelCountMode.EXPLICIT ],
         });
+        this._.className = "ChannelMergerNode";
       } finally { lock.lock(); }
-
-      this._.className = "ChannelMergerNode";
     }
   }
   return ChannelMergerNode;

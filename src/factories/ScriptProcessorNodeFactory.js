@@ -33,9 +33,9 @@ function create(api, AudioNode) {
           allowedMinChannelCount: numberOfInputChannels,
           allowedChannelCountMode: [ ChannelCountMode.EXPLICIT ]
         });
+        this._.className = "ScriptProcessorNode";
       } finally { lock.lock(); }
 
-      this._.className = "ScriptProcessorNode";
       this._.bufferSize = bufferSize;
       this._.onaudioprocess = null;
     }

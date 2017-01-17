@@ -28,9 +28,9 @@ function create(api, AudioNode) {
           allowedMaxChannelCount: 2,
           allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ],
         });
+        this._.className = "ConvolverNode";
       } finally { lock.lock(); }
 
-      this._.className = "ConvolverNode";
       this._.buffer = buffer;
       this._.normalize = !disableNormalization;
     }

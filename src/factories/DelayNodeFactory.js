@@ -27,9 +27,9 @@ function create(api, AudioNode) {
           channelCount: 2,
           channelCountMode: ChannelCountMode.MAX,
         });
+        this._.className = "DelayNode";
       } finally { lock.lock(); }
 
-      this._.className = "DelayNode";
       this._.maxDelayTime = maxDelayTime;
       this._.delayTime = new api.AudioParam(context, {
         name: "delayTime", defaultValue: DEFAULT_DELAY_TIME, value: delayTime,

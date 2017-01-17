@@ -19,9 +19,9 @@ function create(api, AudioNode) {
           channelCountMode: ChannelCountMode.EXPLICIT,
           allowedChannelCountMode: [ ChannelCountMode.EXPLICIT ],
         });
+        this._.className = "MediaStreamAudioDestinationNode";
       } finally { lock.lock(); }
 
-      this._.className = "MediaStreamAudioDestinationNode";
       this._.stream = new api.MediaStream();
     }
 

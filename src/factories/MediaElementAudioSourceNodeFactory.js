@@ -16,9 +16,9 @@ function create(api, AudioNode) {
 
       try { lock.unlock();
         super(context, opts, { inputs: [], outputs: [ 1 ] });
+        this._.className = "MediaElementAudioSourceNode";
       } finally { lock.lock(); }
 
-      this._.className = "MediaElementAudioSourceNode";
       this._.mediaElement = mediaElement;
     }
 

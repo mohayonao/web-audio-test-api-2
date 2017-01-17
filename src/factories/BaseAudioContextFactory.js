@@ -17,6 +17,7 @@ function create(api, EventTarget) {
     constructor(opts = {}) {
       try { lock.unlock();
         super();
+        this._.className = "BaseAudioContext";
         initialize.call(this, api, opts);
       } finally { lock.lock(); }
     }

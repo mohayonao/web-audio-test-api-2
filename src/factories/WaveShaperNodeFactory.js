@@ -27,9 +27,9 @@ function create(api, AudioNode) {
           channelCount: 2,
           channelCountMode: ChannelCountMode.MAX,
         });
+        this._.className = "WaveShaperNode";
       } finally { lock.lock(); }
 
-      this._.className = "WaveShaperNode";
       this._.curve = curve;
       this._.oversample = oversample;
     }

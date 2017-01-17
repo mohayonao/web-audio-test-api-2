@@ -28,12 +28,12 @@ function create(api, AudioNode) {
 
       try { lock.unlock();
         super(context, opts, { inputs: [], outputs: [ 1 ] });
+        this._.className = "OscillatorNode";
         if (!(this instanceof api.AudioScheduledSourceNode)) {
           initialize.call(this, api, opts);
         }
       } finally { lock.lock(); }
 
-      this._.className = "OscillatorNode";
       this._.type = type;
       this._.frequency = new api.AudioParam(context, {
         name: "frequency", defaultValue: DEFAULT_FREQUENCY, value: frequency,

@@ -24,9 +24,8 @@ function create(api, AudioNode) {
           channelCount: 2,
           channelCountMode: ChannelCountMode.MAX,
         });
+        this._.className = "ChannelSplitterNode";
       } finally { lock.lock(); }
-
-      this._.className = "ChannelSplitterNode";
     }
   }
   return ChannelSplitterNode;

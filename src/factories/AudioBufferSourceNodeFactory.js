@@ -33,12 +33,12 @@ function create(api, AudioScheduledSourceNode) {
 
       try { lock.unlock();
         super(context, opts, { inputs: [], outputs: [ 1 ] });
+        this._.className = "AudioBufferSourceNode";
         if (!(this instanceof api.AudioScheduledSourceNode)) {
           initialize.call(this, api, opts);
         }
       } finally { lock.lock(); }
 
-      this._.className = "AudioBufferSourceNode";
       this._.buffer = buffer;
       this._.playbackRate = new api.AudioParam(context, {
         name: "playbackRate", defaultValue: DEFAULT_PLAYBACK_RATE, value: playbackRate

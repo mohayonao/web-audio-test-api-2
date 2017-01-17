@@ -22,9 +22,9 @@ function create(api, AudioScheduledSourceNode) {
         if (!(this instanceof api.AudioScheduledSourceNode)) {
           initialize.call(this, api, opts);
         }
+        this._.className = "ConstantSourceNode";
       } finally { lock.lock(); }
 
-      this._.className = "ConstantSourceNode";
       this._.offset = new api.AudioParam(context, {
         name: "offset", defaultValue: DEFAULT_OFFSET, value: offset
       });

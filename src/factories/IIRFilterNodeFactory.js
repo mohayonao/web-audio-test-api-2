@@ -24,9 +24,9 @@ function create(api, AudioNode) {
           channelCount: 2,
           channelCountMode: ChannelCountMode.MAX,
         });
+        this._.className = "IIRFilterNode";
       } finally { lock.lock(); }
 
-      this._.className = "IIRFilterNode";
       this._.feedforward = feedforward;
       this._.feedback = feedback;
     }

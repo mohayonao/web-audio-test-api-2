@@ -25,9 +25,9 @@ function create(api, AudioNode) {
           channelCountMode: ChannelCountMode.EXPLICIT,
           allowedMaxChannelCount: numberOfChannels,
         });
+        this._.className = "AudioDestinationNode";
       } finally { lock.lock(); }
 
-      this._.className = "AudioDestinationNode";
       this._.maxChannelCount = numberOfChannels;
     }
 

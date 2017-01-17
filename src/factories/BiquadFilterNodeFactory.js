@@ -37,9 +37,9 @@ function create(api, AudioNode) {
           channelCount: 2,
           channelCountMode: ChannelCountMode.MAX,
         });
+        this._.className = "BiquadFilterNode";
       } finally { lock.lock(); }
 
-      this._.className = "BiquadFilterNode";
       this._.type = type;
       this._.frequency = new api.AudioParam(context, {
         name: "frequency", defaultValue: DEFAULT_FREQUENCY, value: frequency,

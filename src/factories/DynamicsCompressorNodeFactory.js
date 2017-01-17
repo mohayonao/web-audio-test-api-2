@@ -37,9 +37,9 @@ function create(api, AudioNode) {
           channelCount: 2,
           channelCountMode: ChannelCountMode.EXPLICIT,
         });
+        this._.className = "DynamicsCompressorNode";
       } finally { lock.lock(); }
 
-      this._.className = "DynamicsCompressorNode";
       this._.threshold = new api.AudioParam(context, {
         name: "threshold", defaultValue: DEFAULT_THRESHOLD, value: threshold,
         minValue: -100, maxValue: 0

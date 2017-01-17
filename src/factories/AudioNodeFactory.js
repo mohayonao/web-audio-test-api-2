@@ -29,9 +29,9 @@ function create(api, EventTarget) {
 
       try { lock.unlock();
         super(context, opts);
+        this._.className = "AudioNode";
       } finally { lock.lock(); }
 
-      this._.className = "AudioNode";
       this._.context = context;
       this._.inputs = inputs;
       this._.outputs = outputs;

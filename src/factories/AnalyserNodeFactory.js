@@ -33,9 +33,9 @@ function create(api, AudioNode) {
           channelCount: 1,
           channelCountMode: ChannelCountMode.MAX,
         });
+        this._.className = "AnalyserNode";
       } finally { lock.lock(); }
 
-      this._.className = "AnalyserNode";
       this._.fftSize = fftSize;
       this._.minDecibels = minDecibels;
       this._.maxDecibels = maxDecibels;

@@ -13,10 +13,10 @@ function create(api, BaseObject) {
     constructor(context, opts = {}) {
       try { lock.unlock();
         super(context, opts);
+        this._.className = "AudioListener";
         initialize.call(this, api, context, opts);
       } finally { lock.lock(); }
 
-      this._.className = "AudioListener";
       this._.dopplerFactor = 1;
       this._.speedOfSound = 343.3;
       this._.gain = 1;

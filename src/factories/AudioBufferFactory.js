@@ -28,9 +28,9 @@ function create(api, BaseObject) {
 
       try { lock.unlock();
         super();
+        this._.className = "AudioBuffer";
       } finally { lock.lock(); }
 
-      this._.className = "AudioBuffer";
       this._.sampleRate = sampleRate;
       this._.length = length;
       this._.numberOfChannels = numberOfChannels;

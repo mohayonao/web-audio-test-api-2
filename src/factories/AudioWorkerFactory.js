@@ -13,9 +13,8 @@ function create(api, Worker) {
     constructor(context, opts = {}) {
       try { lock.unlock();
         super(context, opts);
+        this._.className = "AudioWorker";
       } finally { lock.lock(); }
-
-      this._.className = "AudioWorker";
     }
 
     get parameters() {

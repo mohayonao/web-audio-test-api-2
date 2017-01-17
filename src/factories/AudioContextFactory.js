@@ -18,12 +18,12 @@ function create(api, BaseAudioContext) {
 
       try { lock.unlock();
         super({ numberOfChannels, sampleRate });
+        this._.className = "AudioContext";
         if (!(this instanceof api.BaseAudioContext)) {
           initialize.call(this, api, { numberOfChannels, sampleRate });
         }
       } finally { lock.lock(); }
 
-      this._.className = "AudioContext";
       this._.state = AudioContextState.RUNNING;
       this._.oncomplete = null;
     }

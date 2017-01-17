@@ -18,9 +18,9 @@ function create(api, BaseObject) {
 
       try { lock.unlock();
         super(context, opts);
+        this._.className = "PeriodicWave";
       } finally { lock.lock(); }
 
-      this._.className = "PeriodicWave";
       this._.real = real;
       this._.imag = imag;
     }

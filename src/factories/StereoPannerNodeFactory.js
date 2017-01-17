@@ -26,9 +26,9 @@ function create(api, AudioNode) {
           allowedMaxChannelCount: 2,
           allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ],
         });
+        this._.className = "StereoPannerNode";
       } finally { lock.lock(); }
 
-      this._.className = "StereoPannerNode";
       this._.pan = new api.AudioParam(context, {
         name: "pan", defaultValue: DEFAULT_PAN, value: pan,
         minValue: -1, maxValue: 1

@@ -24,9 +24,9 @@ function create(api, AudioNode) {
           channelCount: 2,
           channelCountMode: ChannelCountMode.MAX,
         });
+        this._.className = "GainNode";
       } finally { lock.lock(); }
 
-      this._.className = "GainNode";
       this._.gain = new api.AudioParam(context, {
         name: "gain", defaultValue: DEFAULT_GAIN, value: gain
       });

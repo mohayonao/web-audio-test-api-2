@@ -38,10 +38,9 @@ function create(api, AudioNode) {
           allowedMaxChannelCount: 2,
           allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ]
         });
+        this._.className = "SpatialPannerNode";
         initialize.call(this, api, context, opts);
       } finally { lock.lock(); }
-
-      this._.className = "SpatialPannerNode";
     }
 
     /**

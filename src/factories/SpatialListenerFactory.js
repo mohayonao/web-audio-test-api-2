@@ -12,10 +12,10 @@ function create(api, BaseObject) {
     constructor(context, opts = {}) {
       try { lock.unlock();
         super(context, opts);
+        this._.className = "SpatialListener";
         initialize.call(this, api, context, opts);
       } finally { lock.lock(); }
 
-      this._.className = "SpatialListener";
     }
 
     /**

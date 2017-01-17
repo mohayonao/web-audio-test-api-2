@@ -16,9 +16,9 @@ function create(api, AudioNode) {
 
       try { lock.unlock();
         super(context, opts, { inputs: [], outputs: [ 1 ] });
+        this._.className = "MediaStreamAudioSourceNode";
       } finally { lock.lock(); }
 
-      this._.className = "MediaStreamAudioSourceNode";
       this._.mediaStream = mediaStream;
     }
 

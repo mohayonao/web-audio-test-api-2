@@ -22,9 +22,9 @@ function create(api, BaseObject) {
 
       try { lock.unlock();
         super();
+        this._.className = "AudioParam";
       } finally { lock.lock(); }
 
-      this._.className = "AudioParam";
       this._.name = name;
       this._.defaultValue = defaultValue;
       this._.minValue = minValue;
