@@ -1,7 +1,10 @@
 "use strict";
 
 const doctrine = require("doctrine");
-const JSDoc = {};
+
+function format(str) {
+  return str.trim().replace(/^\s+/gm, "\\t\\t").replace(/\n/g, "\\n");
+}
 
 function isEmpty(object) {
   return Object.keys(object).length === 0;
@@ -9,6 +12,10 @@ function isEmpty(object) {
 
 function last(array) {
   return array && array[array.length - 1];
+}
+
+function toMethodName(methodName) {
+  return methodName.split("$")[0];
 }
 
 function toAPIPath(kind, className, methodName) {
@@ -59,15 +66,15 @@ module.exports = ({ template }) => {
       const { node } = path;
       const { kind } = node;
       const className = this.className;
-      const methodName = node.key.name;
+      const methodName = toMethodName(node.key.name);
       const apiPath = toAPIPath(kind, className, methodName);
       const lastComment = last(node.leadingComments);
       const doc = parseJSDoc(lastComment);
       const variables = collectVariables(node.params);
 
-      JSDoc[apiPath] = Object.assign({}, JSDoc[apiPath], doc);
+      this.JSDoc[apiPath] = Object.assign({}, this.JSDoc[apiPath], doc);
 
-      if (isEmpty(JSDoc[apiPath])) {
+      if (isEmpty(this.JSDoc[apiPath])) {
         return;
       }
 
@@ -80,13 +87,13 @@ module.exports = ({ template }) => {
         `)());
       }
 
-      if (JSDoc[apiPath].args && kind === "constructor") {
-        path.traverse(ClassConstructorVisitor, { apiPath, args: JSDoc[apiPath].args });
+      if (this.JSDoc[apiPath].args && kind === "constructor") {
+        path.traverse(ClassConstructorVisitor, { apiPath, args: this.JSDoc[apiPath].args });
       }
 
       // argumnets checker
-      if (JSDoc[apiPath].args && (kind === "set" || kind === "method")) {
-        const lines = JSDoc[apiPath].args.filter(({ name }) => {
+      if (this.JSDoc[apiPath].args && (kind === "set" || kind === "method")) {
+        const lines = this.JSDoc[apiPath].args.filter(({ name }) => {
           return /^[a-z]\w*$/.test(name);
         }).map(({ name, type }) => {
           return `api.typecheck("${ apiPath }", "${ type }", ${ name }, "${ name }");`
@@ -100,19 +107,34 @@ module.exports = ({ template }) => {
       }
 
       // protected
-      if (kind === "constructor" && JSDoc[apiPath]["protected"]) {
+      if (kind === "constructor" && this.JSDoc[apiPath]["protected"]) {
         path.get("body").unshiftContainer("body", template(`
-          if (typeof api.protected === "function") {
-            api.protected("${ apiPath }");
+          if (lock.isLocked() && typeof api.get === "function" && api.get("${ apiPath }/protected")) {
+            throw new TypeError("Illegal constructor");
           }
         `)());
       }
 
       // deprecated
-      if (JSDoc[apiPath]["deprecated"]) {
+      if (this.JSDoc[apiPath]["deprecated"]) {
+        let message = "";
+
+        if (kind === "constructor") {
+          message = `Failed to construct '${ className }':\nThe ${ className } is deprecated.`;
+        }
+        if (kind === "get") {
+          message = `Failed to get the '${ methodName }' property:\nThe ${ methodName } is deprecated.`;
+        }
+        if (kind === "set") {
+          message = `Failed to set the '${ methodName }' property:\nThe ${ methodName } is deprecated.`;
+        }
+        if (kind === "method") {
+          message = `Failed to execute '${ methodName }':\nThe ${ methodName } is deprecated.`;
+        }
+
         path.get("body").unshiftContainer("body", template(`
-          if (typeof api.deprecated === "function") {
-            api.deprecated("${ apiPath }");
+          if (typeof api.get === "function" && api.get("${ apiPath }/deprecated")) {
+            throw new TypeError("${ format(message) }");
           }
         `)());
       }
@@ -154,34 +176,9 @@ module.exports = ({ template }) => {
     visitor: {
       ["ClassDeclaration"](path) {
         const className = path.node.id.name;
+        const JSDoc = {};
 
-        path.traverse(ClassDeclarationVisitor, { className });
-
-        const lines = Object.keys(JSDoc).filter((apiPath) => {
-          return apiPath.startsWith(`/${ className }`);
-        }).map((apiPath) => {
-          const doc = {};
-
-          Object.keys(JSDoc[apiPath]).forEach((key) => {
-            if (JSDoc[apiPath][key] === true) {
-              doc[key] = true;
-            }
-          });
-
-          return { apiPath, doc };
-        }).filter(({ doc }) => {
-          return !isEmpty(doc);
-        }).map(({ apiPath, doc }) => {
-          return `api.set("${ apiPath }/JSDoc", ${ JSON.stringify(doc) });`;
-        });
-
-        if (lines.length) {
-          path.insertAfter(template(`
-            if (typeof api.set === "function") {
-              ${ lines.join("\n") }
-            }
-          `)());
-        }
+        path.traverse(ClassDeclarationVisitor, { className, JSDoc });
       }
     }
   };

@@ -6,14 +6,11 @@ const classprop = require("./classprop");
 const whitelist = require("./whitelist");
 const installer = require("./installer");
 const format = require("../utils/format");
-const lock = require("../utils/lock");
 const stringify = require("../utils/stringify");
 
 function apply(api, [ spec, options = {} ]) {
   api.get = (path) => getSpec(spec, path);
   api.set = (path, value) => setSpec(spec, path, value);
-  api.protected = (path) => _protected(spec, path);
-  api.deprecated = (path) => deprecated(spec, path);
   api.typecheck = (path, type, value, name) => typecheck(api, path, type, value, name);
 
   namespace.apply(api, [ spec, options ]);
@@ -49,34 +46,6 @@ function setSpec(spec, path, value) {
   }
 
   return value;
-}
-
-function _protected(spec, path) {
-  if (lock.isLocked() && spec[path] && spec[path]["JSDoc"]) {
-    if (spec[path]["JSDoc"]["protected"] && spec[path]["protected"]) {
-      throw new TypeError("Illegal constructor");
-    }
-  }
-}
-
-function deprecated(spec, path) {
-  if (spec[path] && spec[path]["JSDoc"]) {
-    if (spec[path]["JSDoc"]["deprecated"] && spec[path]["deprecated"]) {
-      const [ className, methodName ] = path.split("/").slice(1);
-      const message = methodName ?
-        `
-          Failed to execute '${ methodName }' on '${ className }'.
-          The ${ methodName } is deprecated.
-        `
-        :
-        `
-          Failed to construct '${ className }'.
-          The ${ className } is deprecated.
-        `;
-
-      throw new TypeError(format(message));
-    }
-  }
 }
 
 function typecheck(api, path, type, value, name) {
