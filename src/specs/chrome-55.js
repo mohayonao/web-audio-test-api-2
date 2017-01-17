@@ -3,7 +3,7 @@
 const name = "chrome:55";
 
 const apiSpec = {
-  "/BaseAudioContext": { "global": false, "constructor": "illegal" },
+  "/BaseAudioContext": { "global": false, "protected": true },
   "/BaseAudioContext/createAnalyser": {},
   "/BaseAudioContext/createBiquadFilter": {},
   "/BaseAudioContext/createBuffer": {},
@@ -44,7 +44,7 @@ const apiSpec = {
   "/OfflineAudioContext/startRendering": {},
   "/OfflineAudioContext/suspend": {},
 
-  "/AudioNode": { "global": "AudioNode", "constructor": "illegal" },
+  "/AudioNode": { "global": "AudioNode", "protected": true },
   "/AudioNode/channelCount": {},
   "/AudioNode/channelCountMode": {},
   "/AudioNode/channelInterpretation": {},
@@ -54,9 +54,9 @@ const apiSpec = {
   "/AudioNode/numberOfInputs": {},
   "/AudioNode/numberOfOutputs": {},
 
-  "/AudioSourceNode": { "global": false, "constructor": "illegal" },
+  "/AudioSourceNode": { "global": false, "protected": true },
 
-  "/AudioDestinationNode": { "global": "AudioDestinationNode", "constructor": "illegal" },
+  "/AudioDestinationNode": { "global": "AudioDestinationNode", "protected": true },
   "/AudioDestinationNode/maxChannelCount": {},
 
   "/AudioParam": { "global": "AudioParam" },
@@ -100,7 +100,7 @@ const apiSpec = {
   "/MediaElementAudioSourceNode": { "global": "MediaElementAudioSourceNode" },
   "/MediaElementAudioSourceNode/mediaElement": {},
 
-  "/ScriptProcessorNode": { "global": "ScriptProcessorNode", "constructor": "illegal" },
+  "/ScriptProcessorNode": { "global": "ScriptProcessorNode", "protected": true },
   "/ScriptProcessorNode/bufferSize": {},
   "/ScriptProcessorNode/onaudioprocess": {},
 
@@ -121,10 +121,10 @@ const apiSpec = {
   "/PannerNode/rolloffFactor": {},
   "/PannerNode/setOrientation": {},
   "/PannerNode/setPosition": {},
-  "/PannerNode/setVelocity": {},
+  "/PannerNode/setVelocity": { "deprecated": true },
 
-  "/AudioListener": { "global": "AudioListener", "constructor": "illegal" },
-  "/AudioListener/dopplerFactor": {},
+  "/AudioListener": { "global": "AudioListener", "protected": true },
+  "/AudioListener/dopplerFactor": { "deprecated": true },
   "/AudioListener/forwardX": {},
   "/AudioListener/forwardY": {},
   "/AudioListener/forwardZ": {},
@@ -133,8 +133,8 @@ const apiSpec = {
   "/AudioListener/positionZ": {},
   "/AudioListener/setOrientation": {},
   "/AudioListener/setPosition": {},
-  "/AudioListener/setVelocity": {},
-  "/AudioListener/speedOfSound": {},
+  "/AudioListener/setVelocity": { "deprecated": true },
+  "/AudioListener/speedOfSound": { "deprecated": true },
   "/AudioListener/upX": {},
   "/AudioListener/upY": {},
   "/AudioListener/upZ": {},

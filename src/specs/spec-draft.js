@@ -3,7 +3,7 @@
 const name = "spec:draft";
 
 const apiSpec = {
-  "/BaseAudioContext": { "global": false, "constructor": "illegal" },
+  "/BaseAudioContext": { "global": false, "protected": true },
   "/BaseAudioContext/createAnalyser": {},
   "/BaseAudioContext/createBiquadFilter": {},
   "/BaseAudioContext/createBuffer": {},
@@ -48,7 +48,7 @@ const apiSpec = {
   "/OfflineAudioContext/startRendering": {},
   "/OfflineAudioContext/suspend": {},
 
-  "/AudioNode": { "global": "AudioNode", "constructor": "illegal" },
+  "/AudioNode": { "global": "AudioNode", "protected": true },
   "/AudioNode/channelCount": {},
   "/AudioNode/channelCountMode": {},
   "/AudioNode/channelInterpretation": {},
@@ -58,10 +58,10 @@ const apiSpec = {
   "/AudioNode/numberOfInputs": {},
   "/AudioNode/numberOfOutputs": {},
 
-  "/AudioDestinationNode": { "global": "AudioDestinationNode", "constructor": "illegal" },
+  "/AudioDestinationNode": { "global": "AudioDestinationNode", "protected": true },
   "/AudioDestinationNode/maxChannelCount": {},
 
-  "/AudioParam": { "global": "AudioParam", "constructor": "illegal" },
+  "/AudioParam": { "global": "AudioParam", "protected": true },
   "/AudioParam/cancelAndHoldAtTime": {},
   "/AudioParam/cancelScheduledValues": {},
   "/AudioParam/defaultValue": {},
@@ -74,7 +74,7 @@ const apiSpec = {
   "/AudioParam/setValueCurveAtTime": {},
   "/AudioParam/value": {},
 
-  "/AudioScheduledSourceNode": { global: "AudioScheduledSourceNode", "constructor": "illegal" },
+  "/AudioScheduledSourceNode": { global: "AudioScheduledSourceNode", "protected": true },
   "/AudioScheduledSourceNode/onended": {},
   "/AudioScheduledSourceNode/start": {},
   "/AudioScheduledSourceNode/stop": {},
@@ -108,7 +108,7 @@ const apiSpec = {
 
   "/MediaElementAudioSourceNode": { "global": "MediaElementAudioSourceNode" },
 
-  "/ScriptProcessorNode": { "global": "ScriptProcessorNode", "constructor": "illegal" },
+  "/ScriptProcessorNode": { "global": "ScriptProcessorNode", "protected": true },
   "/ScriptProcessorNode/bufferSize": {},
   "/ScriptProcessorNode/onaudioprocess": {},
 
@@ -130,7 +130,7 @@ const apiSpec = {
   "/PannerNode/setOrientation": {},
   "/PannerNode/setPosition": {},
 
-  "/AudioListener": { "global": "AudioListener", "constructor": "illegal" },
+  "/AudioListener": { "global": "AudioListener", "protected": true },
   "/AudioListener/forwardX": {},
   "/AudioListener/forwardY": {},
   "/AudioListener/forwardZ": {},
