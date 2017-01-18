@@ -106,14 +106,14 @@ const spec = {
   "/PannerNode/rolloffFactor": {},
   "/PannerNode/setOrientation": {},
   "/PannerNode/setPosition": {},
-  "/PannerNode/setVelocity": { "deprecated": true },
+  "/PannerNode/setVelocity": {},
 
   "/AudioListener": { "global": "AudioListener", "protected": true },
-  "/AudioListener/dopplerFactor": { "deprecated": true },
+  "/AudioListener/dopplerFactor": {},
   "/AudioListener/setOrientation": {},
   "/AudioListener/setPosition": {},
-  "/AudioListener/setVelocity": { "deprecated": true },
-  "/AudioListener/speedOfSound": { "deprecated": true },
+  "/AudioListener/setVelocity": {},
+  "/AudioListener/speedOfSound": {},
 
   "/StereoPannerNode": { "global": "StereoPannerNode", "protected": true },
   "/StereoPannerNode/pan": {},
