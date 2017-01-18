@@ -31,7 +31,7 @@ function parseJSDoc(comment) {
   if (comment && comment.type === "CommentBlock") {
     doctrine.parse(comment.value, { unwrap: true }).tags.forEach((tag) => {
       if ([ "deprecated", "protected" ].includes(tag.title)) {
-        doc[tag.title] = true;
+        doc[tag.title] = tag.description || true;
       }
       if (tag.title === "type" || tag.title === "param") {
         const name = tag.name || "value";
@@ -108,9 +108,15 @@ module.exports = ({ template }) => {
 
       // protected
       if (kind === "constructor" && this.JSDoc[apiPath]["protected"]) {
+        let message = `Failed to construct '${ className }':\nIllegal constructor`;
+
+        if (typeof this.JSDoc[apiPath]["protected"] === "string") {
+          message += `, please use '${ this.JSDoc[apiPath]["protected"] }' instead.`;
+        }
+
         path.get("body").unshiftContainer("body", template(`
           if (lock.isLocked() && typeof api.get === "function" && api.get("${ apiPath }/protected")) {
-            throw new TypeError("Illegal constructor");
+            throw new TypeError("${ format(message) }");
           }
         `)());
       }
