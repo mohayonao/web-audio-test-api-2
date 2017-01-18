@@ -167,10 +167,81 @@ function create(api, EventTarget) {
     }
 
     disconnect(...args) {
-      // TODO: selective disconnect ??
-      void(this, args);
+      if (api.get("/AudioNode/disconnect/selective") === false) {
+        return disconnect$AllFromOutput.apply(this, args);
+      }
+      if (args.length === 0) {
+        return disconnect$All.apply(this, args);
+      }
+      if (typeof args[0] === "number") {
+        return disconnect$AllFromOutput.apply(this, args);
+      }
+      if (args.length === 1) {
+        return disconnect$IfConnected.apply(this, args);
+      }
+      return disconnect$FromOutputIfConnected.apply(this, args);
+    }
+
+    /**
+     * @return {void}
+     */
+    disconnect$All() {}
+
+    /**
+     * @param {integer} output
+     * @return {void}
+     */
+    disconnect$AllFromOutput(output = 0) {
+      if (!(output < this.numberOfOutputs)) {
+        throw new TypeError(format(`
+          Failed to execute 'disconnect' on 'AudioNode':
+          The output must be less than number of outputs (${ this.numberOfOutputs }), but got ${ output }.
+        `));
+      }
+    }
+
+    /**
+     * @todo check that the destination has been connected.
+     * @param {AudioNode|AudioParam} destination
+     * @return {void}
+     */
+    disconnect$IfConnected(destination) {
+      void(this, destination);
+    }
+
+    /**
+     * @todo check that the destination has been connected.
+     * @param {AudioNode|AudioParam} destination
+     * @param {integer} output
+     * @param {integer} input
+     * @return {void}
+     */
+    disconnect$FromOutputIfConnected(destination, output = 0, input = 0) {
+      if (!(output < this.numberOfOutputs)) {
+        throw new TypeError(format(`
+          Failed to execute 'disconnect' on 'AudioNode':
+          The output must be less than number of outputs (${ this.numberOfOutputs }), but got ${ output }.
+        `));
+      }
+      if (destination instanceof api.AudioNode) {
+        if (!(input < destination.numberOfInputs)) {
+          throw new TypeError(format(`
+            Failed to execute 'disconnect' on 'AudioNode':
+            The input must be less than number of destination's inputs (${ destination.numberOfInputs }), but got ${ input }.
+          `));
+        }
+      } else {
+        input = 0;
+      }
     }
   }
+
+  // save methods, because these are dropped at the api builder.
+  const disconnect$All = AudioNode.prototype.disconnect$All;
+  const disconnect$AllFromOutput = AudioNode.prototype.disconnect$AllFromOutput;
+  const disconnect$IfConnected = AudioNode.prototype.disconnect$IfConnected;
+  const disconnect$FromOutputIfConnected = AudioNode.prototype.disconnect$FromOutputIfConnected;
+
   return AudioNode;
 }
 
