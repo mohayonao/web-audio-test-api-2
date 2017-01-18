@@ -261,11 +261,11 @@ describe("BaseAudioContextFactory", () => {
         });
         const audioData = new Uint8Array(128).buffer;
 
-        api.on("decodeAudioData", (handler) => {
+        api.onDecodeAudioData = (handler) => {
           handler(new api.AudioBuffer({
             numberOfChannels: 2, length: 8, sampleRate: 44100
           }));
-        });
+        };
 
         return context.decodeAudioData(audioData).then((buffer) => {
           assert(buffer instanceof api.AudioBuffer);
@@ -280,9 +280,9 @@ describe("BaseAudioContextFactory", () => {
         const audioData = new Uint8Array(128).buffer;
         const error = new Error();
 
-        api.on("decodeAudioData", (handler) => {
+        api.onDecodeAudioData = (handler) => {
           handler(error);
-        });
+        };
 
         return context.decodeAudioData(audioData).catch((result) => {
           assert(result === error);
@@ -296,8 +296,8 @@ describe("BaseAudioContextFactory", () => {
         });
         const audioData = new Uint8Array(128).buffer;
 
-        return context.decodeAudioData(audioData).catch((result) => {
-          assert(result instanceof Error);
+        return context.decodeAudioData(audioData).then((buffer) => {
+          assert(buffer instanceof api.AudioBuffer);
         });
       });
 
@@ -308,11 +308,11 @@ describe("BaseAudioContextFactory", () => {
         });
         const audioData = new Uint8Array(128).buffer;
 
-        api.on("decodeAudioData", (handler) => {
+        api.onDecodeAudioData = (handler) => {
           handler(new api.AudioBuffer({
             numberOfChannels: 2, length: 8, sampleRate: 44100
           }));
-        });
+        };
 
         const result = context.decodeAudioData(audioData, (buffer) => {
           assert(buffer instanceof api.AudioBuffer);
@@ -320,6 +320,18 @@ describe("BaseAudioContextFactory", () => {
         });
 
         assert(typeof result === "undefined");
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI({ "/AudioContext/decodeAudioData/void": true });
+        const context = new api.BaseAudioContext({
+          numberOfChannels: 2, sampleRate: 44100
+        });
+        const audioData = new Uint8Array(128).buffer;
+
+        assert.throws(() => {
+          context.decodeAudioData(audioData);
+        }, TypeError);
       });
     });
 

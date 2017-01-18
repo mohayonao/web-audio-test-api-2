@@ -5,6 +5,7 @@ const defaults = require("../utils/defaults");
 const emit = require("../utils/emit");
 const format = require("../utils/format");
 const lock = require("../utils/lock");
+const stringify = require("../utils/stringify");
 
 const DEFAULT_NUMBER_OF_CHANNELS = 2;
 const DEFAULT_SAMPLE_RATE = 44100;
@@ -159,18 +160,23 @@ function create(api, EventTarget) {
      * @return {Promise<AudioBuffer>}
      */
     decodeAudioData(audioData, successCallback, errorCallback) {
+      if (api.get("/AudioContext/decodeAudioData/void")) {
+        if (typeof successCallback !== "function") {
+          throw new TypeError(format(`
+            Failed to execute 'decodeAudioData' on '${ this._.className }':
+            The success callback must be function, but got ${ stringify(successCallback) }.
+          `));
+        }
+      }
+
       function decodeAudioData(result) {
-        /* istanbul ignore else */
-        if (!handler.done) {
-          handler.done = true;
-          if (result instanceof api.AudioBuffer) {
-            handler.resolve(result);
-          } else {
-            if (!(result instanceof Error)) {
-              result = new Error("decodeAudioDataError");
-            }
-            handler.reject(result);
+        if (result instanceof api.AudioBuffer) {
+          handler.resolve(result);
+        } else {
+          if (!(result instanceof Error)) {
+            result = new Error("decodeAudioDataError");
           }
+          handler.reject(result);
         }
       }
 
@@ -182,10 +188,17 @@ function create(api, EventTarget) {
 
       promise.then(successCallback, errorCallback).catch(() => {});
 
-      if (api.listenerCount("decodeAudioData")) {
-        api.emit("decodeAudioData", decodeAudioData);
+      if (typeof api.onDecodeAudioData === "function") {
+        api.onDecodeAudioData(decodeAudioData, audioData);
       } else {
-        decodeAudioData(null);
+        const numberOfChannels = this._.numberOfChannels;
+        const length = audioData.byteLength;
+        const sampleRate = this.sampleRate;
+        const audioBuffer = lock.tr(() =>
+          new api.AudioBuffer({ numberOfChannels, length, sampleRate })
+        );
+
+        decodeAudioData(audioBuffer);
       }
 
       if (!api.get("/AudioContext/decodeAudioData/void")) {
