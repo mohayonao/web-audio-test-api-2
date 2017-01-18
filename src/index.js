@@ -1,6 +1,5 @@
 "use strict";
 
-const { EventEmitter } = require("events");
 const builder = require("./api/builder");
 const specs = require("./specs");
 const types = require("./types");
@@ -11,7 +10,7 @@ function createAPI(specName, options = {}) {
   }
 
   const { spec, name } = specs[specName];
-  const api = new EventEmitter();
+  const api = {};
 
   api.name = name;
   api.spec = clone(spec);

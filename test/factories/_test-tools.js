@@ -1,6 +1,5 @@
 "use strict";
 
-const { EventEmitter} = require("events");
 const builder = require("../../src/api/builder");
 const specs = require("../../src/specs");
 const types = require("../../src/types");
@@ -44,7 +43,7 @@ function createAPI(opts = {}) {
     delete spec["/OfflineAudioContext"]["constructor"];
   }
 
-  const api = builder.apply(new EventEmitter(), [ spec ]);
+  const api = builder.apply({}, [ spec ]);
 
   Object.keys(opts).forEach((name) => {
     if (/^\/[A-Z]\w+/.test(name)) {
