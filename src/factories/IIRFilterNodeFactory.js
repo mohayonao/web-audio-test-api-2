@@ -8,7 +8,7 @@ const lock = require("../utils/lock");
 function create(api, AudioNode) {
   class IIRFilterNode extends AudioNode {
     /**
-     * @protected
+     * @protected - audioContext.createIIRFilter(feedforward, feedback)
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {number[]} opts.feedforward

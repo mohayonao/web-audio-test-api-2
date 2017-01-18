@@ -152,7 +152,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-08-02
      * @type {string}
      */
     get name() {
@@ -160,7 +160,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-08-02
      * @type {positive}
      */
     get units() {
@@ -168,7 +168,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {number}
      */
     get computedValue() {
@@ -176,7 +176,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 setTargetAtTime(target, startTime, timeConstant)
      * @param {number} target
      * @param {positive} startTime
      * @param {positive} timeConstant

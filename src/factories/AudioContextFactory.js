@@ -141,7 +141,7 @@ function create(api, BaseAudioContext) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {integer}
      */
     get activeSourceCount() {
@@ -149,7 +149,7 @@ function create(api, BaseAudioContext) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 createScriptProcessor(bufferSize, [numberOfInputChannels, numberOfOutputChannels])
      * @param {integer} bufferSize
      * @param {integer} numberOfInputChannels
      * @param {integer} numberOfOutputChannels
@@ -160,7 +160,7 @@ function create(api, BaseAudioContext) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 createGain()
      * @return {GainNode}
      */
     createGainNode() {
@@ -168,7 +168,7 @@ function create(api, BaseAudioContext) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 createDelay([maxDelayTime])
      * @param {positive} maxDelayTime
      * @return {DelayNode}
      */
@@ -177,7 +177,7 @@ function create(api, BaseAudioContext) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10 createPeriodicWave(real, imag)
      * @param {Float32Array} real
      * @param {Float32Array} imag
      * @return {PeriodicWave}

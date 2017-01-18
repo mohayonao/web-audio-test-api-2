@@ -10,7 +10,7 @@ const DEFAULT_NUMBER_OF_CHANNELS = 1;
 function create(api, BaseObject) {
   class AudioBuffer extends BaseObject {
     /**
-     * @protected
+     * @protected - audioContext.createBuffer(numberOfChannels, length, sampleRate)
      * @param {object} context
      * @param {object} opts
      * @param {integer} opts.numberOfChannels
@@ -164,7 +164,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-08-02
      * @type {number}
      */
     get gain() {

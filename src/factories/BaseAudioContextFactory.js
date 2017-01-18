@@ -130,7 +130,7 @@ function create(api, EventTarget) {
 
     /**
      * @todo implements??
-     * @deprecated
+     * @deprecated 2013-10-10
      * @param {ArrayBuffer} buffer
      * @param {boolean} mixToMono
      * @return {AudioBuffer}

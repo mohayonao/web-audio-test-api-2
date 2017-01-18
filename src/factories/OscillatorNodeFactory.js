@@ -13,7 +13,7 @@ const DEFAULT_DETUNE = 0;
 function create(api, AudioNode) {
   class OscillatorNode extends AudioNode {
     /**
-     * @protected
+     * @protected - audioContext.createOscillator()
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {OscillatorType} opts.type
@@ -86,7 +86,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "sine"
      * @type {OscillatorType}
      */
     get SINE() {
@@ -94,7 +94,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "square"
      * @type {OscillatorType}
      */
     get SQUARE() {
@@ -102,7 +102,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "sawtooth"
      * @type {OscillatorType}
      */
     get SAWTOOTH() {
@@ -110,7 +110,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "triangle"
      * @type {OscillatorType}
      */
     get TRIANGLE() {
@@ -118,7 +118,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "custom"
      * @type {OscillatorType}
      */
     get CUSTOM() {
@@ -126,7 +126,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get UNSCHEDULED_STATE() {
@@ -134,7 +134,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get SCHEDULED_STATE() {
@@ -142,7 +142,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get PLAYING_STATE() {
@@ -150,7 +150,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get FINISHED_STATE() {
@@ -158,7 +158,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get playbackState() {
@@ -180,7 +180,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 start([when])
      * @param {number} when
      * @return {void}
      */
@@ -195,7 +195,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 stop([when])
      * @param {number} when
      * @return {void}
      */
@@ -216,7 +216,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10 setPeriodicWave(periodicWave)
      * @param {PeriodicWave} waveTable
      * @return {void}
      */

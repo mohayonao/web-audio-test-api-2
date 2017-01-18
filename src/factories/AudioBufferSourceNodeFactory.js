@@ -14,7 +14,7 @@ const DEFAULT_LOOP_END = 0;
 function create(api, AudioScheduledSourceNode) {
   class AudioBufferSourceNode extends AudioScheduledSourceNode {
     /**
-     * @protected
+     * @protected - audioContext.createBufferSource()
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {AudioBuffer?} opts.buffer
@@ -138,7 +138,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get UNSCHEDULED_STATE() {
@@ -146,7 +146,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get SCHEDULED_STATE() {
@@ -154,7 +154,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get PLAYING_STATE() {
@@ -162,7 +162,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get FINISHED_STATE() {
@@ -170,7 +170,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get playbackState() {
@@ -192,7 +192,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-08-02
      * @type {AudioParam}
      */
     get gain() {
@@ -200,7 +200,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2011-12-15 loop
      * @type {boolean}
      */
     get looping() {
@@ -212,7 +212,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-02 start([when, offset, duration])
      * @param {positive} when
      * @return {void}
      */
@@ -227,7 +227,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-02 start([when, offset, duration])
      * @param {positive} when
      * @param {positive} grainOffset
      * @param {positive} grainDuration
@@ -244,7 +244,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-02 stop([when])
      * @param {positive} when
      * @return {void}
      */

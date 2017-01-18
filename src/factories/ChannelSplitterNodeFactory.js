@@ -10,7 +10,7 @@ const DEFAULT_NUMBER_OF_OUTPUTS = 6;
 function create(api, AudioNode) {
   class ChannelSplitterNode extends AudioNode {
     /**
-     * @protected
+     * @protected - audioContext.createChannelSplitter([numberOfOutputs])
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {integer} opts.numberOfOutputs

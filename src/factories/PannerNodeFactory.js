@@ -7,7 +7,7 @@ const { initialize } = require("./SpatialPannerNodeFactory");
 function create(api, AudioNode) {
   class PannerNode extends AudioNode {
     /**
-     * @protected
+     * @protected - audioContext.createPanner()
      * @param {BaseAudioContext} context
      * @param {object} opts
      */
@@ -68,7 +68,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "equalpower"
      * @type {PanningModelType}
      */
     get EQUALPOWER() {
@@ -76,7 +76,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "HRTF"
      * @type {PanningModelType}
      */
     get HRTF() {
@@ -84,7 +84,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13
      * @type {PanningModelType}
      */
     get SOUNDFIELD() {
@@ -92,7 +92,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "linear"
      * @type {DistanceModelType}
      */
     get LINEAR_DISTANCE() {
@@ -100,7 +100,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "inverse"
      * @type {DistanceModelType}
      */
     get INVERSE_DISTANCE() {
@@ -108,7 +108,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "exponential"
      * @type {DistanceModelType}
      */
     get EXPONENTIAL_DISTANCE() {
@@ -116,7 +116,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13
      * @type {AudioParam}
      */
     get coneGain() {
@@ -124,7 +124,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13
      * @type {AudioParam}
      */
     get distanceGain() {

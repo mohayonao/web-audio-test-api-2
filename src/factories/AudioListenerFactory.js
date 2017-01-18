@@ -6,7 +6,7 @@ const { initialize } = require("./SpatialListenerFactory");
 function create(api, BaseObject) {
   class AudioListener extends BaseObject {
     /**
-     * @protected
+     * @protected - audioContext.listener
      * @param {BaseAudioContext} context
      * @param {object} opts
      */
@@ -63,7 +63,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-08-02
      * @type {number}
      */
     get gain() {
@@ -75,7 +75,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2015-12-08
      * @type {number}
      */
     get dopplerFactor() {
@@ -87,7 +87,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2015-12-08
      * @type {number}
      */
     get speedOfSound() {

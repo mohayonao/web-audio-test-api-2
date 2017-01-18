@@ -15,7 +15,7 @@ const DEFAULT_GAIN = 0;
 function create(api, AudioNode) {
   class BiquadFilterNode extends AudioNode {
     /**
-     * @protected
+     * @protected - audioContext.createBiquadFilter()
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {BiquadFilterType} opts.type
@@ -112,7 +112,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "lowpass"
      * @type {BiquadFilterType}
      */
     get LOWPASS() {
@@ -120,7 +120,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "highpass"
      * @type {BiquadFilterType}
      */
     get HIGHPASS() {
@@ -128,7 +128,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "bandpass"
      * @type {BiquadFilterType}
      */
     get BANDPASS() {
@@ -136,7 +136,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "lowshelf"
      * @type {BiquadFilterType}
      */
     get LOWSHELF() {
@@ -144,7 +144,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "highshelf"
      * @type {BiquadFilterType}
      */
     get HIGHSHELF() {
@@ -152,7 +152,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "peaking"
      * @type {BiquadFilterType}
      */
     get PEAKING() {
@@ -160,7 +160,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "notch"
      * @type {BiquadFilterType}
      */
     get NOTCH() {
@@ -168,7 +168,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "allpass"
      * @type {BiquadFilterType}
      */
     get ALLPASS() {

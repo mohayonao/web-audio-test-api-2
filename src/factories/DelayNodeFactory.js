@@ -10,7 +10,7 @@ const DEFAULT_DELAY_TIME = 0;
 function create(api, AudioNode) {
   class DelayNode extends AudioNode {
     /**
-     * @protected
+     * @protected - audioContext.createDelay([maxDelayTime])
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {positive} opts.maxDelayTime
