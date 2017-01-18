@@ -8,9 +8,9 @@ const lock = require("../utils/lock");
 function create(api, BaseAudioContext) {
   class OfflineAudioContext extends BaseAudioContext {
     /**
-     * @param {number} numberOfChannels
-     * @param {number} length
-     * @param {number} sampleRate
+     * @param {integer} numberOfChannels
+     * @param {integer} length
+     * @param {positive} sampleRate
      */
     constructor(numberOfChannels, length, sampleRate) {
       try { lock.unlock()

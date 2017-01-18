@@ -13,7 +13,7 @@ function create(api, AudioNode) {
      * @protected
      * @param {BaseAudioContext} context
      * @param {object} opts
-     * @param {number} opts.numberOfOutputs
+     * @param {integer} opts.numberOfOutputs
      */
     constructor(context, opts = {}) {
       const numberOfOutputs = defaults(opts.numberOfOutputs, DEFAULT_NUMBER_OF_OUTPUTS);

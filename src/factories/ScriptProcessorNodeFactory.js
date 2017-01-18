@@ -15,9 +15,9 @@ function create(api, AudioNode) {
      * @protected
      * @param {BaseAudioContext} context
      * @param {object} opts
-     * @param {number} opts.bufferSize
-     * @param {number} opts.numberOfInputChannels
-     * @param {number} opts.numberOfOutputChannels
+     * @param {integer} opts.bufferSize
+     * @param {integer} opts.numberOfInputChannels
+     * @param {integer} opts.numberOfOutputChannels
      */
     constructor(context, opts = {}) {
       const bufferSize = defaults(opts.bufferSize, DEFAULT_BUFFER_SIZE);

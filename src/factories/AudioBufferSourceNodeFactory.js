@@ -21,8 +21,8 @@ function create(api, AudioScheduledSourceNode) {
      * @param {number} opts.playbackRate
      * @param {number} opts.detune
      * @param {boolean} opts.loop
-     * @param {number} opts.loopStart
-     * @param {number} opts.loopEnd
+     * @param {positive} opts.loopStart
+     * @param {positive} opts.loopEnd
      */
     constructor(context, opts = {}) {
       const buffer = defaults(opts.buffer, null);
@@ -100,7 +100,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get loopStart() {
       return this._.loopStart;
@@ -111,7 +111,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get loopEnd() {
       return this._.loopEnd;
@@ -122,9 +122,9 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @param {number} when
-     * @param {number} offset
-     * @param {number} duration
+     * @param {positive} when
+     * @param {positive} offset
+     * @param {positive} duration
      * @return {void}
      */
     start(when = 0, offset = 0, duration = Infinity) {
@@ -213,7 +213,7 @@ function create(api, AudioScheduledSourceNode) {
 
     /**
      * @deprecated
-     * @param {number} when
+     * @param {positive} when
      * @return {void}
      */
     noteOn(when = 0) {
@@ -228,9 +228,9 @@ function create(api, AudioScheduledSourceNode) {
 
     /**
      * @deprecated
-     * @param {number} when
-     * @param {number} grainOffset
-     * @param {number} grainDuration
+     * @param {positive} when
+     * @param {positive} grainOffset
+     * @param {positive} grainDuration
      * @return {void}
      */
     noteGrainOn(when = 0, grainOffset = 0, grainDuration = 0) {
@@ -245,7 +245,7 @@ function create(api, AudioScheduledSourceNode) {
 
     /**
      * @deprecated
-     * @param {number} when
+     * @param {positive} when
      * @return {void}
      */
     noteOff(when = 0) {

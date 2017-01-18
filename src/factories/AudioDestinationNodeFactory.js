@@ -12,7 +12,7 @@ function create(api, AudioNode) {
      * @protected
      * @param {BaseAudioContext} context
      * @param {object} opts
-     * @param {number} opts.numberOfChannels
+     * @param {integer} opts.numberOfChannels
      */
     constructor(context, opts = {}) {
       const numberOfChannels = defaults(opts.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
@@ -32,7 +32,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get maxChannelCount() {
       return this._.maxChannelCount;
@@ -40,7 +40,7 @@ function create(api, AudioNode) {
 
     /**
      * @deprecated
-     * @type {number}
+     * @type {integer}
      */
     get numberOfChannels() {
       return this._.maxChannelCount;

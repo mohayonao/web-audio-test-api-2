@@ -16,7 +16,7 @@ function create(api, AudioNode) {
      * @protected
      * @param {BaseAudioContext} context
      * @param {object} opts
-     * @param {number} opts.fftSize
+     * @param {integer} opts.fftSize
      * @param {number} opts.minDecibels
      * @param {number} opts.maxDecibels
      * @param {number} opts.smoothingTimeConstant
@@ -49,7 +49,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get fftSize() {
       return this._.fftSize;
@@ -66,7 +66,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get frequencyBinCount() {
       return this._.fftSize / 2;

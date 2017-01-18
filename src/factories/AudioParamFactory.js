@@ -69,7 +69,7 @@ function create(api, BaseObject) {
 
     /**
      * @param {number} value
-     * @param {number} startTime
+     * @param {positive} startTime
      * @return {AudioParam}
      */
     setValueAtTime(value, startTime) {
@@ -81,7 +81,7 @@ function create(api, BaseObject) {
 
     /**
      * @param {number} value
-     * @param {number} endTime
+     * @param {positive} endTime
      * @return {AudioParam}
      */
     linearRampToValueAtTime(value, endTime) {
@@ -93,7 +93,7 @@ function create(api, BaseObject) {
 
     /**
      * @param {number} value
-     * @param {number} endTime
+     * @param {positive} endTime
      * @return {AudioParam}
      */
     exponentialRampToValueAtTime(value, endTime) {
@@ -105,8 +105,8 @@ function create(api, BaseObject) {
 
     /**
      * @param {number} target
-     * @param {number} startTime
-     * @param {number} timeConstant
+     * @param {positive} startTime
+     * @param {positive} timeConstant
      * @return {AudioParam}
      */
     setTargetAtTime(target, startTime, timeConstant) {
@@ -118,8 +118,8 @@ function create(api, BaseObject) {
 
     /**
      * @param {Float32Array} curve
-     * @param {number} startTime
-     * @param {number} duration
+     * @param {positive} startTime
+     * @param {positive} duration
      * @return {AudioParam}
      */
     setValueCurveAtTime(curve, startTime, duration) {
@@ -130,7 +130,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @param {number} cancelTime
+     * @param {positive} cancelTime
      * @return {AudioParam}
      */
     cancelScheduledValues(cancelTime) {
@@ -141,7 +141,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @param {number} cancelTime
+     * @param {positive} cancelTime
      * @return {AudioParam}
      */
     cancelAndHoldAtTime(cancelTime) {
@@ -161,7 +161,7 @@ function create(api, BaseObject) {
 
     /**
      * @deprecated
-     * @type {number}
+     * @type {positive}
      */
     get units() {
       return 0;
@@ -178,8 +178,8 @@ function create(api, BaseObject) {
     /**
      * @deprecated
      * @param {number} target
-     * @param {number} startTime
-     * @param {number} timeConstant
+     * @param {positive} startTime
+     * @param {positive} timeConstant
      * @return {AudioParam}
      */
     setTargetValueAtTime(target, startTime, timeConstant) {

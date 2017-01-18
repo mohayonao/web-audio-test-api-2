@@ -13,8 +13,8 @@ function create(api, AudioNode) {
      * @protected
      * @param {BaseAudioContext} context
      * @param {object} opts
-     * @param {number} opts.maxDelayTime
-     * @param {number} opts.delayTime
+     * @param {positive} opts.maxDelayTime
+     * @param {positive} opts.delayTime
      */
     constructor(context, opts = {}) {
       const maxDelayTime = defaults(opts.maxDelayTime, DEFAULT_MAX_DELAY_TIME);

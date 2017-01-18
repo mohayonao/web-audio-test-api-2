@@ -31,14 +31,14 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get sampleRate() {
       return this._.sampleRate;
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get currentTime() {
       return this._.currentTime;
@@ -121,9 +121,9 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} numberOfChannels
-     * @param {number} length
-     * @param {number} sampleRate
+     * @param {integer} numberOfChannels
+     * @param {integer} length
+     * @param {positive} sampleRate
      * @return {AudioBuffer}
      */
     createBuffer(numberOfChannels, length, sampleRate) {
@@ -196,9 +196,9 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} bufferSize
-     * @param {number} numberOfInputChannels
-     * @param {number} numberOfOutputChannels
+     * @param {integer} bufferSize
+     * @param {integer} numberOfInputChannels
+     * @param {integer} numberOfOutputChannels
      * @return {ScriptProcessorNode}
      */
     createScriptProcessor(bufferSize = 0, numberOfInputChannels = 2, numberOfOutputChannels = 2) {
@@ -220,7 +220,7 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} maxDelayTime
+     * @param {positive} maxDelayTime
      * @return {DelayNode}
      */
     createDelay(maxDelayTime = 1) {
@@ -279,7 +279,7 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} numberOfOutputs
+     * @param {integer} numberOfOutputs
      * @return {ChannelSplitterNode}
      */
     createChannelSplitter(numberOfOutputs = 6) {
@@ -287,7 +287,7 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} numberOfInputs
+     * @param {integer} numberOfInputs
      * @return {ChannelMergerNode}
      */
     createChannelMerger(numberOfInputs = 6) {

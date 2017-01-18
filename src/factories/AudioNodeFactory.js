@@ -13,7 +13,7 @@ function create(api, EventTarget) {
      * @protected
      * @param {BaseAudioContext} context
      * @param {object} opts
-     * @param {number} opts.channelCount
+     * @param {integer} opts.channelCount
      * @param {ChannelCountMode} opts.channelCountMode
      * @param {ChannelInterpretation} opts.channelInterpretation
      * @param {object} config
@@ -65,21 +65,21 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get numberOfInputs() {
       return this._.inputs.length;
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get numberOfOutputs() {
       return this._.outputs.length;
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get channelCount() {
       return this._.channelCount;
@@ -131,8 +131,8 @@ function create(api, EventTarget) {
 
     /**
      * @param {AudioNode|AudioParam} destination
-     * @param {number} output
-     * @param {number} input
+     * @param {integer} output
+     * @param {integer} input
      * @return {AudioNode}
      */
     connect(destination, output = 0, input = 0) {

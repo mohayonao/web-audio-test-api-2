@@ -30,14 +30,14 @@ function create(api, BaseAudioContext) {
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get baseLatency() {
       return 2 * 128 / this._.sampleRate;
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get outputLatency() {
       return 0;
@@ -142,7 +142,7 @@ function create(api, BaseAudioContext) {
 
     /**
      * @deprecated
-     * @type {number}
+     * @type {integer}
      */
     get activeSourceCount() {
       return 0;
@@ -150,9 +150,9 @@ function create(api, BaseAudioContext) {
 
     /**
      * @deprecated
-     * @param {number} bufferSize
-     * @param {number} numberOfInputChannels
-     * @param {number} numberOfOutputChannels
+     * @param {integer} bufferSize
+     * @param {integer} numberOfInputChannels
+     * @param {integer} numberOfOutputChannels
      * @return {ScriptProcessorNode}
      */
     createJavaScriptNode(bufferSize = 0, numberOfInputChannels = 2, numberOfOutputChannels = 2) {
@@ -169,7 +169,7 @@ function create(api, BaseAudioContext) {
 
     /**
      * @deprecated
-     * @param {number} maxDelayTime
+     * @param {positive} maxDelayTime
      * @return {DelayNode}
      */
     createDelayNode(maxDelayTime = 1) {

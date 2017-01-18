@@ -12,9 +12,9 @@ function create(api, BaseObject) {
      * @protected
      * @param {object} context
      * @param {object} opts
-     * @param {number} opts.numberOfChannels
-     * @param {number} opts.length
-     * @param {number} opts.sampleRate
+     * @param {integer} opts.numberOfChannels
+     * @param {integer} opts.length
+     * @param {positive} opts.sampleRate
      */
     constructor(context, opts = {}) {
       if (lock.isLocked() && api.get("/AudioBuffer/context")) {
@@ -53,35 +53,35 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get sampleRate() {
       return this._.sampleRate;
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get length() {
       return this._.length;
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get duration() {
       return this._.length / this._.sampleRate;
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get numberOfChannels() {
       return this._.numberOfChannels;
     }
 
     /**
-     * @param {number} channel
+     * @param {integer} channel
      * @return {Float32Array}
      */
     getChannelData(channel) {
@@ -96,8 +96,8 @@ function create(api, BaseObject) {
 
     /**
      * @param {Float32Array} destination
-     * @param {number} channelNumber
-     * @param {number} startInChannel
+     * @param {integer} channelNumber
+     * @param {integer} startInChannel
      * @return {void}
      */
     copyFromChannel(destination, channelNumber, startInChannel = 0) {
@@ -123,8 +123,8 @@ function create(api, BaseObject) {
 
     /**
      * @param {Float32Array} source
-     * @param {number} channelNumber
-     * @param {number} startInChannel
+     * @param {integer} channelNumber
+     * @param {integer} startInChannel
      * @return {void}
      */
     copyToChannel(source, channelNumber, startInChannel = 0) {

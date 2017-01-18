@@ -31,7 +31,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @param {number} when
+     * @param {positive} when
      * @return {void}
      */
     start(when = 0) {
@@ -45,7 +45,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @param {number} when
+     * @param {positive} when
      * @return {void}
      */
     stop(when = 0) {
