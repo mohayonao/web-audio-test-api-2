@@ -124,25 +124,51 @@ module.exports = ({ template }) => {
       // deprecated
       if (this.JSDoc[apiPath]["deprecated"]) {
         let message = "";
+        let deprecatedDate = null;
 
         if (kind === "constructor") {
-          message = `Failed to construct '${ className }':\nThe ${ className } is deprecated.`;
+          message = `Failed to construct '${ className }':\nThe '${ className }' is deprecated`;
         }
         if (kind === "get") {
-          message = `Failed to get the '${ methodName }' property:\nThe ${ methodName } is deprecated.`;
+          message = `Failed to get the '${ methodName }' property:\nThe '${ methodName }' property is deprecated`;
         }
         if (kind === "set") {
-          message = `Failed to set the '${ methodName }' property:\nThe ${ methodName } is deprecated.`;
+          message = `Failed to set the '${ methodName }' property:\nThe '${ methodName }' property is deprecated`;
         }
         if (kind === "method") {
-          message = `Failed to execute '${ methodName }':\nThe ${ methodName } is deprecated.`;
+          message = `Failed to execute '${ methodName }':\nThe '${ methodName }' is deprecated`;
         }
 
-        path.get("body").unshiftContainer("body", template(`
-          if (typeof api.get === "function" && api.get("${ apiPath }/deprecated")) {
-            throw new TypeError("${ format(message) }");
+        if (typeof this.JSDoc[apiPath]["deprecated"] === "string") {
+          const matched = this.JSDoc[apiPath]["deprecated"].match(/^(\d+-\d+-\d+)(?: (.+))?$/);
+
+          if (matched) {
+            if (typeof matched[1] === "string") {
+              deprecatedDate = matched[1];
+              message += ` since ${ deprecatedDate }`;
+            }
+
+            if (typeof matched[2] === "string") {
+              const instead = matched.slice(2).join(" ").replace(/"/g, '\\"');
+
+              message += `, please use ${ instead } instead`;
+            }
           }
-        `)());
+        }
+
+        message += ".";
+
+        if (deprecatedDate) {
+          path.get("body").unshiftContainer("body", template(`
+            if (typeof api.released === "string" && "${ deprecatedDate}" <= api.released) {
+              throw new TypeError("${ format(message) }");
+            }
+          `)());
+        } else {
+          path.get("body").unshiftContainer("body", template(`
+            throw new TypeError("${ format(message) }");
+          `)());
+        }
       }
     }
   };
