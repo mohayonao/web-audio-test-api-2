@@ -241,6 +241,16 @@ describe("BaseAudioContextFactory", () => {
         assert(node.length === 128);
         assert(node.sampleRate === 44100);
       });
+
+      it("mixToMono", () => {
+        const api = testTools.createAPI({ "/AudioContext/createBuffer/mixToMono": true });
+        const context = new api.BaseAudioContext({
+          numberOfChannels: 2, sampleRate: 44100
+        });
+        const buffer = context.createBuffer(new Float32Array(128).buffer, true);
+
+        assert(buffer instanceof api.AudioBuffer);
+      });
     });
 
     describe("decodeAudioData", () => {

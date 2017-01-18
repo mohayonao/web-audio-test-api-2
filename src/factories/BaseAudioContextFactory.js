@@ -120,13 +120,35 @@ function create(api, EventTarget) {
       });
     }
 
+    createBuffer(...args) {
+      if (api.get("/AudioContext/createBuffer/mixToMono") && args[0] instanceof ArrayBuffer) {
+        return createBuffer$MixToMono.apply(this, args);
+      }
+      return createBuffer$Params.apply(this, args);
+    }
+
+    /**
+     * @todo implements??
+     * @deprecated
+     * @param {ArrayBuffer} buffer
+     * @param {boolean} mixToMono
+     * @return {AudioBuffer}
+     */
+    createBuffer$MixToMono(buffer, mixToMono) {
+      const numberOfChannels = 2 - mixToMono;
+      const length = buffer.byteLength;
+      const sampleRate = this.sampleRate;
+
+      return lock.tr(() => new api.AudioBuffer({ numberOfChannels, length, sampleRate }));
+    }
+
     /**
      * @param {integer} numberOfChannels
      * @param {integer} length
      * @param {positive} sampleRate
      * @return {AudioBuffer}
      */
-    createBuffer(numberOfChannels, length, sampleRate) {
+    createBuffer$Params(numberOfChannels, length, sampleRate) {
       return lock.tr(() => new api.AudioBuffer({ numberOfChannels, length, sampleRate }));
     }
 
@@ -349,6 +371,11 @@ function create(api, EventTarget) {
       return lock.tr(() => new api.MediaStreamAudioDestinationNode(this));
     }
   }
+
+  // save methods, because these are dropped at the api builder.
+  const createBuffer$MixToMono = BaseAudioContext.prototype.createBuffer$MixToMono;
+  const createBuffer$Params = BaseAudioContext.prototype.createBuffer$Params;
+
   return BaseAudioContext;
 }
 
