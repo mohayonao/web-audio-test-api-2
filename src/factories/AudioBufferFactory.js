@@ -3,6 +3,7 @@
 const defaults = require("../utils/defaults");
 const format = require("../utils/format");
 const lock = require("../utils/lock");
+const stringify = require("../utils/stringify");
 
 const DEFAULT_NUMBER_OF_CHANNELS = 1;
 
@@ -17,15 +18,23 @@ function create(api, BaseObject) {
      * @param {positive} opts.sampleRate
      */
     constructor(context, opts = {}) {
+      let defaultSampleRate;
+
       if (lock.isLocked() && api.get("/AudioBuffer/context")) {
-        void(context);
+        if (!(context instanceof api.AudioContext || context instanceof api.OfflineAudioContext)) {
+          throw new TypeError(format(`
+            Failed to construct 'AudioBuffer':
+            The first argument must be instance of BaseAudioContext, but got ${ stringify(context) }.
+          `));
+        }
+        defaultSampleRate = context.sampleRate;
       } else {
         opts = context || /* istanbul ignore next */ {};
       }
 
       const numberOfChannels = defaults(opts.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
       const length = defaults(opts.length, 0);
-      const sampleRate = defaults(opts.sampleRate, 0);
+      const sampleRate = defaults(opts.sampleRate, defaultSampleRate, 0);
 
       try { lock.unlock();
         super();
@@ -36,6 +45,12 @@ function create(api, BaseObject) {
         throw new TypeError(format(`
           Failed to construct 'AudioBuffer':
           The number of channels must be in the range [1, 32], but got ${ numberOfChannels }.
+        `));
+      }
+      if (!(1 <= length)) {
+        throw new TypeError(format(`
+          Failed to construct 'AudioBuffer':
+          The length must be greater or equal than 1, but got ${ length }.
         `));
       }
       if (!(3000 <= sampleRate && sampleRate <= 192000)) {

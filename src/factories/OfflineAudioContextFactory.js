@@ -88,7 +88,7 @@ function create(api, BaseAudioContext) {
 function startRendering(api) {
   const promise = new Promise((resolve) => {
     const { numberOfChannels, length, sampleRate } = this._;
-    const renderedBuffer = this.createBuffer(numberOfChannels, length|0, sampleRate);
+    const renderedBuffer = this.createBuffer(numberOfChannels, length, sampleRate);
 
     this._.state = AudioContextState.CLOSED;
     emit(this, "statechange");
@@ -98,6 +98,8 @@ function startRendering(api) {
 
   if (!api.get("/OfflineAudioContext/startRendering/void")) {
     return promise;
+  } else {
+    promise.catch(() => {});
   }
 }
 

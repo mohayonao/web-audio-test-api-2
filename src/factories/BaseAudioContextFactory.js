@@ -168,6 +168,8 @@ function create(api, EventTarget) {
 
       if (!api.get("/AudioContext/decodeAudioData/void")) {
         return promise;
+      } else {
+        promise.catch(() => {});
       }
     }
 
@@ -359,6 +361,12 @@ function initialize(api, opts) {
     throw new TypeError(format(`
       Failed to construct 'BaseAudioContext':
       The number of channels must be in the range [1, 32], but got ${ numberOfChannels }.
+    `));
+  }
+  if (!(1 <= length)) {
+    throw new TypeError(format(`
+      Failed to construct 'BaseAudioContext':
+      The length must be greater or equal than 1, but got ${ length }.
     `));
   }
   if (!(3000 <= sampleRate && sampleRate <= 192000)) {

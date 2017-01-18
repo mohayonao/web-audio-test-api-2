@@ -176,6 +176,8 @@ describe("AudioContextFactory", () => {
         const handler2 = sinon.spy();
         const handler3 = sinon.spy();
 
+        context._.length = 128;
+
         context.onstatechange = handler1;
         context.oncomplete = handler2;
         context.addEventListener("complete", handler3);
@@ -197,6 +199,8 @@ describe("AudioContextFactory", () => {
         const handler1 = sinon.spy();
         const handler2 = sinon.spy();
         const handler3 = sinon.spy();
+
+        context._.length = 128;
 
         context.onstatechange = handler1;
         context.oncomplete = handler2;
