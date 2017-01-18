@@ -58,7 +58,7 @@ describe("AudioBufferSourceNodeFactory", () => {
         assert(node instanceof api.AudioNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
+      it("new instance, but @protected", () => {
         const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
@@ -94,6 +94,23 @@ describe("AudioBufferSourceNodeFactory", () => {
 
         node.buffer = buffer;
         assert(node.buffer === buffer);
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AudioBufferSourceNode(context, {
+          buffer: new api.AudioBuffer({
+            numberOfChannels: 1, length: 128, sampleRate: 44100
+          })
+        });
+        const buffer = new api.AudioBuffer({
+          numberOfChannels: 1, length: 128, sampleRate: 44100
+        });
+
+        assert.throws(() => {
+          node.buffer = buffer;
+        }, TypeError);
       });
     });
 
@@ -174,10 +191,21 @@ describe("AudioBufferSourceNodeFactory", () => {
 
         node.start(0, 1, 2);
       });
+
+      it("throws", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AudioBufferSourceNode(context, {});
+
+        node.start(0, 1, 2);
+        assert.throws(() => {
+          node.start(0, 1, 2);
+        }, TypeError);
+      });
     });
   });
 
-  describe("ancient properties", () => {
+  describe("@deprecated", () => {
     describe("constants", () => {
       it("UNSCHEDULED_STATE", () => {
         const api = testTools.createAPI();

@@ -34,12 +34,23 @@ describe("ChannelMergerNodeFactory", () => {
         assert(node instanceof api.ChannelMergerNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
+      it("new instance, but @protected", () => {
         const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
         assert.throws(() => {
           return new api.ChannelMergerNode(context, {});
+        }, TypeError);
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+
+        assert.throws(() => {
+          return new api.ChannelMergerNode(context, {
+            numberOfInputs: 100
+          });
         }, TypeError);
       });
     });

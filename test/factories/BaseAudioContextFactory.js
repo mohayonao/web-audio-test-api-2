@@ -28,12 +28,32 @@ describe("BaseAudioContextFactory", () => {
         assert(context instanceof api.BaseAudioContext);
       });
 
-      it("new instance, but Illegal constructor", () => {
+      it("new instance, but @protected", () => {
         const api = testTools.createAPI({ protected: true });
 
         assert.throws(() => {
           return new api.BaseAudioContext({
             numberOfChannels: 2, sampleRate: 44100
+          });
+        }, TypeError);
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+
+        assert.throws(() => {
+          return new api.BaseAudioContext({
+            numberOfChannels: 0, length: 128, sampleRate: 44100
+          });
+        }, TypeError);
+        assert.throws(() => {
+          return new api.BaseAudioContext({
+            numberOfChannels: 2, length: 0, sampleRate: 44100
+          });
+        }, TypeError);
+        assert.throws(() => {
+          return new api.BaseAudioContext({
+            numberOfChannels: 2, length: 128, sampleRate: 0
           });
         }, TypeError);
       });
@@ -127,6 +147,19 @@ describe("BaseAudioContextFactory", () => {
           assert(handler2.callCount === 1);
         });
       });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.BaseAudioContext({
+          numberOfChannels: 2, sampleRate: 44100
+        });
+
+        context.close();
+
+        assert.throws(() => {
+          context.suspend();
+        }, TypeError);
+      });
     });
 
     describe("resume", () => {
@@ -147,6 +180,19 @@ describe("BaseAudioContextFactory", () => {
           assert(handler2.callCount === 1);
         });
       });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.BaseAudioContext({
+          numberOfChannels: 2, sampleRate: 44100
+        });
+
+        context.close();
+
+        assert.throws(() => {
+          context.resume();
+        }, TypeError);
+      });
     });
 
     describe("close", () => {
@@ -166,6 +212,19 @@ describe("BaseAudioContextFactory", () => {
           assert(handler1.callCount === 1);
           assert(handler2.callCount === 1);
         });
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.BaseAudioContext({
+          numberOfChannels: 2, sampleRate: 44100
+        });
+
+        context.close();
+
+        assert.throws(() => {
+          context.close();
+        }, TypeError);
       });
     });
 

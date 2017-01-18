@@ -37,7 +37,7 @@ describe("AudioListenerFactory", () => {
         assert(node instanceof api.AudioListener);
       });
 
-      it("new instance, but Illegal constructor", () => {
+      it("new instance, but @protected", () => {
         const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
@@ -89,7 +89,7 @@ describe("AudioListenerFactory", () => {
     });
   });
 
-  describe("ancient properties", () => {
+  describe("@deprecated", () => {
     describe("gain", () => {
       it("works", () => {
         const api = testTools.createAPI();

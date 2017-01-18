@@ -93,6 +93,16 @@ describe("AudioContextFactory", () => {
           assert(handler2.callCount === 1);
         });
       });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+
+        context.close();
+        assert.throws(() => {
+          context.close();
+        }, TypeError);
+      });
     });
 
     describe("suspend", () => {
@@ -110,6 +120,16 @@ describe("AudioContextFactory", () => {
           assert(handler1.callCount === 1);
           assert(handler2.callCount === 1);
         });
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+
+        context.close();
+        assert.throws(() => {
+          context.suspend();
+        }, TypeError);
       });
     });
 
@@ -221,7 +241,7 @@ describe("AudioContextFactory", () => {
     });
   });
 
-  describe("ancient properties", () => {
+  describe("@deprecated", () => {
     describe("activeSourceCount", () => {
       it("works", () => {
         const api = testTools.createAPI();

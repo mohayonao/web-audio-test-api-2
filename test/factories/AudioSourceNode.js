@@ -26,7 +26,7 @@ describe("AudioSourceNodeFactory", () => {
         assert(node instanceof api.AudioSourceNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
+      it("new instance, but @protected", () => {
         const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 

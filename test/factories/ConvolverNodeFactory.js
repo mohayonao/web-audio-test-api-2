@@ -34,7 +34,7 @@ describe("ConvolverNodeFactory", () => {
         assert(node instanceof api.ConvolverNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
+      it("new instance, but @protected", () => {
         const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 

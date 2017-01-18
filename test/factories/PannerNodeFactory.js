@@ -37,7 +37,7 @@ describe("PannerNodeFactory", () => {
         assert(node instanceof api.PannerNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
+      it("new instance, but @protected", () => {
         const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
@@ -86,7 +86,7 @@ describe("PannerNodeFactory", () => {
     });
   });
 
-  describe("ancient properties", () => {
+  describe("@deprecated", () => {
     describe("constants", () => {
       it("EQUALPOWER", () => {
         const api = testTools.createAPI();

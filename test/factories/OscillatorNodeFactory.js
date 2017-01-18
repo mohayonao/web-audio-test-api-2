@@ -58,7 +58,7 @@ describe("OscillatorNodeFactory", () => {
         assert(node instanceof api.AudioNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
+      it("new instance, but @protected", () => {
         const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
@@ -134,7 +134,7 @@ describe("OscillatorNodeFactory", () => {
     });
   });
 
-  describe("ancient properties", () => {
+  describe("@deprecated", () => {
     describe("constants", () => {
       it("SINE", () => {
         const api = testTools.createAPI();

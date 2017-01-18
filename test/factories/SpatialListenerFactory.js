@@ -26,7 +26,7 @@ describe("SpatialListenerFactory", () => {
         assert(node instanceof api.SpatialListener);
       });
 
-      it("new instance, but Illegal constructor", () => {
+      it("new instance, but @protected", () => {
         const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 

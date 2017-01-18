@@ -36,7 +36,7 @@ describe("IIRFilterNodeFactory", () => {
         assert(node instanceof api.IIRFilterNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
+      it("new instance, but @protected", () => {
         const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
@@ -60,6 +60,21 @@ describe("IIRFilterNodeFactory", () => {
         const phaseResponse = new Float32Array(4);
 
         node.getFrequencyResponse(frequencyHz, magResponse, phaseResponse);
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.IIRFilterNode(context, {
+          feedforward: [ 1, 0 ], feedback: [ 1, 0 ]
+        });
+        const frequencyHz = new Float32Array([ 440, 880, 1760, 3520 ]);
+        const magResponse = new Float32Array(2);
+        const phaseResponse = new Float32Array(2);
+
+        assert.throws(() => {
+          node.getFrequencyResponse(frequencyHz, magResponse, phaseResponse);
+        }, TypeError);
       });
     });
   });

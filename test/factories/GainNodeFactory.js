@@ -34,7 +34,7 @@ describe("GainNodeFactory", () => {
         assert(node instanceof api.GainNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
+      it("new instance, but @protected", () => {
         const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 

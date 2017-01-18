@@ -26,7 +26,7 @@ describe("AudioParamFactory", () => {
         assert(param instanceof api.AudioParam);
       });
 
-      it("new instance, but Illegal constructor", () => {
+      it("new instance, but @protected", () => {
         const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
@@ -222,7 +222,7 @@ describe("AudioParamFactory", () => {
     });
   });
 
-  describe("ancient properties", () => {
+  describe("@deprecated", () => {
     describe("name", () => {
       it("works", () => {
         const api = testTools.createAPI();
