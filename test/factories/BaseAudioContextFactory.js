@@ -255,7 +255,7 @@ describe("BaseAudioContextFactory", () => {
 
     describe("decodeAudioData", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioContext/decodeAudioData/promise": true });
         const context = new api.BaseAudioContext({
           numberOfChannels: 2, sampleRate: 44100
         });
@@ -273,7 +273,7 @@ describe("BaseAudioContextFactory", () => {
       });
 
       it("failed", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioContext/decodeAudioData/promise": true });
         const context = new api.BaseAudioContext({
           numberOfChannels: 2, sampleRate: 44100
         });
@@ -290,7 +290,7 @@ describe("BaseAudioContextFactory", () => {
       });
 
       it("not configured", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioContext/decodeAudioData/promise": true });
         const context = new api.BaseAudioContext({
           numberOfChannels: 2, sampleRate: 44100
         });
@@ -301,8 +301,8 @@ describe("BaseAudioContextFactory", () => {
         });
       });
 
-      it("/AudioContext/decodeAudioData/void: true", (done) => {
-        const api = testTools.createAPI({ "/AudioContext/decodeAudioData/void": true });
+      it("/AudioContext/decodeAudioData/promise: false", (done) => {
+        const api = testTools.createAPI({ "/AudioContext/decodeAudioData/promise": false });
         const context = new api.BaseAudioContext({
           numberOfChannels: 2, sampleRate: 44100
         });
@@ -323,7 +323,7 @@ describe("BaseAudioContextFactory", () => {
       });
 
       it("throws error", () => {
-        const api = testTools.createAPI({ "/AudioContext/decodeAudioData/void": true });
+        const api = testTools.createAPI({ "/AudioContext/decodeAudioData/promise": false });
         const context = new api.BaseAudioContext({
           numberOfChannels: 2, sampleRate: 44100
         });

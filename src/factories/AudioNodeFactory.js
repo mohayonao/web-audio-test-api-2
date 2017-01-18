@@ -160,26 +160,26 @@ function create(api, EventTarget) {
       }
 
       if (destination instanceof api.AudioNode) {
-        if (!api.get("/AudioNode/connect/void")) {
+        if (api.get("/AudioNode/connect/chain")) {
           return destination;
         }
       }
     }
 
     disconnect(...args) {
-      if (api.get("/AudioNode/disconnect/selective") === false) {
-        return disconnect$AllFromOutput.apply(this, args);
+      if (api.get("/AudioNode/disconnect/selective")) {
+        if (args.length === 0) {
+          return disconnect$All.apply(this, args);
+        }
+        if (typeof args[0] === "number") {
+          return disconnect$AllFromOutput.apply(this, args);
+        }
+        if (args.length === 1) {
+          return disconnect$IfConnected.apply(this, args);
+        }
+        return disconnect$FromOutputIfConnected.apply(this, args);
       }
-      if (args.length === 0) {
-        return disconnect$All.apply(this, args);
-      }
-      if (typeof args[0] === "number") {
-        return disconnect$AllFromOutput.apply(this, args);
-      }
-      if (args.length === 1) {
-        return disconnect$IfConnected.apply(this, args);
-      }
-      return disconnect$FromOutputIfConnected.apply(this, args);
+      return disconnect$AllFromOutput.apply(this, args);
     }
 
     /**

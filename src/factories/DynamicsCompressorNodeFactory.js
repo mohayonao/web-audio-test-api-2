@@ -90,10 +90,10 @@ function create(api, AudioNode) {
      * @type {number}
      */
     get reduction() {
-      if (api.get("/DynamicsCompressorNode/reduction/AudioParam")) {
-        return this._.reduction;
+      if (api.get("/DynamicsCompressorNode/reduction/number")) {
+        return this._.reduction.value;
       }
-      return this._.reduction.value;
+      return this._.reduction;
     }
 
     /**

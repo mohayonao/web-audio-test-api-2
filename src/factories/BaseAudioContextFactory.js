@@ -160,7 +160,7 @@ function create(api, EventTarget) {
      * @return {Promise<AudioBuffer>}
      */
     decodeAudioData(audioData, successCallback, errorCallback) {
-      if (api.get("/AudioContext/decodeAudioData/void")) {
+      if (!api.get("/AudioContext/decodeAudioData/promise")) {
         if (typeof successCallback !== "function") {
           throw new TypeError(format(`
             Failed to execute 'decodeAudioData' on '${ this._.className }':
@@ -201,7 +201,7 @@ function create(api, EventTarget) {
         decodeAudioData(audioBuffer);
       }
 
-      if (!api.get("/AudioContext/decodeAudioData/void")) {
+      if (api.get("/AudioContext/decodeAudioData/promise")) {
         return promise;
       } else {
         promise.catch(() => {});

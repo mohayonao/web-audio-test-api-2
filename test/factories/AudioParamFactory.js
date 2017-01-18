@@ -89,15 +89,15 @@ describe("AudioParamFactory", () => {
 
     describe("setValueAtTime", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioParam/setValueAtTime/chain": true });
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
         assert(param.setValueAtTime(0, 1) === param);
       });
 
-      it("/AudioParam/setValueAtTime/void: true", () => {
-        const api = testTools.createAPI({ "/AudioParam/setValueAtTime/void": true });
+      it("/AudioParam/setValueAtTime/chain: false", () => {
+        const api = testTools.createAPI({});
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
@@ -107,7 +107,7 @@ describe("AudioParamFactory", () => {
 
     describe("linearRampToValueAtTime", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioParam/linearRampToValueAtTime/chain": true });
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
@@ -116,8 +116,8 @@ describe("AudioParamFactory", () => {
         assert(param.linearRampToValueAtTime(0.5, 1) === param);
       });
 
-      it("/AudioParam/linearRampToValueAtTime/void: true", () => {
-        const api = testTools.createAPI({ "/AudioParam/linearRampToValueAtTime/void": true });
+      it("/AudioParam/linearRampToValueAtTime/chain: false", () => {
+        const api = testTools.createAPI({});
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
@@ -129,7 +129,7 @@ describe("AudioParamFactory", () => {
 
     describe("exponentialRampToValueAtTime", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioParam/exponentialRampToValueAtTime/chain": true });
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
@@ -138,8 +138,8 @@ describe("AudioParamFactory", () => {
         assert(param.exponentialRampToValueAtTime(0.5, 1) === param);
       });
 
-      it("/AudioParam/exponentialRampToValueAtTime/void: true", () => {
-        const api = testTools.createAPI({ "/AudioParam/exponentialRampToValueAtTime/void": true });
+      it("/AudioParam/exponentialRampToValueAtTime/chain: false", () => {
+        const api = testTools.createAPI();
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
@@ -151,15 +151,15 @@ describe("AudioParamFactory", () => {
 
     describe("setTargetAtTime", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioParam/setTargetAtTime/chain": true });
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
         assert(param.setTargetAtTime(0.5, 1, 2) === param);
       });
 
-      it("/AudioParam/setTargetAtTime/void: true", () => {
-        const api = testTools.createAPI({ "/AudioParam/setTargetAtTime/void": true });
+      it("/AudioParam/setTargetAtTime/chain: false", () => {
+        const api = testTools.createAPI({});
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
@@ -169,15 +169,15 @@ describe("AudioParamFactory", () => {
 
     describe("setValueCurveAtTime", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioParam/setValueCurveAtTime/chain": true });
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
         assert(param.setValueCurveAtTime(new Float32Array([ 0, 0.5 ]), 1, 2) === param);
       });
 
-      it("/AudioParam/setValueCurveAtTime/void: true", () => {
-        const api = testTools.createAPI({ "/AudioParam/setValueCurveAtTime/void": true });
+      it("/AudioParam/setValueCurveAtTime/chain: false", () => {
+        const api = testTools.createAPI({});
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
@@ -187,15 +187,15 @@ describe("AudioParamFactory", () => {
 
     describe("cancelScheduledValues", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioParam/cancelScheduledValues/chain": true });
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
         assert(param.cancelScheduledValues(0) === param);
       });
 
-      it("/AudioParam/cancelScheduledValues/void: true", () => {
-        const api = testTools.createAPI({ "/AudioParam/cancelScheduledValues/void": true });
+      it("/AudioParam/cancelScheduledValues/chain: false", () => {
+        const api = testTools.createAPI({});
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
@@ -205,15 +205,15 @@ describe("AudioParamFactory", () => {
 
     describe("cancelAndHoldAtTime", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioParam/cancelAndHoldAtTime/chain": true });
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
         assert(param.cancelAndHoldAtTime(0) === param);
       });
 
-      it("/AudioParam/cancelAndHoldAtTime/void: true", () => {
-        const api = testTools.createAPI({ "/AudioParam/cancelAndHoldAtTime/void": true });
+      it("/AudioParam/cancelAndHoldAtTime/chain: false", () => {
+        const api = testTools.createAPI({});
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
@@ -257,15 +257,15 @@ describe("AudioParamFactory", () => {
 
     describe("setTargetValueAtTime", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioParam/setTargetValueAtTime/chain": true });
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
         assert(param.setTargetValueAtTime(0.5, 1, 2) === param);
       });
 
-      it("/AudioParam/setTargetValueAtTime/void: true", () => {
-        const api = testTools.createAPI({ "/AudioParam/setTargetValueAtTime/void": true });
+      it("/AudioParam/setTargetValueAtTime/chain: false", () => {
+        const api = testTools.createAPI({});
         const context = new api.AudioContext();
         const param = new api.AudioParam(context, {});
 
