@@ -1,7 +1,7 @@
 "use strict";
 
 const name = "spec:draft";
-
+const released = "draft";
 const spec = {
   "/BaseAudioContext": { "global": false, "protected": true },
   "/BaseAudioContext/createAnalyser": {},
@@ -204,4 +204,4 @@ const spec = {
   "/MediaStreamAudioDestinationNode/stream": {}
 };
 
-module.exports = { name, spec };
+module.exports = { name, released, spec };

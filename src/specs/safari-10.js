@@ -1,7 +1,7 @@
 "use strict";
 
 const name = "safari:10";
-
+const released = "2016-09-20";
 const spec = {
   "/AudioContext": { "global": "webkitAudioContext" },
   "/AudioContext/activeSourceCount": { "deprecated": true },
@@ -204,4 +204,4 @@ const spec = {
   "/PeriodicWave": { "global": "PeriodicWave", "protected": true }
 };
 
-module.exports = { name, spec };
+module.exports = { name, released, spec };

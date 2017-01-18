@@ -9,10 +9,11 @@ function createAPI(specName, options = {}) {
     specName = "spec";
   }
 
-  const { spec, name } = specs[specName];
+  const { name, released, spec } = specs[specName];
   const api = {};
 
   api.name = name;
+  api.released = released;
   api.spec = clone(spec);
   api.types = types;
 

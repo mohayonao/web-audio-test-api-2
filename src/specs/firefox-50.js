@@ -1,7 +1,7 @@
 "use strict";
 
 const name = "firefox:50";
-
+const released = "2016-11-15";
 const spec = {
   "/AudioContext": { "global": "AudioContext" },
   "/AudioContext/close": {},
@@ -183,4 +183,4 @@ const spec = {
   "/MediaStreamAudioDestinationNode/stream": {}
 };
 
-module.exports = { name, spec };
+module.exports = { name, released, spec };

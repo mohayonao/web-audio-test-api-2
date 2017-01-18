@@ -1,7 +1,7 @@
 "use strict";
 
 const name = "edge:38";
-
+const released = "2016-08-02";
 const spec = {
   "/AudioContext": { "global": "AudioContext" },
   "/AudioContext/close": {},
@@ -174,4 +174,4 @@ const spec = {
   "/MediaStreamAudioSourceNode": { "global": "MediaStreamAudioSourceNode", "protected": true }
 };
 
-module.exports = { name, spec };
+module.exports = { name, released, spec };

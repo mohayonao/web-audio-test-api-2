@@ -1,7 +1,7 @@
 "use strict";
 
 const name = "chrome:55";
-
+const released = "2016-12-01";
 const spec = {
   "/BaseAudioContext": { "global": false, "protected": true },
   "/BaseAudioContext/createAnalyser": {},
@@ -202,4 +202,4 @@ const spec = {
   "/MediaStreamAudioDestinationNode/stream": {}
 };
 
-module.exports = { name, spec };
+module.exports = { name, released, spec };

@@ -1,7 +1,7 @@
 "use strict";
 
 const name = "spec:201512";
-
+const released = "2015-12-08";
 const spec = {
   "/BaseAudioContext": { "global": false, "protected": true },
   "/BaseAudioContext/close": {},
@@ -220,4 +220,4 @@ const spec = {
   "/MediaStreamAudioDestinationNode/stream": {}
 };
 
-module.exports = { name, spec };
+module.exports = { name, released, spec };
