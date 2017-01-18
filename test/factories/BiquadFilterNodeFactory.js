@@ -34,8 +34,8 @@ describe("BiquadFilterNodeFactory", () => {
         assert(node instanceof api.BiquadFilterNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
-        const api = testTools.createAPI({ illegal: true });
+      it("new instance, but @protected", () => {
+        const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
         assert.throws(() => {
@@ -134,10 +134,23 @@ describe("BiquadFilterNodeFactory", () => {
 
         node.getFrequencyResponse(frequencyHz, magResponse, phaseResponse);
       });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.BiquadFilterNode(context, {});
+        const frequencyHz = new Float32Array([ 440, 880, 1760, 3520 ]);
+        const magResponse = new Float32Array(2);
+        const phaseResponse = new Float32Array(2);
+
+        assert.throws(() => {
+          node.getFrequencyResponse(frequencyHz, magResponse, phaseResponse);
+        }, TypeError);
+      });
     });
   });
 
-  describe("ancient properties", () => {
+  describe("@deprecated", () => {
     describe("constants", () => {
       it("LOWPASS", () => {
         const api = testTools.createAPI();

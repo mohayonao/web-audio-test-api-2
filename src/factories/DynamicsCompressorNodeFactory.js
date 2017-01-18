@@ -13,58 +13,55 @@ const DEFAULT_RELEASE = 0.25;
 function create(api, AudioNode) {
   class DynamicsCompressorNode extends AudioNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createDynamicsCompressor()
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.threshold
+     * @param {number} opts.knee
+     * @param {number} opts.ratio
+     * @param {number} opts.attack
+     * @param {number} opts.release
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/DynamicsCompressorNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
-      /** @type {number} */
       const threshold = defaults(opts.threshold, DEFAULT_THRESHOLD);
-      /** @type {number} */
       const knee = defaults(opts.knee, DEFAULT_KNEE);
-      /** @type {number} */
       const ratio = defaults(opts.ratio, DEFAULT_RATIO);
-      /** @type {number} */
       const attack = defaults(opts.attack, DEFAULT_ATTACK);
-      /** @type {number} */
       const release = defaults(opts.release, DEFAULT_RELEASE);
       const reduction = 0;
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 2 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.EXPLICIT,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 2 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.EXPLICIT,
+        });
+        this._.className = "DynamicsCompressorNode";
+      } finally { lock.lock(); }
 
-      this._.className = "DynamicsCompressorNode";
       this._.threshold = new api.AudioParam(context, {
-        name: "threshold", defaultValue: DEFAULT_THRESHOLD, value: threshold,
+        name: "DynamicsCompressor.threshold", defaultValue: DEFAULT_THRESHOLD, value: threshold,
         minValue: -100, maxValue: 0
       });
       this._.knee = new api.AudioParam(context, {
-        name: "knee", defaultValue: DEFAULT_KNEE, value: knee,
+        name: "DynamicsCompressor.knee", defaultValue: DEFAULT_KNEE, value: knee,
         minValue: 0, maxValue: 40
       });
       this._.ratio = new api.AudioParam(context, {
-        name: "ratio", defaultValue: DEFAULT_RATIO, value: ratio,
+        name: "DynamicsCompressor.ratio", defaultValue: DEFAULT_RATIO, value: ratio,
         minValue: 1, maxValue: 20
       });
       this._.attack = new api.AudioParam(context, {
-        name: "attack", defaultValue: DEFAULT_ATTACK, value: attack,
+        name: "DynamicsCompressor.attack", defaultValue: DEFAULT_ATTACK, value: attack,
         minValue: 0, maxValue: 1
       });
       this._.release = new api.AudioParam(context, {
-        name: "release", defaultValue: DEFAULT_RELEASE, value: release,
+        name: "DynamicsCompressor.release", defaultValue: DEFAULT_RELEASE, value: release,
         minValue: 0, maxValue: 1
       });
       this._.reduction = new api.AudioParam(context, {
-        name: "reduction", defaultValue: reduction, value: reduction
+        name: "DynamicsCompressor.reduction", defaultValue: reduction, value: reduction
       });
     }
 
@@ -93,10 +90,10 @@ function create(api, AudioNode) {
      * @type {number}
      */
     get reduction() {
-      if (api.get("/DynamicsCompressorNode/reduction/AudioParam")) {
-        return this._.reduction;
+      if (api.get("/DynamicsCompressorNode/reduction/number")) {
+        return this._.reduction.value;
       }
-      return this._.reduction.value;
+      return this._.reduction;
     }
 
     /**

@@ -11,10 +11,7 @@ const OscillatorType = {
   SINE, SQUARE, SAWTOOTH, TRIANGLE, CUSTOM,
   [Symbol.hasInstance](value) {
     return values.includes(value);
-  },
-  [Symbol.toStringTag]() {
-    return `OscillatorType { ${ values.join(", ") } }`;
-  },
+  }
 };
 
 module.exports = OscillatorType;

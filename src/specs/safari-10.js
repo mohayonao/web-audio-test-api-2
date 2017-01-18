@@ -1,8 +1,8 @@
 "use strict";
 
 const name = "safari:10";
-
-const apiSpec = {
+const released = "2016-09-20";
+const spec = {
   "/AudioContext": { "global": "webkitAudioContext" },
   "/AudioContext/activeSourceCount": {},
   "/AudioContext/close": {},
@@ -26,7 +26,7 @@ const apiSpec = {
   "/AudioContext/createScriptProcessor": {},
   "/AudioContext/createWaveShaper": {},
   "/AudioContext/currentTime": {},
-  "/AudioContext/decodeAudioData": { "void": true },
+  "/AudioContext/decodeAudioData": {},
   "/AudioContext/destination": {},
   "/AudioContext/listener": {},
   "/AudioContext/oncomplete": {},
@@ -39,41 +39,41 @@ const apiSpec = {
 
   "/OfflineAudioContext": { "global": "webkitOfflineAudioContext" },
 
-  "/AudioNode": { "global": "AudioNode", "constructor": "illegal" },
+  "/AudioNode": { "global": "AudioNode", "protected": true },
   "/AudioNode/channelCount": {},
   "/AudioNode/channelCountMode": {},
   "/AudioNode/channelInterpretation": {},
-  "/AudioNode/connect": { "void": true },
+  "/AudioNode/connect": {},
   "/AudioNode/context": {},
   "/AudioNode/disconnect": {},
   "/AudioNode/numberOfInputs": {},
   "/AudioNode/numberOfOutputs": {},
 
-  "/AudioDestinationNode": { "global": "AudioDestinationNode", "constructor": "illegal" },
+  "/AudioDestinationNode": { "global": "AudioDestinationNode", "protected": true },
   "/AudioDestinationNode/maxChannelCount": {},
 
-  "/AudioParam": { "global": "AudioParam", "constructor": "illegal" },
-  "/AudioParam/cancelScheduledValues": { "void": true },
+  "/AudioParam": { "global": "AudioParam", "protected": true },
+  "/AudioParam/cancelScheduledValues": {},
   "/AudioParam/defaultValue": {},
-  "/AudioParam/exponentialRampToValueAtTime": { "void": true },
-  "/AudioParam/linearRampToValueAtTime": { "void": true },
+  "/AudioParam/exponentialRampToValueAtTime": {},
+  "/AudioParam/linearRampToValueAtTime": {},
   "/AudioParam/maxValue": {},
   "/AudioParam/minValue": {},
   "/AudioParam/name": {},
-  "/AudioParam/setTargetAtTime": { "void": true },
-  "/AudioParam/setTargetValueAtTime": { "void": true },
-  "/AudioParam/setValueAtTime": { "void": true },
-  "/AudioParam/setValueCurveAtTime": { "void": true },
+  "/AudioParam/setTargetAtTime": {},
+  "/AudioParam/setTargetValueAtTime": {},
+  "/AudioParam/setValueAtTime": {},
+  "/AudioParam/setValueCurveAtTime": {},
   "/AudioParam/units": {},
   "/AudioParam/value": {},
 
-  "/GainNode": { "global": "GainNode", "constructor": "illegal" },
+  "/GainNode": { "global": "GainNode", "protected": true },
   "/GainNode/gain": {},
 
-  "/DelayNode": { "global": "DelayNode", "constructor": "illegal" },
+  "/DelayNode": { "global": "DelayNode", "protected": true },
   "/DelayNode/delayTime": {},
 
-  "/AudioBuffer": { "global": "AudioBuffer", "constructor": "illegal" },
+  "/AudioBuffer": { "global": "AudioBuffer", "protected": true },
   "/AudioBuffer/duration": {},
   "/AudioBuffer/gain": {},
   "/AudioBuffer/getChannelData": {},
@@ -81,7 +81,7 @@ const apiSpec = {
   "/AudioBuffer/numberOfChannels": {},
   "/AudioBuffer/sampleRate": {},
 
-  "/AudioBufferSourceNode": { "global": "AudioBufferSourceNode", "constructor": "illegal" },
+  "/AudioBufferSourceNode": { "global": "AudioBufferSourceNode", "protected": true },
   "/AudioBufferSourceNode/FINISHED_STATE": {},
   "/AudioBufferSourceNode/PLAYING_STATE": {},
   "/AudioBufferSourceNode/SCHEDULED_STATE": {},
@@ -101,14 +101,14 @@ const apiSpec = {
   "/AudioBufferSourceNode/start": {},
   "/AudioBufferSourceNode/stop": {},
 
-  "/MediaElementAudioSourceNode": { "global": "MediaElementAudioSourceNode", "constructor": "illegal" },
+  "/MediaElementAudioSourceNode": { "global": "MediaElementAudioSourceNode", "protected": true },
   "/MediaElementAudioSourceNode/mediaElement": {},
 
-  "/ScriptProcessorNode": { "global": "ScriptProcessorNode", "constructor": "illegal" },
+  "/ScriptProcessorNode": { "global": "ScriptProcessorNode", "protected": true },
   "/ScriptProcessorNode/bufferSize": {},
   "/ScriptProcessorNode/onaudioprocess": {},
 
-  "/PannerNode": { "global": false, "constructor": "illegal" },
+  "/PannerNode": { "global": false, "protected": true },
   "/PannerNode/EQUALPOWER": {},
   "/PannerNode/EXPONENTIAL_DISTANCE": {},
   "/PannerNode/HRTF": {},
@@ -127,18 +127,18 @@ const apiSpec = {
   "/PannerNode/setPosition": {},
   "/PannerNode/setVelocity": {},
 
-  "/AudioListener": { "global": "AudioListener", "constructor": "illegal" },
+  "/AudioListener": { "global": "AudioListener", "protected": true },
   "/AudioListener/dopplerFactor": {},
   "/AudioListener/setOrientation": {},
   "/AudioListener/setPosition": {},
   "/AudioListener/setVelocity": {},
   "/AudioListener/speedOfSound": {},
 
-  "/ConvolverNode": { "global": "ConvolverNode", "constructor": "illegal" },
+  "/ConvolverNode": { "global": "ConvolverNode", "protected": true },
   "/ConvolverNode/buffer": {},
   "/ConvolverNode/normalize": {},
 
-  "/AnalyserNode": { "global": "AnalyserNode", "constructor": "illegal" },
+  "/AnalyserNode": { "global": "AnalyserNode", "protected": true },
   "/AnalyserNode/fftSize": {},
   "/AnalyserNode/frequencyBinCount": {},
   "/AnalyserNode/getByteFrequencyData": {},
@@ -148,19 +148,19 @@ const apiSpec = {
   "/AnalyserNode/minDecibels": {},
   "/AnalyserNode/smoothingTimeConstant": {},
 
-  "/ChannelSplitterNode": { "global": "ChannelSplitterNode", "constructor": "illegal" },
+  "/ChannelSplitterNode": { "global": "ChannelSplitterNode", "protected": true },
 
-  "/ChannelMergerNode": { "global": "ChannelMergerNode", "constructor": "illegal" },
+  "/ChannelMergerNode": { "global": "ChannelMergerNode", "protected": true },
 
-  "/DynamicsCompressorNode": { "global": "DynamicsCompressorNode", "constructor": "illegal" },
+  "/DynamicsCompressorNode": { "global": "DynamicsCompressorNode", "protected": true },
   "/DynamicsCompressorNode/attack": {},
   "/DynamicsCompressorNode/knee": {},
   "/DynamicsCompressorNode/ratio": {},
-  "/DynamicsCompressorNode/reduction": { "AudioParam": true },
+  "/DynamicsCompressorNode/reduction": {},
   "/DynamicsCompressorNode/release": {},
   "/DynamicsCompressorNode/threshold": {},
 
-  "/BiquadFilterNode": { "global": "BiquadFilterNode", "constructor": "illegal" },
+  "/BiquadFilterNode": { "global": "BiquadFilterNode", "protected": true },
   "/BiquadFilterNode/ALLPASS": {},
   "/BiquadFilterNode/BANDPASS": {},
   "/BiquadFilterNode/HIGHPASS": {},
@@ -176,11 +176,11 @@ const apiSpec = {
   "/BiquadFilterNode/Q": {},
   "/BiquadFilterNode/type": {},
 
-  "/WaveShaperNode": { "global": "WaveShaperNode", "constructor": "illegal" },
+  "/WaveShaperNode": { "global": "WaveShaperNode", "protected": true },
   "/WaveShaperNode/curve": {},
   "/WaveShaperNode/oversample": {},
 
-  "/OscillatorNode": { "global": "OscillatorNode", "constructor": "illegal" },
+  "/OscillatorNode": { "global": "OscillatorNode", "protected": true },
   "/OscillatorNode/CUSTOM": {},
   "/OscillatorNode/FINISHED_STATE": {},
   "/OscillatorNode/PLAYING_STATE": {},
@@ -201,7 +201,7 @@ const apiSpec = {
   "/OscillatorNode/stop": {},
   "/OscillatorNode/type": {},
 
-  "/PeriodicWave": { "global": "PeriodicWave", "constructor": "illegal" }
+  "/PeriodicWave": { "global": "PeriodicWave", "protected": true }
 };
 
-module.exports = { name, apiSpec };
+module.exports = { name, released, spec };

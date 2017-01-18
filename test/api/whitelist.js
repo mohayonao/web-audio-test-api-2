@@ -53,13 +53,13 @@ const BazFactory = {
   }
 };
 
-describe("api/whitelist(api, apiSpec)", () => {
-  describe("apply(api, [ apiSpec, options ])", () => {
+describe("api/whitelist", () => {
+  describe("apply(api, [ spec ])", () => {
     it("works", () => {
       const Foo = FooFactory.create({}, class {});
       const Baz = BazFactory.create({}, Foo);
       const api = { Foo, Baz };
-      const apiSpec = {
+      const spec = {
         "/Foo/foo": {},
         "/Foo/FOO": {},
         "/Baz/bar": {},
@@ -68,7 +68,7 @@ describe("api/whitelist(api, apiSpec)", () => {
         "/Corge": {},
       };
 
-      whitelist.apply(api, [ apiSpec ]);
+      whitelist.apply(api, [ spec ]);
 
       const foo = new Foo();
       const baz = new Baz();

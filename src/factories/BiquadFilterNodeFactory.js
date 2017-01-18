@@ -3,6 +3,7 @@
 const ChannelCountMode = require("../types/ChannelCountMode");
 const BiquadFilterType = require("../types/BiquadFilterType");
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 
 const DEFAULT_TYPE = BiquadFilterType.LOWPASS;
@@ -14,48 +15,45 @@ const DEFAULT_GAIN = 0;
 function create(api, AudioNode) {
   class BiquadFilterNode extends AudioNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createBiquadFilter()
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {BiquadFilterType} opts.type
+     * @param {number} opts.frequency
+     * @param {number} opts.detune
+     * @param {number} opts.Q
+     * @param {number} opts.gain
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/BiquadFilterNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
-      /** @type {BiquadFilterType} */
       const type = defaults(opts.type, DEFAULT_TYPE);
-      /** @type {number} */
       const frequency = defaults(opts.frequency, DEFAULT_FREQUENCY);
-      /** @type {number} */
       const detune = defaults(opts.detune, DEFAULT_DETUNE);
-      /** @type {number} */
       const Q = defaults(opts.Q, DEFAULT_Q);
-      /** @type {number} */
       const gain = defaults(opts.gain, DEFAULT_GAIN);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 1 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.MAX,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 1 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.MAX,
+        });
+        this._.className = "BiquadFilterNode";
+      } finally { lock.lock(); }
 
-      this._.className = "BiquadFilterNode";
       this._.type = type;
       this._.frequency = new api.AudioParam(context, {
-        name: "frequency", defaultValue: DEFAULT_FREQUENCY, value: frequency,
+        name: "BiquadFilter.frequency", defaultValue: DEFAULT_FREQUENCY, value: frequency,
         minValue: 0, maxValue: context.sampleRate / 2
       });
       this._.detune = new api.AudioParam(context, {
-        name: "detune", defaultValue: DEFAULT_DETUNE, value: detune
+        name: "BiquadFilter.detune", defaultValue: DEFAULT_DETUNE, value: detune
       });
       this._.Q = new api.AudioParam(context, {
-        name: "Q", defaultValue: DEFAULT_Q, value: Q
+        name: "BiquadFilter.Q", defaultValue: DEFAULT_Q, value: Q
       });
       this._.gain = new api.AudioParam(context, {
-        name: "gain", defaultValue: DEFAULT_GAIN, value: gain
+        name: "BiquadFilter.gain", defaultValue: DEFAULT_GAIN, value: gain
       });
     }
 
@@ -105,11 +103,16 @@ function create(api, AudioNode) {
      * @return {void}
      */
     getFrequencyResponse(frequencyHz, magResponse, phaseResponse) {
-      void(this, frequencyHz, magResponse, phaseResponse);
+      if (!(frequencyHz.length === magResponse.length && frequencyHz.length === phaseResponse.length)) {
+        throw new TypeError(format(`
+          Failed to execute 'getFrequencyResponse' on 'BiquadFilterNode':
+          The three parameters must be the same length, but got (${ frequencyHz.length }, ${ magResponse.length }, ${ phaseResponse.length }).
+        `));
+      }
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "lowpass"
      * @type {BiquadFilterType}
      */
     get LOWPASS() {
@@ -117,7 +120,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "highpass"
      * @type {BiquadFilterType}
      */
     get HIGHPASS() {
@@ -125,7 +128,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "bandpass"
      * @type {BiquadFilterType}
      */
     get BANDPASS() {
@@ -133,7 +136,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "lowshelf"
      * @type {BiquadFilterType}
      */
     get LOWSHELF() {
@@ -141,7 +144,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "highshelf"
      * @type {BiquadFilterType}
      */
     get HIGHSHELF() {
@@ -149,7 +152,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "peaking"
      * @type {BiquadFilterType}
      */
     get PEAKING() {
@@ -157,7 +160,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "notch"
      * @type {BiquadFilterType}
      */
     get NOTCH() {
@@ -165,7 +168,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "allpass"
      * @type {BiquadFilterType}
      */
     get ALLPASS() {

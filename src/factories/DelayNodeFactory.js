@@ -10,32 +10,29 @@ const DEFAULT_DELAY_TIME = 0;
 function create(api, AudioNode) {
   class DelayNode extends AudioNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createDelay([maxDelayTime])
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {positive} opts.maxDelayTime
+     * @param {positive} opts.delayTime
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/DelayNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
-      /** @type {number} */
       const maxDelayTime = defaults(opts.maxDelayTime, DEFAULT_MAX_DELAY_TIME);
-      /** @type {number} */
       const delayTime = defaults(opts.delayTime, DEFAULT_DELAY_TIME);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 1 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.MAX,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 1 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.MAX,
+        });
+        this._.className = "DelayNode";
+      } finally { lock.lock(); }
 
-      this._.className = "DelayNode";
       this._.maxDelayTime = maxDelayTime;
       this._.delayTime = new api.AudioParam(context, {
-        name: "delayTime", defaultValue: DEFAULT_DELAY_TIME, value: delayTime,
+        name: "Delay.delayTime", defaultValue: DEFAULT_DELAY_TIME, value: delayTime,
         minValue: 0, maxValue: maxDelayTime
       });
     }

@@ -3,6 +3,7 @@
 const AudioContextState = require("../types/AudioContextState");
 const defaults = require("../utils/defaults");
 const emit = require("../utils/emit");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 const { initialize } = require("./BaseAudioContextFactory");
 const { startRendering } = require("./OfflineAudioContextFactory");
@@ -13,39 +14,37 @@ const DEFAULT_SAMPLE_RATE = 44100;
 function create(api, BaseAudioContext) {
   class AudioContext extends BaseAudioContext {
     constructor() {
-      /** @type {number} */
       const numberOfChannels = defaults(api.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
-      /** @type {number} */
       const sampleRate = defaults(api.sampleRate, DEFAULT_SAMPLE_RATE);
 
-      lock.unlock();
-      super({ numberOfChannels, sampleRate });
-      if (!(this instanceof api.BaseAudioContext)) {
-        initialize.call(this, api, { numberOfChannels, sampleRate });
-      }
-      lock.lock();
+      try { lock.unlock();
+        super({ numberOfChannels, sampleRate });
+        this._.className = "AudioContext";
+        if (!(this instanceof api.BaseAudioContext)) {
+          initialize.call(this, api, { numberOfChannels, sampleRate });
+        }
+      } finally { lock.lock(); }
 
-      this._.className = "AudioContext";
       this._.state = AudioContextState.RUNNING;
       this._.oncomplete = null;
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get baseLatency() {
       return 2 * 128 / this._.sampleRate;
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get outputLatency() {
       return 0;
     }
 
     /**
-     * @return {Object}
+     * @return {object}
      */
     getOutputTimestamp() {
       const contextTime = this.currentTime + 0.01795;
@@ -58,6 +57,12 @@ function create(api, BaseAudioContext) {
      * @return {Promise<void>}
      */
     close() {
+      if (this._.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to execute 'close' on 'AudioContext':
+          Cannot close a context that has already been closed.
+        `));
+      }
       return new Promise((resolve) => {
         this._.state = AudioContextState.CLOSED;
         emit(this, "statechange");
@@ -69,6 +74,12 @@ function create(api, BaseAudioContext) {
      * @return {Promise<void>}
      */
     suspend() {
+      if (this._.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to execute 'suspend' on 'AudioContext':
+          Cannot suspend a context that has already been closed.
+        `));
+      }
       return new Promise((resolve) => {
         this._.state = AudioContextState.SUSPENDED;
         emit(this, "statechange");
@@ -130,26 +141,26 @@ function create(api, BaseAudioContext) {
     }
 
     /**
-     * @deprecated
-     * @type {number}
+     * @deprecated 2013-10-10
+     * @type {integer}
      */
     get activeSourceCount() {
       return 0;
     }
 
     /**
-     * @deprecated
-     * @param {number} [bufferSize]
-     * @param {number} [numberOfInputChannels]
-     * @param {number} [numberOfOutputChannels]
+     * @deprecated 2012-12-13 createScriptProcessor(bufferSize, [numberOfInputChannels, numberOfOutputChannels])
+     * @param {integer} bufferSize
+     * @param {integer} numberOfInputChannels
+     * @param {integer} numberOfOutputChannels
      * @return {ScriptProcessorNode}
      */
-    createJavaScriptNode(bufferSize = 0, numberOfInputChannels = 0, numberOfOutputChannels = 0) {
+    createJavaScriptNode(bufferSize = 0, numberOfInputChannels = 2, numberOfOutputChannels = 2) {
       return lock.tr(() => new api.ScriptProcessorNode(this, { bufferSize, numberOfInputChannels, numberOfOutputChannels }));
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 createGain()
      * @return {GainNode}
      */
     createGainNode() {
@@ -157,8 +168,8 @@ function create(api, BaseAudioContext) {
     }
 
     /**
-     * @deprecated
-     * @param {number} [maxDelayTime]
+     * @deprecated 2012-12-13 createDelay([maxDelayTime])
+     * @param {positive} maxDelayTime
      * @return {DelayNode}
      */
     createDelayNode(maxDelayTime = 1) {
@@ -166,7 +177,7 @@ function create(api, BaseAudioContext) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10 createPeriodicWave(real, imag)
      * @param {Float32Array} real
      * @param {Float32Array} imag
      * @return {PeriodicWave}

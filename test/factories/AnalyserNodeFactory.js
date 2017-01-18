@@ -34,8 +34,8 @@ describe("AnalyserNodeFactory", () => {
         assert(node instanceof api.AnalyserNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
-        const api = testTools.createAPI({ illegal: true });
+      it("new instance, but @protected", () => {
+        const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
         assert.throws(() => {
@@ -69,6 +69,16 @@ describe("AnalyserNodeFactory", () => {
         node.fftSize = 256;
         assert(node.fftSize === 256);
       });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AnalyserNode(context, {});
+
+        assert.throws(() => {
+          node.fftSize = 5000;
+        }, TypeError);
+      });
     });
 
     describe("frequencyBinCount", () => {
@@ -99,6 +109,16 @@ describe("AnalyserNodeFactory", () => {
         node.maxDecibels = -10;
         assert(node.maxDecibels === -10);
       });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AnalyserNode(context, {});
+
+        assert.throws(() => {
+          node.maxDecibels = node.minDecibels - 10;
+        }, TypeError);
+      });
     });
 
     describe("minDecibels", () => {
@@ -114,6 +134,16 @@ describe("AnalyserNodeFactory", () => {
         node.minDecibels = -120;
         assert(node.minDecibels === -120);
       });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AnalyserNode(context, {});
+
+        assert.throws(() => {
+          node.minDecibels = node.maxDecibels + 10;
+        }, TypeError);
+      });
     });
 
     describe("smoothingTimeConstant", () => {
@@ -128,6 +158,16 @@ describe("AnalyserNodeFactory", () => {
 
         node.smoothingTimeConstant = 0.6;
         assert(node.smoothingTimeConstant === 0.6);
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AnalyserNode(context, {});
+
+        assert.throws(() => {
+          node.smoothingTimeConstant = -0.1;
+        }, TypeError);
       });
     });
 

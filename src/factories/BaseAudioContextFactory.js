@@ -3,7 +3,9 @@
 const AudioContextState = require("../types/AudioContextState");
 const defaults = require("../utils/defaults");
 const emit = require("../utils/emit");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
+const stringify = require("../utils/stringify");
 
 const DEFAULT_NUMBER_OF_CHANNELS = 2;
 const DEFAULT_SAMPLE_RATE = 44100;
@@ -11,17 +13,15 @@ const DEFAULT_SAMPLE_RATE = 44100;
 function create(api, EventTarget) {
   class BaseAudioContext extends EventTarget {
     /**
-     * @param {Object} [opts]
+     * @protected
+     * @param {object} opts
      */
     constructor(opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/BaseAudioContext")) {
-        throw new TypeError("Illegal constructor");
-      }
-
-      lock.unlock();
-      super();
-      initialize.call(this, api, opts);
-      lock.lock();
+      try { lock.unlock();
+        super();
+        this._.className = "BaseAudioContext";
+        initialize.call(this, api, opts);
+      } finally { lock.lock(); }
     }
 
     /**
@@ -32,14 +32,14 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get sampleRate() {
       return this._.sampleRate;
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get currentTime() {
       return this._.currentTime;
@@ -74,6 +74,12 @@ function create(api, EventTarget) {
      * @return {Promise<void>}
      */
     suspend() {
+      if (this._.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to execute 'suspend' on '${ this._.className }':
+          Cannot suspend a context that has already been closed.
+        `));
+      }
       return new Promise((resolve) => {
         this._.state = AudioContextState.SUSPENDED;
         emit(this, "statechange");
@@ -85,6 +91,12 @@ function create(api, EventTarget) {
      * @return {Promise<void>}
      */
     resume() {
+      if (this._.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to execute 'suspend' on '${ this._.className }':
+          Cannot resume a context that has already been closed.
+        `));
+      }
       return new Promise((resolve) => {
         this._.state = AudioContextState.RUNNING;
         emit(this, "statechange");
@@ -96,6 +108,12 @@ function create(api, EventTarget) {
      * @return {Promise<void>}
      */
     close() {
+      if (this._.state === AudioContextState.CLOSED) {
+        throw new TypeError(format(`
+          Failed to execute 'suspend' on '${ this._.className }':
+          Cannot close a context that has already been closed.
+        `));
+      }
       return new Promise((resolve) => {
         this._.state = AudioContextState.CLOSED;
         emit(this, "statechange");
@@ -103,13 +121,35 @@ function create(api, EventTarget) {
       });
     }
 
+    createBuffer(...args) {
+      if (api.get("/AudioContext/createBuffer/mixToMono") && args[0] instanceof ArrayBuffer) {
+        return createBuffer$MixToMono.apply(this, args);
+      }
+      return createBuffer$Params.apply(this, args);
+    }
+
     /**
-     * @param {number} numberOfChannels
-     * @param {number} length
-     * @param {number} sampleRate
+     * @todo implements??
+     * @deprecated 2013-10-10
+     * @param {ArrayBuffer} buffer
+     * @param {boolean} mixToMono
      * @return {AudioBuffer}
      */
-    createBuffer(numberOfChannels, length, sampleRate) {
+    createBuffer$MixToMono(buffer, mixToMono) {
+      const numberOfChannels = 2 - mixToMono;
+      const length = buffer.byteLength;
+      const sampleRate = this.sampleRate;
+
+      return lock.tr(() => new api.AudioBuffer({ numberOfChannels, length, sampleRate }));
+    }
+
+    /**
+     * @param {integer} numberOfChannels
+     * @param {integer} length
+     * @param {positive} sampleRate
+     * @return {AudioBuffer}
+     */
+    createBuffer$Params(numberOfChannels, length, sampleRate) {
       return lock.tr(() => new api.AudioBuffer({ numberOfChannels, length, sampleRate }));
     }
 
@@ -120,18 +160,23 @@ function create(api, EventTarget) {
      * @return {Promise<AudioBuffer>}
      */
     decodeAudioData(audioData, successCallback, errorCallback) {
+      if (!api.get("/AudioContext/decodeAudioData/promise")) {
+        if (typeof successCallback !== "function") {
+          throw new TypeError(format(`
+            Failed to execute 'decodeAudioData' on '${ this._.className }':
+            The success callback must be function, but got ${ stringify(successCallback) }.
+          `));
+        }
+      }
+
       function decodeAudioData(result) {
-        /* istanbul ignore else */
-        if (!handler.done) {
-          handler.done = true;
-          if (result instanceof api.AudioBuffer) {
-            handler.resolve(result);
-          } else {
-            if (!(result instanceof Error)) {
-              result = new Error("decodeAudioDataError");
-            }
-            handler.reject(result);
+        if (result instanceof api.AudioBuffer) {
+          handler.resolve(result);
+        } else {
+          if (!(result instanceof Error)) {
+            result = new Error("decodeAudioDataError");
           }
+          handler.reject(result);
         }
       }
 
@@ -143,14 +188,23 @@ function create(api, EventTarget) {
 
       promise.then(successCallback, errorCallback).catch(() => {});
 
-      if (api.listenerCount("decodeAudioData")) {
-        api.emit("decodeAudioData", decodeAudioData);
+      if (typeof api.onDecodeAudioData === "function") {
+        api.onDecodeAudioData(decodeAudioData, audioData);
       } else {
-        decodeAudioData(null);
+        const numberOfChannels = this._.numberOfChannels;
+        const length = audioData.byteLength;
+        const sampleRate = this.sampleRate;
+        const audioBuffer = lock.tr(() =>
+          new api.AudioBuffer({ numberOfChannels, length, sampleRate })
+        );
+
+        decodeAudioData(audioBuffer);
       }
 
-      if (!api.get("/AudioContext/decodeAudioData/void")) {
+      if (api.get("/AudioContext/decodeAudioData/promise")) {
         return promise;
+      } else {
+        promise.catch(() => {});
       }
     }
 
@@ -179,9 +233,9 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} [bufferSize]
-     * @param {number} [numberOfInputChannels]
-     * @param {number} [numberOfOutputChannels]
+     * @param {integer} bufferSize
+     * @param {integer} numberOfInputChannels
+     * @param {integer} numberOfOutputChannels
      * @return {ScriptProcessorNode}
      */
     createScriptProcessor(bufferSize = 0, numberOfInputChannels = 2, numberOfOutputChannels = 2) {
@@ -203,7 +257,7 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} [maxDelayTime]
+     * @param {positive} maxDelayTime
      * @return {DelayNode}
      */
     createDelay(maxDelayTime = 1) {
@@ -262,7 +316,7 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} [numberOfOutputs]
+     * @param {integer} numberOfOutputs
      * @return {ChannelSplitterNode}
      */
     createChannelSplitter(numberOfOutputs = 6) {
@@ -270,7 +324,7 @@ function create(api, EventTarget) {
     }
 
     /**
-     * @param {number} [numberOfInputs]
+     * @param {integer} numberOfInputs
      * @return {ChannelMergerNode}
      */
     createChannelMerger(numberOfInputs = 6) {
@@ -294,10 +348,10 @@ function create(api, EventTarget) {
     /**
      * @param {Float32Array} real
      * @param {Float32Array} imag
-     * @param {Object} [constraints]
+     * @param {object} constraints
      * @return {PeriodicWave}
      */
-    createPeriodicWave(real, imag, constraints) {
+    createPeriodicWave(real, imag, constraints = {}) {
       return lock.tr(() => new api.PeriodicWave(this, { real, imag, constraints }));
     }
 
@@ -330,6 +384,11 @@ function create(api, EventTarget) {
       return lock.tr(() => new api.MediaStreamAudioDestinationNode(this));
     }
   }
+
+  // save methods, because these are dropped at the api builder.
+  const createBuffer$MixToMono = BaseAudioContext.prototype.createBuffer$MixToMono;
+  const createBuffer$Params = BaseAudioContext.prototype.createBuffer$Params;
+
   return BaseAudioContext;
 }
 
@@ -337,6 +396,25 @@ function initialize(api, opts) {
   const numberOfChannels = defaults(opts.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
   const length = defaults(opts.length, Infinity);
   const sampleRate = defaults(opts.sampleRate, DEFAULT_SAMPLE_RATE);
+
+  if (!(1 <= numberOfChannels && numberOfChannels <= 32)) {
+    throw new TypeError(format(`
+      Failed to construct 'BaseAudioContext':
+      The number of channels must be in the range [1, 32], but got ${ numberOfChannels }.
+    `));
+  }
+  if (!(1 <= length)) {
+    throw new TypeError(format(`
+      Failed to construct 'BaseAudioContext':
+      The length must be greater or equal than 1, but got ${ length }.
+    `));
+  }
+  if (!(3000 <= sampleRate && sampleRate <= 192000)) {
+    throw new TypeError(format(`
+      Failed to construct 'BaseAudioContext':
+      The sample rate must be in the range [3000, 192000], but got ${ sampleRate }.
+    `));
+  }
 
   this._.numberOfChannels = numberOfChannels;
   this._.length = length;

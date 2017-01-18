@@ -34,12 +34,23 @@ describe("ChannelSplitterNodeFactory", () => {
         assert(node instanceof api.ChannelSplitterNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
-        const api = testTools.createAPI({ illegal: true });
+      it("new instance, but @protected", () => {
+        const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
         assert.throws(() => {
           return new api.ChannelSplitterNode(context, {});
+        }, TypeError);
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+
+        assert.throws(() => {
+          return new api.ChannelSplitterNode(context, {
+            numberOfOutputs: 100
+          });
         }, TypeError);
       });
     });

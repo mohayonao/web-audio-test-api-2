@@ -115,10 +115,21 @@ describe("OfflineAudioContextFactory", () => {
         context.onstatechange = handler1;
         context.addEventListener("statechange", handler2);
 
-        return context.suspend().then(() => {
+        return context.suspend(0).then(() => {
           assert(context.state === "suspended");
           assert(handler1.callCount === 1);
           assert(handler2.callCount === 1);
+        });
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.OfflineAudioContext(1, 128, 44100);
+
+        return context.startRendering().then(() => {
+          assert.throws(() => {
+            context.suspend(0);
+          }, TypeError);
         });
       });
     });
@@ -137,6 +148,17 @@ describe("OfflineAudioContextFactory", () => {
           assert(context.state === "running");
           assert(handler1.callCount === 1);
           assert(handler2.callCount === 1);
+        });
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.OfflineAudioContext(1, 128, 44100);
+
+        return context.startRendering().then(() => {
+          assert.throws(() => {
+            context.resume();
+          }, TypeError);
         });
       });
     });

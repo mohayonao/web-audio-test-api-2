@@ -6,22 +6,19 @@ const lock = require("../utils/lock");
 function create(api, AudioNode) {
   class MediaStreamAudioSourceNode extends AudioNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createMediaStreamSource(mediaStream)
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {MediaStream} opts.mediaStream
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/MediaStreamAudioSourceNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
-      /** @type {MediaStream} */
       const mediaStream = defaults(opts.mediaStream, null);
 
-      lock.unlock();
-      super(context, opts, { inputs: [], outputs: [ 1 ] });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, { inputs: [], outputs: [ 1 ] });
+        this._.className = "MediaStreamAudioSourceNode";
+      } finally { lock.lock(); }
 
-      this._.className = "MediaStreamAudioSourceNode";
       this._.mediaStream = mediaStream;
     }
 

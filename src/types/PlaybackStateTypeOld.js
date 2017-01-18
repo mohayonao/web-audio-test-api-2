@@ -10,10 +10,7 @@ const PlaybackStateType = {
   UNSCHEDULED_STATE, SCHEDULED_STATE, PLAYING_STATE, FINISHED_STATE,
   [Symbol.hasInstance](value) {
     return values.includes(value);
-  },
-  [Symbol.toStringTag]() {
-    return `PlaybackStateType { ${ values.join(", ") } }`;
-  },
+  }
 };
 
 module.exports = PlaybackStateType;

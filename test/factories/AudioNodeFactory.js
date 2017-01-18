@@ -26,8 +26,19 @@ describe("AudioNodeFactory", () => {
         assert(node instanceof api.AudioNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
-        const api = testTools.createAPI({ illegal: true });
+      it("new insance with closed context", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+
+        context.close();
+
+        assert.throws(() => {
+          return new api.AudioNode(context, {});
+        }, TypeError);
+      });
+
+      it("new instance, but @protected", () => {
+        const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
         assert.throws(() => {
@@ -98,6 +109,18 @@ describe("AudioNodeFactory", () => {
         node.channelCount = 2;
         assert(node.channelCount === 2);
       });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AudioNode(context, {}, {
+          channelCount: 2, allowedMaxChannelCount: 4
+        });
+
+        assert.throws(() => {
+          node.channelCount = 8;
+        }, TypeError);
+      });
     });
 
     describe("channelCountMode", () => {
@@ -127,6 +150,18 @@ describe("AudioNodeFactory", () => {
 
         node.channelCountMode = "clamped-max";
         assert(node.channelCountMode === "clamped-max");
+      });
+
+      it("throws", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AudioNode(context, {}, {
+          channelCountMode: "clamped-max", allowedChannelCountMode: [ "clamped-max", "explicit" ]
+        });
+
+        assert.throws(() => {
+          node.channelCountMode = "max";
+        }, TypeError);
       });
     });
 
@@ -158,41 +193,73 @@ describe("AudioNodeFactory", () => {
         node.channelInterpretation = "discrete";
         assert(node.channelInterpretation === "discrete");
       });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node = new api.AudioNode(context, {}, {
+          channelInterpretation: "discrete", allowedChannelInterpretation: [ "discrete" ]
+        });
+
+        assert.throws(() => {
+          node.channelInterpretation = "speakers";
+        }, TypeError);
+      });
     });
 
     describe("connect", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioNode/connect/chain": true });
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, {
-          outputs: [ 1 ]
-        });
-        const node2 = node1.connect(context.destination);
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1 ] });
+        const result = node1.connect(node2);
 
-        assert(node2 === context.destination);
+        assert(result === node2);
       });
 
       it("works with AudioParam", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/AudioNode/connect/chain": true });
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, {
-          outputs: [ 1 ]
-        });
-        const node2 = node1.connect(new api.AudioParam(context));
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1 ] });
+        const param = new api.AudioParam(context);
+        const result = node1.connect(param);
 
-        assert(typeof node2 === "undefined");
+        assert(typeof result === "undefined");
       });
 
-      it("/AudioNode/connect/void: true", () => {
-        const api = testTools.createAPI({ "/AudioNode/connect/void": true });
+      it("/AudioNode/connect/chain: false", () => {
+        const api = testTools.createAPI();
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, {
-          outputs: [ 1 ]
-        });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1 ] });
+        const result = node1.connect(node2);
 
-        const node2 = node1.connect(context.destination);
+        assert(typeof result === "undefined");
+      });
 
-        assert(typeof node2 === "undefined");
+      it("throws error when different context", () => {
+        const api = testTools.createAPI();
+        const node1 = new api.AudioNode(new api.AudioContext(), {}, { outputs: [ 1 ] });
+        const node2 = new api.AudioNode(new api.AudioContext(), {}, { inputs: [ 1 ] });
+
+        assert.throws(() => {
+          node1.connect(node2);
+        }, TypeError);
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+
+        assert.throws(() => {
+          node1.connect(node2, 2, 0);
+        }, TypeError);
+        assert.throws(() => {
+          node1.connect(node2, 0, 2);
+        }, TypeError);
       });
     });
 
@@ -200,12 +267,119 @@ describe("AudioNodeFactory", () => {
       it("works", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, {
-          outputs: [ 1 ]
-        });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
 
-        node1.connect(context.destination);
+        node1.connect(node2);
         node1.disconnect();
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+
+        node1.connect(node2);
+        assert.throws(() => {
+          node1.disconnect(node2);
+        }, TypeError);
+      });
+    });
+
+    describe("disconnect$All", () => {
+      it("works", () => {
+        const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+
+        node1.connect(node2);
+        node1.disconnect();
+      });
+    });
+
+    describe("disconnect$AllFromOutput", () => {
+      it("works", () => {
+        const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+
+        node1.connect(node2);
+        node1.disconnect(0);
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+
+        node1.connect(node2);
+        assert.throws(() => {
+          node1.disconnect(2);
+        }, TypeError);
+      });
+    });
+
+    describe("disconnect$IfConnected", () => {
+      it("works", () => {
+        const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+
+        node1.connect(node2);
+        node1.disconnect(node2);
+      });
+
+      it("works with AudioParam", () => {
+        const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const param = new api.AudioParam(context);
+
+        node1.connect(param);
+        node1.disconnect(param);
+      });
+    });
+
+    describe("disconnect$FromOutputIfConnected", () => {
+      it("works", () => {
+        const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+
+        node1.connect(node2);
+        node1.disconnect(node2, 0, 0);
+      });
+
+      it("works with AudioParam", () => {
+        const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const param = new api.AudioParam(context);
+
+        node1.connect(param);
+        node1.disconnect(param, 0);
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+
+        node1.connect(node2);
+
+        assert.throws(() => {
+          node1.disconnect(node2, 2, 0);
+        }, TypeError);
+        assert.throws(() => {
+          node1.disconnect(node2, 0, 2);
+        }, TypeError);
       });
     });
   });

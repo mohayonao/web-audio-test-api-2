@@ -1,9 +1,9 @@
 "use strict";
 
 const name = "spec:draft";
-
-const apiSpec = {
-  "/BaseAudioContext": { "global": false, "constructor": "illegal" },
+const released = "draft";
+const spec = {
+  "/BaseAudioContext": { "global": false, "protected": true },
   "/BaseAudioContext/createAnalyser": {},
   "/BaseAudioContext/createBiquadFilter": {},
   "/BaseAudioContext/createBuffer": {},
@@ -23,7 +23,7 @@ const apiSpec = {
   "/BaseAudioContext/createStereoPanner": {},
   "/BaseAudioContext/createWaveShaper": {},
   "/BaseAudioContext/currentTime": {},
-  "/BaseAudioContext/decodeAudioData": {},
+  "/BaseAudioContext/decodeAudioData": { "promise": true },
   "/BaseAudioContext/destination": {},
   "/BaseAudioContext/listener": {},
   "/BaseAudioContext/onstatechange": {},
@@ -48,33 +48,33 @@ const apiSpec = {
   "/OfflineAudioContext/startRendering": {},
   "/OfflineAudioContext/suspend": {},
 
-  "/AudioNode": { "global": "AudioNode", "constructor": "illegal" },
+  "/AudioNode": { "global": "AudioNode", "protected": true },
   "/AudioNode/channelCount": {},
   "/AudioNode/channelCountMode": {},
   "/AudioNode/channelInterpretation": {},
-  "/AudioNode/connect": {},
+  "/AudioNode/connect": { "chain": true },
   "/AudioNode/context": {},
-  "/AudioNode/disconnect": {},
+  "/AudioNode/disconnect": { "selective": true },
   "/AudioNode/numberOfInputs": {},
   "/AudioNode/numberOfOutputs": {},
 
-  "/AudioDestinationNode": { "global": "AudioDestinationNode", "constructor": "illegal" },
+  "/AudioDestinationNode": { "global": "AudioDestinationNode", "protected": true },
   "/AudioDestinationNode/maxChannelCount": {},
 
-  "/AudioParam": { "global": "AudioParam", "constructor": "illegal" },
-  "/AudioParam/cancelAndHoldAtTime": {},
-  "/AudioParam/cancelScheduledValues": {},
+  "/AudioParam": { "global": "AudioParam", "protected": true },
+  "/AudioParam/cancelAndHoldAtTime": { "chain": true },
+  "/AudioParam/cancelScheduledValues": { "chain": true },
   "/AudioParam/defaultValue": {},
-  "/AudioParam/exponentialRampToValueAtTime": {},
-  "/AudioParam/linearRampToValueAtTime": {},
+  "/AudioParam/exponentialRampToValueAtTime": { "chain": true },
+  "/AudioParam/linearRampToValueAtTime": { "chain": true },
   "/AudioParam/maxValue": {},
   "/AudioParam/minValue": {},
-  "/AudioParam/setTargetAtTime": {},
-  "/AudioParam/setValueAtTime": {},
-  "/AudioParam/setValueCurveAtTime": {},
+  "/AudioParam/setTargetAtTime": { "chain": true },
+  "/AudioParam/setValueAtTime": { "chain": true },
+  "/AudioParam/setValueCurveAtTime": { "chain": true },
   "/AudioParam/value": {},
 
-  "/AudioScheduledSourceNode": { global: "AudioScheduledSourceNode", "constructor": "illegal" },
+  "/AudioScheduledSourceNode": { global: "AudioScheduledSourceNode", "protected": true },
   "/AudioScheduledSourceNode/onended": {},
   "/AudioScheduledSourceNode/start": {},
   "/AudioScheduledSourceNode/stop": {},
@@ -108,7 +108,7 @@ const apiSpec = {
 
   "/MediaElementAudioSourceNode": { "global": "MediaElementAudioSourceNode" },
 
-  "/ScriptProcessorNode": { "global": "ScriptProcessorNode", "constructor": "illegal" },
+  "/ScriptProcessorNode": { "global": "ScriptProcessorNode", "protected": true },
   "/ScriptProcessorNode/bufferSize": {},
   "/ScriptProcessorNode/onaudioprocess": {},
 
@@ -130,7 +130,7 @@ const apiSpec = {
   "/PannerNode/setOrientation": {},
   "/PannerNode/setPosition": {},
 
-  "/AudioListener": { "global": "AudioListener", "constructor": "illegal" },
+  "/AudioListener": { "global": "AudioListener", "protected": true },
   "/AudioListener/forwardX": {},
   "/AudioListener/forwardY": {},
   "/AudioListener/forwardZ": {},
@@ -169,7 +169,7 @@ const apiSpec = {
   "/DynamicsCompressorNode/attack": {},
   "/DynamicsCompressorNode/knee": {},
   "/DynamicsCompressorNode/ratio": {},
-  "/DynamicsCompressorNode/reduction": {},
+  "/DynamicsCompressorNode/reduction": { "number": true },
   "/DynamicsCompressorNode/release": {},
   "/DynamicsCompressorNode/threshold": {},
 
@@ -204,4 +204,4 @@ const apiSpec = {
   "/MediaStreamAudioDestinationNode/stream": {}
 };
 
-module.exports = { name, apiSpec };
+module.exports = { name, released, spec };

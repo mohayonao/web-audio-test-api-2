@@ -24,26 +24,23 @@ const DEFAULT_ORIENTATION_Z = 0;
 function create(api, AudioNode) {
   class SpatialPannerNode extends AudioNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createSpatialPanner()
+     * @param {BaseAudioContext} context
+     * @param {object} opts
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/SpatialPannerNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 2 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.CLAMPED_MAX,
-        allowedMaxChannelCount: 2,
-        allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ]
-      });
-      initialize.call(this, api, context, opts);
-      lock.lock();
-
-      this._.className = "SpatialPannerNode";
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 2 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.CLAMPED_MAX,
+          allowedMaxChannelCount: 2,
+          allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ]
+        });
+        this._.className = "SpatialPannerNode";
+        initialize.call(this, api, context, opts);
+      } finally { lock.lock(); }
     }
 
     /**
@@ -204,22 +201,22 @@ function initialize(api, context, opts) {
   this._.coneOuterAngle = coneOuterAngle;
   this._.coneOuterGain = coneOuterGain;
   this._.positionX = new api.AudioParam(context, {
-    name: "positionX", defaultValue: DEFAULT_POSITION_X, value: positionX
+    name: "Panner.positionX", defaultValue: DEFAULT_POSITION_X, value: positionX
   });
   this._.positionY = new api.AudioParam(context, {
-    name: "positionY", defaultValue: DEFAULT_POSITION_Y, value: positionY
+    name: "Panner.positionY", defaultValue: DEFAULT_POSITION_Y, value: positionY
   });
   this._.positionZ = new api.AudioParam(context, {
-    name: "positionZ", defaultValue: DEFAULT_POSITION_Z, value: positionZ
+    name: "Panner.positionZ", defaultValue: DEFAULT_POSITION_Z, value: positionZ
   });
   this._.orientationX = new api.AudioParam(context, {
-    name: "orientationX", defaultValue: DEFAULT_ORIENTATION_X, value: orientationX
+    name: "Panner.orientationX", defaultValue: DEFAULT_ORIENTATION_X, value: orientationX
   });
   this._.orientationY = new api.AudioParam(context, {
-    name: "orientationY", defaultValue: DEFAULT_ORIENTATION_Y, value: orientationY
+    name: "Panner.orientationY", defaultValue: DEFAULT_ORIENTATION_Y, value: orientationY
   });
   this._.orientationZ = new api.AudioParam(context, {
-    name: "orientationZ", defaultValue: DEFAULT_ORIENTATION_Z, value: orientationZ
+    name: "Panner.orientationZ", defaultValue: DEFAULT_ORIENTATION_Z, value: orientationZ
   });
 }
 

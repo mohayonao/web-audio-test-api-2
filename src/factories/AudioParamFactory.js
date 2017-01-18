@@ -9,30 +9,30 @@ const MAX_VALUE = +3.4028234663852886e+38;
 function create(api, BaseObject) {
   class AudioParam extends BaseObject {
     /**
-     * @param {AudioNode} context
-     * @param {Object} [opts]
+     * @protected
+     * @param {BaseAudioContext} context
+     * @param {object} opts
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/AudioParam")) {
-        throw new TypeError("Illegal constructor");
-      }
-
       const name = defaults(opts.name, "");
       const defaultValue = defaults(opts.defaultValue, 0);
       const minValue = defaults(opts.minValue, MIN_VALUE);
       const maxValue = defaults(opts.maxValue, MAX_VALUE);
       const value = defaults(opts.value, defaultValue);
 
-      lock.unlock();
-      super();
-      lock.lock();
+      try { lock.unlock();
+        super();
+        this._.className = "AudioParam";
+      } finally { lock.lock(); }
 
-      this._.className = "AudioParam";
+      this._.context = context;
       this._.name = name;
       this._.defaultValue = defaultValue;
       this._.minValue = minValue;
       this._.maxValue = maxValue;
       this._.value = value;
+
+      this.value = value;
     }
 
     /**
@@ -69,90 +69,90 @@ function create(api, BaseObject) {
 
     /**
      * @param {number} value
-     * @param {number} startTime
+     * @param {positive} startTime
      * @return {AudioParam}
      */
     setValueAtTime(value, startTime) {
       void(this, value, startTime);
-      if (!api.get("/AudioParam/setValueAtTime/void")) {
+      if (api.get("/AudioParam/setValueAtTime/chain")) {
         return this;
       }
     }
 
     /**
      * @param {number} value
-     * @param {number} endTime
+     * @param {positive} endTime
      * @return {AudioParam}
      */
     linearRampToValueAtTime(value, endTime) {
       void(this, value, endTime);
-      if (!api.get("/AudioParam/linearRampToValueAtTime/void")) {
+      if (api.get("/AudioParam/linearRampToValueAtTime/chain")) {
         return this;
       }
     }
 
     /**
      * @param {number} value
-     * @param {number} endTime
+     * @param {positive} endTime
      * @return {AudioParam}
      */
     exponentialRampToValueAtTime(value, endTime) {
       void(this, value, endTime);
-      if (!api.get("/AudioParam/exponentialRampToValueAtTime/void")) {
+      if (api.get("/AudioParam/exponentialRampToValueAtTime/chain")) {
         return this;
       }
     }
 
     /**
      * @param {number} target
-     * @param {number} startTime
-     * @param {number} timeConstant
+     * @param {positive} startTime
+     * @param {positive} timeConstant
      * @return {AudioParam}
      */
     setTargetAtTime(target, startTime, timeConstant) {
       void(this, target, startTime, timeConstant);
-      if (!api.get("/AudioParam/setTargetAtTime/void")) {
+      if (api.get("/AudioParam/setTargetAtTime/chain")) {
         return this;
       }
     }
 
     /**
      * @param {Float32Array} curve
-     * @param {number} startTime
-     * @param {number} duration
+     * @param {positive} startTime
+     * @param {positive} duration
      * @return {AudioParam}
      */
     setValueCurveAtTime(curve, startTime, duration) {
       void(this, curve, startTime, duration);
-      if (!api.get("/AudioParam/setValueCurveAtTime/void")) {
+      if (api.get("/AudioParam/setValueCurveAtTime/chain")) {
         return this;
       }
     }
 
     /**
-     * @param {number} cancelTime
+     * @param {positive} cancelTime
      * @return {AudioParam}
      */
     cancelScheduledValues(cancelTime) {
       void(this, cancelTime);
-      if (!api.get("/AudioParam/cancelScheduledValues/void")) {
+      if (api.get("/AudioParam/cancelScheduledValues/chain")) {
         return this;
       }
     }
 
     /**
-     * @param {number} cancelTime
+     * @param {positive} cancelTime
      * @return {AudioParam}
      */
     cancelAndHoldAtTime(cancelTime) {
       void(this, cancelTime);
-      if (!api.get("/AudioParam/cancelAndHoldAtTime/void")) {
+      if (api.get("/AudioParam/cancelAndHoldAtTime/chain")) {
         return this;
       }
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-08-02
      * @type {string}
      */
     get name() {
@@ -160,15 +160,15 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
-     * @type {number}
+     * @deprecated 2012-08-02
+     * @type {positive}
      */
     get units() {
       return 0;
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {number}
      */
     get computedValue() {
@@ -176,15 +176,15 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 setTargetAtTime(target, startTime, timeConstant)
      * @param {number} target
-     * @param {number} startTime
-     * @param {number} timeConstant
+     * @param {positive} startTime
+     * @param {positive} timeConstant
      * @return {AudioParam}
      */
     setTargetValueAtTime(target, startTime, timeConstant) {
       void(this, target, startTime, timeConstant);
-      if (!api.get("/AudioParam/setTargetValueAtTime/void")) {
+      if (api.get("/AudioParam/setTargetValueAtTime/chain")) {
         return this;
       }
     }

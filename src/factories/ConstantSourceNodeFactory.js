@@ -9,27 +9,24 @@ const DEFAULT_OFFSET = 1;
 function create(api, AudioScheduledSourceNode) {
   class ConstantSourceNode extends AudioScheduledSourceNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createConstantSource()
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.offset
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/ConstantSourceNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
-      /** @type {number} */
       const offset = defaults(opts.offset, DEFAULT_OFFSET);
 
-      lock.unlock();
-      super(context, opts, { inputs: [], outputs: [ 1 ] });
-      if (!(this instanceof api.AudioScheduledSourceNode)) {
-        initialize.call(this, api, opts);
-      }
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, { inputs: [], outputs: [ 1 ] });
+        if (!(this instanceof api.AudioScheduledSourceNode)) {
+          initialize.call(this, api, opts);
+        }
+        this._.className = "ConstantSourceNode";
+      } finally { lock.lock(); }
 
-      this._.className = "ConstantSourceNode";
       this._.offset = new api.AudioParam(context, {
-        name: "offset", defaultValue: DEFAULT_OFFSET, value: offset
+        name: "ConstantSource.offset", defaultValue: DEFAULT_OFFSET, value: offset
       });
     }
 

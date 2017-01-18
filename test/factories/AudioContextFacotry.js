@@ -30,7 +30,7 @@ describe("AudioContextFactory", () => {
         assert(context instanceof api.BaseAudioContext);
       });
 
-      it("new instance", () => {
+      it("new instance without BaseAudioContext", () => {
         const api = testTools.createAPI({ "disabled": "/BaseAudioContext" });
         const context = new api.AudioContext();
 
@@ -93,6 +93,16 @@ describe("AudioContextFactory", () => {
           assert(handler2.callCount === 1);
         });
       });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+
+        context.close();
+        assert.throws(() => {
+          context.close();
+        }, TypeError);
+      });
     });
 
     describe("suspend", () => {
@@ -110,6 +120,16 @@ describe("AudioContextFactory", () => {
           assert(handler1.callCount === 1);
           assert(handler2.callCount === 1);
         });
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI();
+        const context = new api.AudioContext();
+
+        context.close();
+        assert.throws(() => {
+          context.suspend();
+        }, TypeError);
       });
     });
 
@@ -176,6 +196,8 @@ describe("AudioContextFactory", () => {
         const handler2 = sinon.spy();
         const handler3 = sinon.spy();
 
+        context._.length = 128;
+
         context.onstatechange = handler1;
         context.oncomplete = handler2;
         context.addEventListener("complete", handler3);
@@ -198,6 +220,8 @@ describe("AudioContextFactory", () => {
         const handler2 = sinon.spy();
         const handler3 = sinon.spy();
 
+        context._.length = 128;
+
         context.onstatechange = handler1;
         context.oncomplete = handler2;
         context.addEventListener("complete", handler3);
@@ -217,7 +241,7 @@ describe("AudioContextFactory", () => {
     });
   });
 
-  describe("ancient properties", () => {
+  describe("@deprecated", () => {
     describe("activeSourceCount", () => {
       it("works", () => {
         const api = testTools.createAPI();
@@ -262,7 +286,7 @@ describe("AudioContextFactory", () => {
       it("works", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
-        const node = context.createWaveTable([ 0, 0 ], [ 0, 1 ]);
+        const node = context.createWaveTable(new Float32Array([ 0, 0 ]), new Float32Array([ 0, 1 ]));
 
         assert(node instanceof api.PeriodicWave);
       });

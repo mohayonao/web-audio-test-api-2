@@ -36,13 +36,39 @@ describe("ScriptProcessorNodeFactory", () => {
         assert(node instanceof api.ScriptProcessorNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
-        const api = testTools.createAPI({ illegal: true });
+      it("new instance, but @protected", () => {
+        const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
         assert.throws(() => {
           return new api.ScriptProcessorNode(context, {
             bufferSize: 1024, numberOfInputChannels: 1, numberOfOutputChannels: 1
+          });
+        }, TypeError);
+      });
+
+      it("throws error", () => {
+        const api = testTools.createAPI({});
+        const context = new api.AudioContext();
+
+        assert.throws(() => {
+          return new api.ScriptProcessorNode(context, {
+            bufferSize: 0, numberOfInputChannels: 1, numberOfOutputChannels: 1
+          });
+        }, TypeError);
+        assert.throws(() => {
+          return new api.ScriptProcessorNode(context, {
+            bufferSize: 1024, numberOfInputChannels: 100, numberOfOutputChannels: 0
+          });
+        }, TypeError);
+        assert.throws(() => {
+          return new api.ScriptProcessorNode(context, {
+            bufferSize: 1024, numberOfInputChannels: 0, numberOfOutputChannels: 100
+          });
+        }, TypeError);
+        assert.throws(() => {
+          return new api.ScriptProcessorNode(context, {
+            bufferSize: 1024, numberOfInputChannels: 0, numberOfOutputChannels: 0
           });
         }, TypeError);
       });

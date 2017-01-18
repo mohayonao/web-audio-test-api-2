@@ -9,41 +9,38 @@ const DEFAULT_NUMBER_OF_CHANNELS = 2;
 function create(api, AudioNode) {
   class AudioDestinationNode extends AudioNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.destination
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {integer} opts.numberOfChannels
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/AudioDestinationNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
-      /** @type {number} */
       const numberOfChannels = defaults(opts.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ numberOfChannels ],
-        outputs: [],
-        channelCount: numberOfChannels,
-        channelCountMode: ChannelCountMode.EXPLICIT,
-        allowedMaxChannelCount: numberOfChannels,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ numberOfChannels ],
+          outputs: [],
+          channelCount: numberOfChannels,
+          channelCountMode: ChannelCountMode.EXPLICIT,
+          allowedMaxChannelCount: numberOfChannels,
+        });
+        this._.className = "AudioDestinationNode";
+      } finally { lock.lock(); }
 
-      this._.className = "AudioDestinationNode";
       this._.maxChannelCount = numberOfChannels;
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get maxChannelCount() {
       return this._.maxChannelCount;
     }
 
     /**
-     * @deprecated
-     * @type {number}
+     * @deprecated 2013-10-10 maxChannelCount
+     * @type {integer}
      */
     get numberOfChannels() {
       return this._.maxChannelCount;

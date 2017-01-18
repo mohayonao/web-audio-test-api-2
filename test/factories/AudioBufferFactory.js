@@ -47,12 +47,42 @@ describe("AudioBufferFactory", () => {
         assert(buffer.length === 128);
       });
 
-      it("new instance, but Illegal constructor", () => {
-        const api = testTools.createAPI({ illegal: true });
+      it("new instance, but @protected", () => {
+        const api = testTools.createAPI({ protected: true });
 
         assert.throws(() => {
           return new api.AudioBuffer({
             numberOfChannels: 2, length: 128, sampleRate: 44100
+          });
+        }, TypeError);
+      });
+
+      it("throws error when without AudioContext", () => {
+        const api = testTools.createAPI({ "/AudioBuffer/context": true });
+
+        assert.throws(() => {
+          return new api.AudioBuffer({
+            numberOfChannels: 2, length: 128, sampleRate: 44100
+          });
+        }, TypeError);
+      });
+
+      it("throw error", () => {
+        const api = testTools.createAPI({});
+
+        assert.throws(() => {
+          return new api.AudioBuffer({
+            numberOfChannels: 0, length: 128, sampleRate: 44100
+          });
+        }, TypeError);
+        assert.throws(() => {
+          return new api.AudioBuffer({
+            numberOfChannels: 2, length: 0, sampleRate: 44100
+          });
+        }, TypeError);
+        assert.throws(() => {
+          return new api.AudioBuffer({
+            numberOfChannels: 2, length: 128, sampleRate: 0
           });
         }, TypeError);
       });
@@ -80,6 +110,17 @@ describe("AudioBufferFactory", () => {
         assert(buffer.getChannelData(0) instanceof Float32Array);
         assert(buffer.getChannelData(0).length === 8);
       });
+
+      it("throw error", () => {
+        const api = testTools.createAPI();
+        const buffer = new api.AudioBuffer({
+          numberOfChannels: 2, length: 8, sampleRate: 44100
+        });
+
+        assert.throws(() => {
+          return buffer.getChannelData(2);
+        }, TypeError);
+      });
     });
 
     describe("copyFromChannel", () => {
@@ -95,6 +136,21 @@ describe("AudioBufferFactory", () => {
 
         assert.deepEqual(destination, [ 1, 2, 3, 4 ]);
       });
+
+      it("throws", () => {
+        const api = testTools.createAPI();
+        const buffer = new api.AudioBuffer({
+          numberOfChannels: 2, length: 8, sampleRate: 44100
+        });
+        const destination = new Float32Array(4);
+
+        assert.throws(() => {
+          buffer.copyFromChannel(destination, 2, 0);
+        }, TypeError);
+        assert.throws(() => {
+          buffer.copyFromChannel(destination, 0, 10);
+        }, TypeError);
+      });
     });
 
     describe("copyToChannel", () => {
@@ -103,15 +159,31 @@ describe("AudioBufferFactory", () => {
         const buffer = new api.AudioBuffer({
           numberOfChannels: 2, length: 8, sampleRate: 44100
         });
+        const source = new Float32Array([ 1, 2, 3, 4 ]);
 
-        buffer.copyToChannel(new Float32Array([ 1, 2, 3, 4 ]), 1, 2);
+        buffer.copyToChannel(source, 1, 2);
 
         assert(buffer.getChannelData(1), [ 0, 0, 1, 2, 3, 4, 0, 0 ]);
+      });
+
+      it("throws", () => {
+        const api = testTools.createAPI();
+        const buffer = new api.AudioBuffer({
+          numberOfChannels: 2, length: 8, sampleRate: 44100
+        });
+        const source = new Float32Array([ 1, 2, 3, 4 ]);
+
+        assert.throws(() => {
+          buffer.copyToChannel(source, 2, 0);
+        }, TypeError);
+        assert.throws(() => {
+          buffer.copyToChannel(source, 0, 10);
+        }, TypeError);
       });
     });
   });
 
-  describe("ancient properties", () => {
+  describe("@deprecated", () => {
     describe("gain", () => {
       it("works", () => {
         const api = testTools.createAPI();

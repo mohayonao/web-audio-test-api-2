@@ -10,29 +10,26 @@ const DEFAULT_OVERSAMPLE = OverSampleType.NONE;
 function create(api, AudioNode) {
   class WaveShaperNode extends AudioNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createWaveShaper()
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {Float32Array?} opts.curve
+     * @param {OverSampleType} opts.oversample
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/WaveShaperNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
-      /** @type {Float32Array?} */
       const curve = defaults(opts.curve, null);
-      /** @type {OverSampleType} */
       const oversample = defaults(opts.oversample, DEFAULT_OVERSAMPLE);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 1 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.MAX,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 1 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.MAX,
+        });
+        this._.className = "WaveShaperNode";
+      } finally { lock.lock(); }
 
-      this._.className = "WaveShaperNode";
       this._.curve = curve;
       this._.oversample = oversample;
     }

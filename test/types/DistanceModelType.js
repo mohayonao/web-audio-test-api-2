@@ -15,10 +15,4 @@ describe("types/DistanceModelType", () => {
       assert(DistanceModelType[Symbol.hasInstance](value));
     });
   });
-
-  it("Symbol.toStringTag", () => {
-    const tag = DistanceModelType[Symbol.toStringTag]();
-
-    assert(tag.includes("DistanceModelType"));
-  });
 });

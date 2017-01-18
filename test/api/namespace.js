@@ -6,12 +6,12 @@ const assert = require("assert");
 const namespace = require("../../src/api/namespace");
 
 describe("api/namespace", () => {
-  describe("apply(api, [ apiSpec, options ])", () => {
+  describe("apply(api, [ spec ])", () => {
     it("with BaseAudioContext", () => {
       const api = {};
-      const apiSpec = { "/BaseAudioContext": true };
+      const spec = { "/BaseAudioContext": true };
 
-      namespace.apply(api, [ apiSpec ]);
+      namespace.apply(api, [ spec ]);
 
       assert(api.EventTarget.isPrototypeOf(api.BaseAudioContext));
       assert(api.BaseAudioContext.isPrototypeOf(api.AudioContext));
@@ -21,9 +21,9 @@ describe("api/namespace", () => {
 
     it("without BaseAudioContext", () => {
       const api = {};
-      const apiSpec = {};
+      const spec = {};
 
-      namespace.apply(api, [ apiSpec ]);
+      namespace.apply(api, [ spec ]);
 
       assert(api.EventTarget.isPrototypeOf(api.AudioContext));
       assert(api.AudioContext.isPrototypeOf(api.OfflineAudioContext));
@@ -32,9 +32,9 @@ describe("api/namespace", () => {
 
     it("with AudioScheduledSourceNode", () => {
       const api = {};
-      const apiSpec = { "/AudioScheduledSourceNode": true, "/AudioSourceNode": true };
+      const spec = { "/AudioScheduledSourceNode": true, "/AudioSourceNode": true };
 
-      namespace.apply(api, [ apiSpec ]);
+      namespace.apply(api, [ spec ]);
 
       assert(api.AudioNode.isPrototypeOf(api.AudioScheduledSourceNode));
       assert(api.AudioScheduledSourceNode.isPrototypeOf(api.AudioBufferSourceNode));
@@ -48,9 +48,9 @@ describe("api/namespace", () => {
 
     it("with AudioSourceNode", () => {
       const api = {};
-      const apiSpec = { "/AudioSourceNode": true };
+      const spec = { "/AudioSourceNode": true };
 
-      namespace.apply(api, [ apiSpec ]);
+      namespace.apply(api, [ spec ]);
 
       assert(api.AudioNode.isPrototypeOf(api.AudioSourceNode));
       assert(api.AudioSourceNode.isPrototypeOf(api.AudioBufferSourceNode));
@@ -64,9 +64,9 @@ describe("api/namespace", () => {
 
     it("without SourceNode", () => {
       const api = {};
-      const apiSpec = {};
+      const spec = {};
 
-      namespace.apply(api, [ apiSpec ]);
+      namespace.apply(api, [ spec ]);
 
       assert(api.AudioNode.isPrototypeOf(api.AudioBufferSourceNode));
       assert(api.AudioNode.isPrototypeOf(api.ConstantSourceNode));
@@ -79,9 +79,9 @@ describe("api/namespace", () => {
 
     it("class tree", () => {
       const api = {};
-      const apiSpec = {};
+      const spec = {};
 
-      namespace.apply(api, [ apiSpec ]);
+      namespace.apply(api, [ spec ]);
 
       assert(api.BaseObject.isPrototypeOf(api.EventTarget));
       assert(api.EventTarget.isPrototypeOf(api.Worker));

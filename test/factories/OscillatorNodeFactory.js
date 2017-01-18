@@ -58,8 +58,8 @@ describe("OscillatorNodeFactory", () => {
         assert(node instanceof api.AudioNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
-        const api = testTools.createAPI({ illegal: true });
+      it("new instance, but @protected", () => {
+        const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
         assert.throws(() => {
@@ -124,14 +124,17 @@ describe("OscillatorNodeFactory", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
         const node = new api.OscillatorNode(context, {});
-        const wave = new api.PeriodicWave([ 0, 0 ], [ 0, 1 ]);
+        const wave = new api.PeriodicWave(context, {
+          real: new Float32Array([ 0, 0 ]),
+          imag: new Float32Array([ 0, 1 ]),
+        });
 
         node.setPeriodicWave(wave);
       });
     });
   });
 
-  describe("ancient properties", () => {
+  describe("@deprecated", () => {
     describe("constants", () => {
       it("SINE", () => {
         const api = testTools.createAPI();
@@ -286,7 +289,10 @@ describe("OscillatorNodeFactory", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
         const node = new api.OscillatorNode(context, {});
-        const wave = new api.PeriodicWave([ 0, 0 ], [ 0, 1 ]);
+        const wave = new api.PeriodicWave(context, {
+          real: new Float32Array([ 0, 0 ]),
+          imag: new Float32Array([ 0, 1 ])
+        });
 
         node.setWaveTable(wave);
       });

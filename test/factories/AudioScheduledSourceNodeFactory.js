@@ -26,8 +26,8 @@ describe("AudioScheduledSourceNodeFactory", () => {
         assert(node instanceof api.AudioScheduledSourceNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
-        const api = testTools.createAPI({ illegal: true });
+      it("new instance, but @protected", () => {
+        const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
         assert.throws(() => {
@@ -59,6 +59,18 @@ describe("AudioScheduledSourceNodeFactory", () => {
 
       node.start(0);
     });
+
+    it("throws error", () => {
+      const api = testTools.createAPI();
+      const context = new api.AudioContext();
+      const node = new api.AudioScheduledSourceNode(context, {});
+
+      node.start(0);
+
+      assert.throws(() => {
+        node.start(1);
+      }, TypeError);
+    });
   });
 
   describe("stop", () => {
@@ -69,6 +81,28 @@ describe("AudioScheduledSourceNodeFactory", () => {
 
       node.start(0);
       node.stop(1);
+    });
+
+    it("throws error", () => {
+      const api = testTools.createAPI();
+      const context = new api.AudioContext();
+      const node = new api.AudioScheduledSourceNode(context, {});
+
+      assert.throws(() => {
+        node.stop(0);
+      }, TypeError);
+    });
+
+    it("throws error", () => {
+      const api = testTools.createAPI();
+      const context = new api.AudioContext();
+      const node = new api.AudioScheduledSourceNode(context, {});
+
+      node.start(0);
+      node.stop(1);
+      assert.throws(() => {
+        node.stop(2);
+      }, TypeError);
     });
   });
 });

@@ -9,31 +9,28 @@ const DEFAULT_DISABLE_NORMALIZATION = false;
 function create(api, AudioNode) {
   class ConvolverNode extends AudioNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createConvolver()
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {AudioBuffer?} opts.buffer
+     * @param {boolean} opts.disableNormalization
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/ConvolverNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
-      /** @type {AudioBuffer?} */
       const buffer = defaults(opts.buffer, null);
-      /** @type {boolean} */
       const disableNormalization = defaults(opts.disableNormalization, DEFAULT_DISABLE_NORMALIZATION);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 1 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.CLAMPED_MAX,
-        allowedMaxChannelCount: 2,
-        allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ],
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 1 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.CLAMPED_MAX,
+          allowedMaxChannelCount: 2,
+          allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ],
+        });
+        this._.className = "ConvolverNode";
+      } finally { lock.lock(); }
 
-      this._.className = "ConvolverNode";
       this._.buffer = buffer;
       this._.normalize = !disableNormalization;
     }

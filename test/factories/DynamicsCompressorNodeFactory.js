@@ -34,8 +34,8 @@ describe("DynamicsCompressorNodeFactory", () => {
         assert(node instanceof api.DynamicsCompressorNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
-        const api = testTools.createAPI({ illegal: true });
+      it("new instance, but @protected", () => {
+        const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
         assert.throws(() => {
@@ -44,7 +44,7 @@ describe("DynamicsCompressorNodeFactory", () => {
       });
 
       it("default parameters", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/DynamicsCompressorNode/reduction/number": true });
         const context = new api.AudioContext();
         const node = new api.DynamicsCompressorNode(context, {});
 
@@ -100,15 +100,15 @@ describe("DynamicsCompressorNodeFactory", () => {
 
     describe("reduction", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/DynamicsCompressorNode/reduction/number": true });
         const context = new api.AudioContext();
         const node = new api.DynamicsCompressorNode(context, {});
 
         assert(typeof node.reduction === "number");
       });
 
-      it("/DynamicsCompressorNode/reduction/AudioParam: true", () => {
-        const api = testTools.createAPI({ "/DynamicsCompressorNode/reduction/AudioParam": true });
+      it("/DynamicsCompressorNode/reduction/number: false", () => {
+        const api = testTools.createAPI();
         const context = new api.AudioContext();
         const node = new api.DynamicsCompressorNode(context, {});
 

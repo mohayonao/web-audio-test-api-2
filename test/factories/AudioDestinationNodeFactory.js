@@ -36,8 +36,8 @@ describe("AudioDestinationNodeFactory", () => {
         assert(node instanceof api.AudioDestinationNode);
       });
 
-      it("new instance, but Illegal constructor", () => {
-        const api = testTools.createAPI({ illegal: true });
+      it("new instance, but @protected", () => {
+        const api = testTools.createAPI({ protected: true });
         const context = new api.AudioContext();
 
         assert.throws(() => {
@@ -56,7 +56,7 @@ describe("AudioDestinationNodeFactory", () => {
       });
     });
 
-    describe("ancient properties", () => {
+    describe("@deprecated", () => {
       describe("numberOfChannels", () => {
         it("works", () => {
           const api = testTools.createAPI();

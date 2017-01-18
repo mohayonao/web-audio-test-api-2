@@ -5,15 +5,16 @@ const lock = require("../utils/lock");
 /* istanbul ignore next */
 function create(api, Worker) {
   class AudioWorker extends Worker {
+    /**
+     * @protected
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/AudioWorker")) {
-        throw new TypeError("Illegal constructor");
-      }
-      lock.unlock();
-      super(context, opts);
-      lock.lock();
-
-      this._.className = "AudioWorker";
+      try { lock.unlock();
+        super(context, opts);
+        this._.className = "AudioWorker";
+      } finally { lock.lock(); }
     }
 
     get parameters() {

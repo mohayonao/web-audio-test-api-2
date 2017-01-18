@@ -2,6 +2,7 @@
 
 const OscillatorType = require("../types/OscillatorType");
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 const { initialize, start, stop } = require("./AudioScheduledSourceNodeFactory");
 
@@ -12,40 +13,41 @@ const DEFAULT_DETUNE = 0;
 function create(api, AudioNode) {
   class OscillatorNode extends AudioNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createOscillator()
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {OscillatorType} opts.type
+     * @param {number} opts.frequency
+     * @param {number} opts.detune
+     * @param {PeriodicWave?} opts.periodicWave
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/OscillatorNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
-      /** @type {OscillatorType} */
       const type = defaults(opts.type, DEFAULT_TYPE);
-      /** @type {number} */
       const frequency = defaults(opts.frequency, DEFAULT_FREQUENCY);
-      /** @type {number} */
       const detune = defaults(opts.detune, DEFAULT_DETUNE);
-      /** @type {PeriodicWave?} */
       const periodicWave = defaults(opts.periodicWave, null);
 
-      lock.unlock();
-      super(context, opts, { inputs: [], outputs: [ 1 ] });
-      if (!(this instanceof api.AudioScheduledSourceNode)) {
-        initialize.call(this, api, opts);
-      }
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, { inputs: [], outputs: [ 1 ] });
+        this._.className = "OscillatorNode";
+        if (!(this instanceof api.AudioScheduledSourceNode)) {
+          initialize.call(this, api, opts);
+        }
+      } finally { lock.lock(); }
 
-      this._.className = "OscillatorNode";
       this._.type = type;
       this._.frequency = new api.AudioParam(context, {
-        name: "frequency", defaultValue: DEFAULT_FREQUENCY, value: frequency,
+        name: "Oscillator.frequency", defaultValue: DEFAULT_FREQUENCY, value: frequency,
         minValue: -context.sampleRate / 2, maxValue: context.sampleRate / 2
       });
       this._.detune = new api.AudioParam(context, {
-        name: "detune", defaultValue: DEFAULT_DETUNE, value: detune
+        name: "Oscillator.detune", defaultValue: DEFAULT_DETUNE, value: detune
       });
       this._.periodicWave = periodicWave;
+
+      if (periodicWave !== null) {
+        this._.type = OscillatorType.CUSTOM;
+      }
     }
 
     /**
@@ -79,11 +81,12 @@ function create(api, AudioNode) {
      * @return {void}
      */
     setPeriodicWave(periodicWave) {
+      this._.type = OscillatorType.CUSTOM;
       this._.periodicWave = periodicWave;
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "sine"
      * @type {OscillatorType}
      */
     get SINE() {
@@ -91,7 +94,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "square"
      * @type {OscillatorType}
      */
     get SQUARE() {
@@ -99,7 +102,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "sawtooth"
      * @type {OscillatorType}
      */
     get SAWTOOTH() {
@@ -107,7 +110,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "triangle"
      * @type {OscillatorType}
      */
     get TRIANGLE() {
@@ -115,7 +118,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "custom"
      * @type {OscillatorType}
      */
     get CUSTOM() {
@@ -123,7 +126,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get UNSCHEDULED_STATE() {
@@ -131,7 +134,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get SCHEDULED_STATE() {
@@ -139,7 +142,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get PLAYING_STATE() {
@@ -147,7 +150,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get FINISHED_STATE() {
@@ -155,7 +158,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10
      * @type {PlaybackStateType}
      */
     get playbackState() {
@@ -177,25 +180,43 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
-     * @param {number} [when]
+     * @deprecated 2012-12-13 start([when])
+     * @param {number} when
      * @return {void}
      */
     noteOn(when = 0) {
+      if (!(this._.startTime === Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'noteOn' on 'OscillatorNode':
+          Cannot call start more than once.
+        `));
+      }
       start.call(this, when);
     }
 
     /**
-     * @deprecated
-     * @param {number} [when]
+     * @deprecated 2012-12-13 stop([when])
+     * @param {number} when
      * @return {void}
      */
     noteOff(when = 0) {
+      if (!(this._.startTime !== Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'noteOff' on 'OscillatorNode':
+          Cannot call stop without calling start first.
+        `));
+      }
+      if (!(this._.stopTime === Infinity)) {
+        throw new TypeError(format(`
+          Failed to execute 'noteOff' on 'OscillatorNode':
+          Cannot call stop more than once.
+        `));
+      }
       stop.call(this, when);
     }
 
     /**
-     * @deprecated
+     * @deprecated 2013-10-10 setPeriodicWave(periodicWave)
      * @param {PeriodicWave} waveTable
      * @return {void}
      */

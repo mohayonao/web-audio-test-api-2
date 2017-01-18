@@ -34,13 +34,4 @@ function tr(fn) {
   return result;
 }
 
-function checkIllegalConstructor(api, apiPath) {
-  if (_UNLOCKED === 0 && api && api.apiSpec) {
-    if (!api.apiSpec[apiPath] || api.apiSpec[apiPath]["constructor"] === "illegal") {
-      return true;
-    }
-  }
-  return false;
-}
-
-module.exports = { lock, unlock, isLocked, tr, checkIllegalConstructor };
+module.exports = { lock, unlock, isLocked, tr };

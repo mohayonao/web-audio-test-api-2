@@ -14,10 +14,7 @@ const BiquadFilterType = {
   LOWPASS, HIGHPASS, BANDPASS, LOWSHELF, HIGHSHELF, PEAKING, NOTCH, ALLPASS,
   [Symbol.hasInstance](value) {
     return values.includes(value);
-  },
-  [Symbol.toStringTag]() {
-    return `BiquadFilterType { ${ values.join(", ") } }`;
-  },
+  }
 };
 
 module.exports = BiquadFilterType;

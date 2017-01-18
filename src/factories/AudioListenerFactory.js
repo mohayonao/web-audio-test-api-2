@@ -6,19 +6,17 @@ const { initialize } = require("./SpatialListenerFactory");
 function create(api, BaseObject) {
   class AudioListener extends BaseObject {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.listener
+     * @param {BaseAudioContext} context
+     * @param {object} opts
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/AudioListener")) {
-        throw new TypeError("Illegal constructor");
-      }
-      lock.unlock();
-      super(context, opts);
-      initialize.call(this, api, context, opts);
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts);
+        this._.className = "AudioListener";
+        initialize.call(this, api, context, opts);
+      } finally { lock.lock(); }
 
-      this._.className = "AudioListener";
       this._.dopplerFactor = 1;
       this._.speedOfSound = 343.3;
       this._.gain = 1;
@@ -65,7 +63,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-08-02
      * @type {number}
      */
     get gain() {
@@ -77,7 +75,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2015-12-08
      * @type {number}
      */
     get dopplerFactor() {
@@ -89,7 +87,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2015-12-08
      * @type {number}
      */
     get speedOfSound() {

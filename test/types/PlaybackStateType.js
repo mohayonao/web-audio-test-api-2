@@ -16,10 +16,4 @@ describe("types/PlaybackStateType", () => {
       assert(PlaybackStateType[Symbol.hasInstance](value));
     });
   });
-
-  it("Symbol.toStringTag", () => {
-    const tag = PlaybackStateType[Symbol.toStringTag]();
-
-    assert(tag.includes("PlaybackStateType"));
-  });
 });

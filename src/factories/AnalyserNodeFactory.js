@@ -2,6 +2,7 @@
 
 const ChannelCountMode = require("../types/ChannelCountMode");
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
 
 const DEFAULT_FFT_SIZE = 2048;
@@ -12,52 +13,60 @@ const DEFAULT_SMOOTHING_TIME_CONSTANT = 0.8;
 function create(api, AudioNode) {
   class AnalyserNode extends AudioNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createAnalyser()
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {integer} opts.fftSize
+     * @param {number} opts.minDecibels
+     * @param {number} opts.maxDecibels
+     * @param {number} opts.smoothingTimeConstant
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/AnalyserNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
-      /** @type {number} */
       const fftSize = defaults(opts.fftSize, DEFAULT_FFT_SIZE);
-      /** @type {number} */
       const minDecibels = defaults(opts.minDecibels, DEFAULT_MIN_DECIBELS);
-      /** @type {number} */
       const maxDecibels = defaults(opts.maxDecibels, DEFAULT_MAX_DECIBELS);
-      /** @type {number} */
       const smoothingTimeConstant = defaults(opts.smoothingTimeConstant, DEFAULT_SMOOTHING_TIME_CONSTANT);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 1 ],
-        channelCount: 1,
-        channelCountMode: ChannelCountMode.MAX,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 1 ],
+          channelCount: 1,
+          channelCountMode: ChannelCountMode.MAX,
+        });
+        this._.className = "AnalyserNode";
+      } finally { lock.lock(); }
 
-      this._.className = "AnalyserNode";
       this._.fftSize = fftSize;
       this._.minDecibels = minDecibels;
       this._.maxDecibels = maxDecibels;
       this._.smoothingTimeConstant = smoothingTimeConstant;
+
+      this.fftSize = fftSize;
+      this.minDecibels = minDecibels;
+      this.maxDecibels = maxDecibels;
+      this.smoothingTimeConstant = smoothingTimeConstant;
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get fftSize() {
       return this._.fftSize;
     }
 
     set fftSize(value) {
+      if (![ 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768 ].includes(value)) {
+        throw new TypeError(format(`
+          Failed to set the 'fftSize' property on 'AnalyserNode':
+          The FFT size muse be a power of two in the range [ 32, 32768 ], but got ${ value }.
+        `));
+      }
       this._.fftSize = value;
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get frequencyBinCount() {
       return this._.fftSize / 2;
@@ -71,6 +80,12 @@ function create(api, AudioNode) {
     }
 
     set maxDecibels(value) {
+      if (!(this._.minDecibels < value)) {
+        throw new TypeError(format(`
+          Failed to set the 'maxDecibels' property on 'AnalyserNode':
+          The maxDecibels must be greater than the minDecibels (${ this._.minDecibels }), but got ${ value }.
+        `));
+      }
       this._.maxDecibels = value;
     }
 
@@ -82,6 +97,12 @@ function create(api, AudioNode) {
     }
 
     set minDecibels(value) {
+      if (!(value < this._.maxDecibels)) {
+        throw new TypeError(format(`
+          Failed to set the 'minDecibels' property on 'AnalyserNode':
+          The minDecibels must be less than the maxDecibels (${ this._.maxDecibels}), but got ${ value }.
+        `));
+      }
       this._.minDecibels = value;
     }
 
@@ -93,6 +114,12 @@ function create(api, AudioNode) {
     }
 
     set smoothingTimeConstant(value) {
+      if (!(0 <= value && value <= 1)) {
+        throw new TypeError(format(`
+          Failed to set the 'smoothingTimeConstant' property on 'AnalyserNode':
+          The smoothingTimeConstant must be in the range [ 0, 1 ], but got ${ value }.
+        `));
+      }
       this._.smoothingTimeConstant = value;
     }
 

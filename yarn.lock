@@ -794,6 +794,10 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
+colo@^0.3.1, colo@^0.3.2:
+  version "0.3.2"
+  resolved "http://registry.npmjs.org/colo/-/colo-0.3.2.tgz#418c0c81b4577e5174aafa82cba5ea9f5e78c8c1"
+
 combined-stream@^1.0.5, combined-stream@~1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.5.tgz#938370a57b4a51dea2c77c15d5c5fdf895164009"
@@ -950,6 +954,13 @@ diff@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-1.4.0.tgz#7f28d2eb9ee7b15a97efd89ce63dcfdaa3ccbabf"
 
+doctrine:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.0.0.tgz#c73d8d2909d22291e1a007a395804da8b665fe63"
+  dependencies:
+    esutils "^2.0.2"
+    isarray "^1.0.0"
+
 doctrine@^1.2.2:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-1.5.0.tgz#379dce730f6166f76cefa4e6707a159b02c5a6fa"
@@ -964,6 +975,22 @@ duplexer@~0.1.1:
 eastasianwidth@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/eastasianwidth/-/eastasianwidth-0.1.1.tgz#44d656de9da415694467335365fb3147b8572b7c"
+
+eater:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/eater/-/eater-3.2.0.tgz#3e1ddbeef775e431fc05f70ab71d6a14954a8a10"
+  dependencies:
+    colo "^0.3.1"
+    exists-sync "0.0.3"
+    glob "^7.0.4"
+    json5 "^0.5.0"
+    minimist "^1.2.0"
+
+eatest:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/eatest/-/eatest-1.0.0.tgz#d6c553f9d11d73caccc06f6533fb8b609cea203f"
+  dependencies:
+    colo "^0.3.2"
 
 ecc-jsbn@~0.1.1:
   version "0.1.1"
@@ -1175,6 +1202,10 @@ event-stream@~3.3.0:
     split "0.3"
     stream-combiner "~0.0.4"
     through "~2.3.1"
+
+exists-sync@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/exists-sync/-/exists-sync-0.0.3.tgz#b910000bedbb113b378b82f5f5a7638107622dcf"
 
 exit-hook@^1.0.0:
   version "1.1.1"
@@ -1398,7 +1429,7 @@ glob@^5.0.5:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@^7.0.0, glob@^7.0.3, glob@^7.0.5, glob@^7.0.6:
+glob@^7.0.0, glob@^7.0.3, glob@^7.0.4, glob@^7.0.5, glob@^7.0.6:
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.1.tgz#805211df04faaf1c63a3600306cdf5ade50b2ec8"
   dependencies:

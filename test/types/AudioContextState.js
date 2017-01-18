@@ -15,10 +15,4 @@ describe("types/AudioContextState", () => {
       assert(AudioContextState[Symbol.hasInstance](value));
     });
   });
-
-  it("Symbol.toStringTag", () => {
-    const tag = AudioContextState[Symbol.toStringTag]();
-
-    assert(tag.includes("AudioContextState"));
-  });
 });

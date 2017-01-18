@@ -7,26 +7,24 @@ const { initialize } = require("./SpatialPannerNodeFactory");
 function create(api, AudioNode) {
   class PannerNode extends AudioNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createPanner()
+     * @param {BaseAudioContext} context
+     * @param {object} opts
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/PannerNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 2 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.CLAMPED_MAX,
-        allowedMaxChannelCount: 2,
-        allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ]
-      });
-      initialize.call(this, api, context, opts);
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 2 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.CLAMPED_MAX,
+          allowedMaxChannelCount: 2,
+          allowedChannelCountMode: [ ChannelCountMode.CLAMPED_MAX, ChannelCountMode.EXPLICIT ]
+        });
+        this._.className = "PannerNode";
+        initialize.call(this, api, context, opts);
+      } finally { lock.lock(); }
 
-      this._.className = "PannerNode";
       this._.coneGain = new api.AudioParam(context, {
         name: "coneGain"
       });
@@ -70,7 +68,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "equalpower"
      * @type {PanningModelType}
      */
     get EQUALPOWER() {
@@ -78,7 +76,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "HRTF"
      * @type {PanningModelType}
      */
     get HRTF() {
@@ -86,7 +84,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13
      * @type {PanningModelType}
      */
     get SOUNDFIELD() {
@@ -94,7 +92,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "linear"
      * @type {DistanceModelType}
      */
     get LINEAR_DISTANCE() {
@@ -102,7 +100,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "inverse"
      * @type {DistanceModelType}
      */
     get INVERSE_DISTANCE() {
@@ -110,7 +108,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13 "exponential"
      * @type {DistanceModelType}
      */
     get EXPONENTIAL_DISTANCE() {
@@ -118,7 +116,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13
      * @type {AudioParam}
      */
     get coneGain() {
@@ -126,7 +124,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-12-13
      * @type {AudioParam}
      */
     get distanceGain() {

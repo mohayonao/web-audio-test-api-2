@@ -1,39 +1,65 @@
 "use strict";
 
 const defaults = require("../utils/defaults");
+const format = require("../utils/format");
 const lock = require("../utils/lock");
+const stringify = require("../utils/stringify");
 
 const DEFAULT_NUMBER_OF_CHANNELS = 1;
 
 function create(api, BaseObject) {
   class AudioBuffer extends BaseObject {
     /**
-     * @param {Object} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createBuffer(numberOfChannels, length, sampleRate)
+     * @param {object} context
+     * @param {object} opts
+     * @param {integer} opts.numberOfChannels
+     * @param {integer} opts.length
+     * @param {positive} opts.sampleRate
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/AudioBuffer")) {
-        throw new TypeError("Illegal constructor");
-      }
+      let defaultSampleRate;
 
       if (lock.isLocked() && api.get("/AudioBuffer/context")) {
-        void(context);
+        if (!(context instanceof api.AudioContext || context instanceof api.OfflineAudioContext)) {
+          throw new TypeError(format(`
+            Failed to construct 'AudioBuffer':
+            The first argument must be instance of BaseAudioContext, but got ${ stringify(context) }.
+          `));
+        }
+        defaultSampleRate = context.sampleRate;
       } else {
         opts = context || /* istanbul ignore next */ {};
       }
 
-      /** @type {number} */
       const numberOfChannels = defaults(opts.numberOfChannels, DEFAULT_NUMBER_OF_CHANNELS);
-      /** @type {number} */
       const length = defaults(opts.length, 0);
-      /** @type {number} */
-      const sampleRate = defaults(opts.sampleRate, 0);
+      const sampleRate = defaults(opts.sampleRate, defaultSampleRate, 0);
 
-      lock.unlock();
-      super();
-      lock.lock();
+      try { lock.unlock();
+        super();
+        this._.className = "AudioBuffer";
+      } finally { lock.lock(); }
 
-      this._.className = "AudioBuffer";
+      if (!(1 <= numberOfChannels && numberOfChannels <= 32)) {
+        throw new TypeError(format(`
+          Failed to construct 'AudioBuffer':
+          The number of channels must be in the range [1, 32], but got ${ numberOfChannels }.
+        `));
+      }
+      if (!(1 <= length)) {
+        throw new TypeError(format(`
+          Failed to construct 'AudioBuffer':
+          The length must be greater or equal than 1, but got ${ length }.
+        `));
+      }
+      if (!(3000 <= sampleRate && sampleRate <= 192000)) {
+        throw new TypeError(format(`
+          Failed to construct 'AudioBuffer':
+          The sample rate must be in the range [3000, 192000], but got ${ sampleRate }.
+        `));
+      }
+
       this._.sampleRate = sampleRate;
       this._.length = length;
       this._.numberOfChannels = numberOfChannels;
@@ -42,48 +68,67 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get sampleRate() {
       return this._.sampleRate;
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get length() {
       return this._.length;
     }
 
     /**
-     * @type {number}
+     * @type {positive}
      */
     get duration() {
       return this._.length / this._.sampleRate;
     }
 
     /**
-     * @type {number}
+     * @type {integer}
      */
     get numberOfChannels() {
       return this._.numberOfChannels;
     }
 
     /**
-     * @param {number} channel
+     * @param {integer} channel
      * @return {Float32Array}
      */
     getChannelData(channel) {
+      if (!(0 <= channel && channel < this._.numberOfChannels)) {
+        throw new TypeError(format(`
+          Failed to execute 'getChannelData' on 'AudioBuffer':
+          The channel must be in the range [0, ${ this._.numberOfChannels }), but got ${ channel }.
+        `));
+      }
       return this._.channelData[channel|0];
     }
 
     /**
      * @param {Float32Array} destination
-     * @param {number} channelNumber
-     * @param {number} [startInChannel]
+     * @param {integer} channelNumber
+     * @param {integer} startInChannel
      * @return {void}
      */
     copyFromChannel(destination, channelNumber, startInChannel = 0) {
+      if (!(0 <= channelNumber && channelNumber < this._.numberOfChannels)) {
+        throw new TypeError(format(`
+          Failed to execute 'copyFromChannel' on 'AudioBuffer':
+          The channelNumber must be in the range [0, ${ this._.numberOfChannels }), but got ${ channelNumber }.
+        `));
+      }
+      if (!(0 <= startInChannel && startInChannel < this._.length)) {
+        throw new TypeError(format(`
+          Failed to execute 'copyFromChannel' on 'AudioBuffer':
+          The startInChannel must be in the range [0, ${ this._.length }), but got ${ startInChannel }.
+        `));
+      }
+
       const source = this._.channelData[channelNumber|0];
 
       startInChannel = startInChannel|0;
@@ -93,11 +138,24 @@ function create(api, BaseObject) {
 
     /**
      * @param {Float32Array} source
-     * @param {number} channelNumber
-     * @param {number} [startInChannel]
+     * @param {integer} channelNumber
+     * @param {integer} startInChannel
      * @return {void}
      */
     copyToChannel(source, channelNumber, startInChannel = 0) {
+      if (!(0 <= channelNumber && channelNumber < this._.numberOfChannels)) {
+        throw new TypeError(format(`
+          Failed to execute 'copyToChannel' on 'AudioBuffer':
+          The channelNumber must be in the range [0, ${ this._.numberOfChannels }), but got ${ channelNumber }.
+        `));
+      }
+      if (!(0 <= startInChannel && startInChannel < this._.length)) {
+        throw new TypeError(format(`
+          Failed to execute 'copyToChannel' on 'AudioBuffer':
+          The startInChannel must be in the range [0, ${ this._.length }), but got ${ startInChannel }.
+        `));
+      }
+
       const destination = this._.channelData[channelNumber|0];
 
       startInChannel = startInChannel|0;
@@ -106,7 +164,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated
+     * @deprecated 2012-08-02
      * @type {number}
      */
     get gain() {

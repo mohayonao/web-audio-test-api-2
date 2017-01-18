@@ -9,29 +9,26 @@ const DEFAULT_GAIN = 1;
 function create(api, AudioNode) {
   class GainNode extends AudioNode {
     /**
-     * @param {AudioContext} context
-     * @param {Object} [opts]
+     * @protected - audioContext.createGain()
+     * @param {BaseAudioContext} context
+     * @param {object} opts
+     * @param {number} opts.gain
      */
     constructor(context, opts = {}) {
-      if (lock.checkIllegalConstructor(api, "/GainNode")) {
-        throw new TypeError("Illegal constructor");
-      }
-
-      /** @type {number} */
       const gain = defaults(opts.gain, DEFAULT_GAIN);
 
-      lock.unlock();
-      super(context, opts, {
-        inputs: [ 1 ],
-        outputs: [ 1 ],
-        channelCount: 2,
-        channelCountMode: ChannelCountMode.MAX,
-      });
-      lock.lock();
+      try { lock.unlock();
+        super(context, opts, {
+          inputs: [ 1 ],
+          outputs: [ 1 ],
+          channelCount: 2,
+          channelCountMode: ChannelCountMode.MAX,
+        });
+        this._.className = "GainNode";
+      } finally { lock.lock(); }
 
-      this._.className = "GainNode";
       this._.gain = new api.AudioParam(context, {
-        name: "gain", defaultValue: DEFAULT_GAIN, value: gain
+        name: "Gain.gain", defaultValue: DEFAULT_GAIN, value: gain
       });
     }
 

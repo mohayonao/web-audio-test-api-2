@@ -1,34 +1,33 @@
 "use strict";
 
-const { EventEmitter} = require("events");
 const builder = require("../../src/api/builder");
 const specs = require("../../src/specs");
 const types = require("../../src/types");
 
 function createAPI(opts = {}) {
-  const apiSpec = {};
+  const spec = {};
 
   Object.keys(specs).forEach((specName) => {
     if (specName === "spec:draft" || /\d$/.test(specName)) {
-      Object.keys(specs[specName].apiSpec).forEach((apiPath) => {
-        if (!apiSpec.hasOwnProperty(apiPath)) {
-          apiSpec[apiPath] = {};
+      Object.keys(specs[specName].spec).forEach((apiPath) => {
+        if (!spec.hasOwnProperty(apiPath)) {
+          spec[apiPath] = {};
         }
         if (opts["merge"]) {
-          Object.assign(apiSpec[apiPath], specs[specName].apiSpec[apiPath]);
+          Object.assign(spec[apiPath], specs[specName].spec[apiPath]);
         }
-        if (opts["illegal"] && /^\/\w+$/.test(apiPath)) {
-          apiSpec[apiPath]["constructor"] = "illegal";
+        if (opts["protected"] && /^\/\w+$/.test(apiPath)) {
+          spec[apiPath]["protected"] = true;
         }
         if (opts["disabled"]) {
           if (typeof opts["disabled"] === "string") {
             if (apiPath.startsWith(opts["disabled"])) {
-              delete apiSpec[apiPath];
+              delete spec[apiPath];
             }
           }
           if (opts["disabled"] instanceof RegExp) {
             if (opts["disabled"].test(apiPath)) {
-              delete apiSpec[apiPath];
+              delete spec[apiPath];
             }
           }
         }
@@ -36,15 +35,15 @@ function createAPI(opts = {}) {
     }
   });
 
-  if (apiSpec["/AudioContext"]["constructor"]) {
-    delete apiSpec["/AudioContext"]["constructor"];
+  if (spec["/AudioContext"]["constructor"]) {
+    delete spec["/AudioContext"]["constructor"];
   }
 
-  if (apiSpec["/OfflineAudioContext"]["constructor"]) {
-    delete apiSpec["/OfflineAudioContext"]["constructor"];
+  if (spec["/OfflineAudioContext"]["constructor"]) {
+    delete spec["/OfflineAudioContext"]["constructor"];
   }
 
-  const api = builder.apply(new EventEmitter(), [ apiSpec ]);
+  const api = builder.apply({}, [ spec ]);
 
   Object.keys(opts).forEach((name) => {
     if (/^\/[A-Z]\w+/.test(name)) {
@@ -53,7 +52,7 @@ function createAPI(opts = {}) {
   });
 
   api.name = "test";
-  api.apiSpec = apiSpec;
+  api.spec = spec;
   api.types = types;
 
   return api;
@@ -64,7 +63,7 @@ function getPropertyNamesToNeed(className) {
 
   Object.keys(specs).forEach((specName) => {
     if (specName === "spec:draft" || /\d$/.test(specName)) {
-      Object.keys(specs[specName].apiSpec).forEach((apiPath) => {
+      Object.keys(specs[specName].spec).forEach((apiPath) => {
         if (!apiPath.startsWith(`/${ className }/`)) {
           return;
         }

@@ -15,10 +15,4 @@ describe("types/OverSampleType", () => {
       assert(OverSampleType[Symbol.hasInstance](value));
     });
   });
-
-  it("Symbol.toStringTag", () => {
-    const tag = OverSampleType[Symbol.toStringTag]();
-
-    assert(tag.includes("OverSampleType"));
-  });
 });

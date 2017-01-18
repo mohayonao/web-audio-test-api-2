@@ -33,33 +33,4 @@ describe("utils/lock", () => {
       assert(lock.isLocked() === true);
     });
   });
-
-  describe("checkIllegalConstructor(api, apiPath)", () => {
-    describe("not configured", () => {
-      it("returns false", () => {
-        const api = {
-          apiSpec: { "/GainNode": {} }
-        };
-        assert(lock.checkIllegalConstructor(api, "/GainNode") === false);
-      });
-    });
-
-    describe("configured: { 'constructor': 'illegal' }", () => {
-      it("returns false when unlocked", () => {
-        const api = {
-          apiSpec: { "/GainNode": { "constructor": "illegal" } }
-        };
-        lock.unlock();
-        assert(lock.checkIllegalConstructor(api, "/GainNode") === false);
-        lock.lock();
-      });
-
-      it("returns true when locked", () => {
-        const api = {
-          apiSpec: { "/GainNode": { "constructor": "illegal" } }
-        };
-        assert(lock.checkIllegalConstructor(api, "/GainNode") === true);
-      });
-    });
-  });
 });
