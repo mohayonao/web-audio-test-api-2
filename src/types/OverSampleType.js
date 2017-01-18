@@ -9,10 +9,7 @@ const OverSampleType = {
   NONE, X2, X4,
   [Symbol.hasInstance](value) {
     return values.includes(value);
-  },
-  [Symbol.toStringTag]() {
-    return `OverSampleType { ${ values.join(", ") } }`;
-  },
+  }
 };
 
 module.exports = OverSampleType;

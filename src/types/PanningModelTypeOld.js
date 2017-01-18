@@ -9,10 +9,7 @@ const PanningModelType = {
   EQUALPOWER, HRTF, SOUNDFIELD,
   [Symbol.hasInstance](value) {
     return values.includes(value);
-  },
-  [Symbol.toStringTag]() {
-    return `PanningModelType { ${ values.join(", ") } }`;
-  },
+  }
 };
 
 module.exports = PanningModelType;

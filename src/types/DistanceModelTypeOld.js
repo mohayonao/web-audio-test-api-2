@@ -9,10 +9,7 @@ const DistanceModelType = {
   LINEAR_DISTANCE, INVERSE_DISTANCE, EXPONENTIAL_DISTANCE,
   [Symbol.hasInstance](value) {
     return values.includes(value);
-  },
-  [Symbol.toStringTag]() {
-    return `DistanceModelType { ${ values.join(", ") } }`;
-  },
+  }
 };
 
 module.exports = DistanceModelType;

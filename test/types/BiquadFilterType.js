@@ -20,10 +20,4 @@ describe("types/BiquadFilterType", () => {
       assert(BiquadFilterType[Symbol.hasInstance](value));
     });
   });
-
-  it("Symbol.toStringTag", () => {
-    const tag = BiquadFilterType[Symbol.toStringTag]();
-
-    assert(tag.includes("BiquadFilterType"));
-  });
 });

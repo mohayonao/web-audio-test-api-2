@@ -14,10 +14,4 @@ describe("types/ChannelInterpretation", () => {
       assert(ChannelInterpretation[Symbol.hasInstance](value));
     });
   });
-
-  it("Symbol.toStringTag", () => {
-    const tag = ChannelInterpretation[Symbol.toStringTag]();
-
-    assert(tag.includes("ChannelInterpretation"));
-  });
 });

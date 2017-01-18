@@ -14,10 +14,4 @@ describe("types/PanningModelType", () => {
       assert(PanningModelType[Symbol.hasInstance](value));
     });
   });
-
-  it("Symbol.toStringTag", () => {
-    const tag = PanningModelType[Symbol.toStringTag]();
-
-    assert(tag.includes("PanningModelType"));
-  });
 });

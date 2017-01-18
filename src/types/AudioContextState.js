@@ -9,10 +9,7 @@ const AudioContextState = {
   SUSPENDED, RUNNING, CLOSED,
   [Symbol.hasInstance](value) {
     return values.includes(value);
-  },
-  [Symbol.toStringTag]() {
-    return `AudioContextState { ${ values.join(", ") } }`;
-  },
+  }
 };
 
 module.exports = AudioContextState;

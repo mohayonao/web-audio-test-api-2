@@ -16,10 +16,4 @@ describe("types/OscillatorType", () => {
       assert(OscillatorType[Symbol.hasInstance](value));
     });
   });
-
-  it("Symbol.toStringTag", () => {
-    const tag = OscillatorType[Symbol.toStringTag]();
-
-    assert(tag.includes("OscillatorType"));
-  });
 });

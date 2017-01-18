@@ -15,10 +15,4 @@ describe("types/ChannelCountMode", () => {
       assert(ChannelCountMode[Symbol.hasInstance](value));
     });
   });
-
-  it("Symbol.toStringTag", () => {
-    const tag = ChannelCountMode[Symbol.toStringTag]();
-
-    assert(tag.includes("ChannelCountMode"));
-  });
 });
