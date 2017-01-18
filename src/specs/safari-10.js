@@ -45,7 +45,7 @@ const spec = {
   "/AudioNode/channelInterpretation": {},
   "/AudioNode/connect": { "void": true },
   "/AudioNode/context": {},
-  "/AudioNode/disconnect": {},
+  "/AudioNode/disconnect": { "selective": false },
   "/AudioNode/numberOfInputs": {},
   "/AudioNode/numberOfOutputs": {},
 

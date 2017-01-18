@@ -35,7 +35,7 @@ const spec = {
   "/AudioNode": { "global": "AudioNode", "protected": true },
   "/AudioNode/connect": { "void": true },
   "/AudioNode/context": {},
-  "/AudioNode/disconnect": {},
+  "/AudioNode/disconnect": { "selective": false },
   "/AudioNode/numberOfInputs": {},
   "/AudioNode/numberOfOutputs": {},
 
