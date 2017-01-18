@@ -1,6 +1,8 @@
 "use strict";
 
 module.exports = {
+  integer: require("./integer"),
+  positive: require("./positive"),
   AudioContextState: require("./AudioContextState"),
   BiquadFilterType: require("./BiquadFilterType"),
   ChannelCountMode: require("./ChannelCountMode"),
