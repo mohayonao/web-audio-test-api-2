@@ -14,6 +14,12 @@
 - :construction_worker: test internal parameters
 - :construction_worker: recommend best practice (strictly validation)
 
+## Installation
+
+```sh
+$ npm install web-audio-test-api@beta
+```
+
 ## Quick Example
 
 ```js
@@ -42,31 +48,27 @@ gain.connect(audioContext.destination);
 
 ## Support specifications
 
-#### Chrome
-- "chrome"
-- "chrome:55"
+| name              | released   | add    | remove | move   | change |
+|-------------------|:----------:|:------:|:------:|:------:|:------:|
+| **chrome:55**     | 2016-12-01 |      - |      - |      - |      - |
+| **firefox:50**    | 2016-11-15 |      - |      - |      - |      - |
+| **safari:10**     | 2016-09-20 |      - |      - |      - |      - |
+| **edge:38**       | 2016-08-02 |      - |      - |      - |      - |
+| [spec:201112]     | 2011-12-15 |      - |      - |      - |      - |
+| [spec:201203]     | 2012-03-15 |     11 |      0 |      0 |      0 |
+| [spec:201208]     | 2012-08-02 |     14 |      5 |      0 |      0 |
+| [spec:201212]     | 2012-12-13 |     14 |     30 |      0 |      0 |
+| [spec:201310]     | 2013-10-10 |     10 |     18 |      0 |      2 |
+| **[spec:201512]** | 2015-12-08 |     13 |      3 |     20 |     10 |
+| [spec:draft]      |          - |     29 |     10 |      5 |     19 |
 
-#### Firefox
-- "firefox"
-- "firefox:50"
-
-#### Safari
-- "safari"
-- "safari:10"
-
-#### Edge
-- "edge"
-- "edge:38"
-
-#### WG
-- "spec"
-- "spec:201112"
-- "spec:201203"
-- "spec:201208"
-- "spec:201212"
-- "spec:201310"
-- "spec:201512"
-- "spec:draft"
+[spec:201112]: https://www.w3.org/TR/2011/WD-webaudio-20111215/
+[spec:201203]: https://www.w3.org/TR/2012/WD-webaudio-20120315/
+[spec:201208]: https://www.w3.org/TR/2012/WD-webaudio-20120802/
+[spec:201212]: https://www.w3.org/TR/2012/WD-webaudio-20121213/
+[spec:201310]: https://www.w3.org/TR/2013/WD-webaudio-20131010/
+[spec:201512]: https://www.w3.org/TR/2015/WD-webaudio-20151208/
+[spec:draft]: https://webaudio.github.io/web-audio-api/
 
 ## License
 MIT
