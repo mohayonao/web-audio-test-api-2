@@ -111,7 +111,7 @@ module.exports = ({ template }) => {
         let message = `Failed to construct '${ className }':\nIllegal constructor`;
 
         if (typeof this.JSDoc[apiPath]["protected"] === "string") {
-          message += `, please use '${ this.JSDoc[apiPath]["protected"] }' instead.`;
+          message += `, ${ this.JSDoc[apiPath]["protected"] }.`;
         }
 
         path.get("body").unshiftContainer("body", template(`
@@ -127,20 +127,20 @@ module.exports = ({ template }) => {
         let deprecatedDate = null;
 
         if (kind === "constructor") {
-          message = `Failed to construct '${ className }':\nThe '${ className }' is deprecated`;
+          message = `Failed to construct '${ className }':\nThe '${ className }' has been deprecated`;
         }
         if (kind === "get") {
-          message = `Failed to get the '${ methodName }' property:\nThe '${ methodName }' property is deprecated`;
+          message = `Failed to get the '${ methodName }' property:\nThe '${ methodName }' property has been deprecated`;
         }
         if (kind === "set") {
-          message = `Failed to set the '${ methodName }' property:\nThe '${ methodName }' property is deprecated`;
+          message = `Failed to set the '${ methodName }' property:\nThe '${ methodName }' property has been deprecated`;
         }
         if (kind === "method") {
-          message = `Failed to execute '${ methodName }':\nThe '${ methodName }' is deprecated`;
+          message = `Failed to execute '${ methodName }':\nThe '${ methodName }' has been deprecated`;
         }
 
         if (typeof this.JSDoc[apiPath]["deprecated"] === "string") {
-          const matched = this.JSDoc[apiPath]["deprecated"].match(/^(\d+-\d+-\d+)(?: (.+))?$/);
+          const matched = this.JSDoc[apiPath]["deprecated"].match(/^(\d+-\d+-\d+)(?:\s+-\s+(.+))?$/);
 
           if (matched) {
             if (typeof matched[1] === "string") {
@@ -151,7 +151,7 @@ module.exports = ({ template }) => {
             if (typeof matched[2] === "string") {
               const instead = matched.slice(2).join(" ").replace(/"/g, '\\"');
 
-              message += `, please use ${ instead } instead`;
+              message += `, ${ instead }`;
             }
           }
         }
