@@ -59,7 +59,7 @@ describe("OfflineAudioContextFactory", () => {
 
     describe("startRendering", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/OfflineAudioContext/startRendering/promise": true });
         const context = new api.OfflineAudioContext(1, 128, 44100);
         const handler1 = sinon.spy();
         const handler2 = sinon.spy();
@@ -80,8 +80,8 @@ describe("OfflineAudioContextFactory", () => {
         });
       });
 
-      it("/OfflineAudioContext/startRendering/void: true", (done) => {
-        const api = testTools.createAPI({ "/OfflineAudioContext/startRendering/void": true });
+      it("/OfflineAudioContext/startRendering/promise: false", (done) => {
+        const api = testTools.createAPI();
         const context = new api.OfflineAudioContext(1, 128, 44100);
         const handler1 = sinon.spy();
         const handler2 = sinon.spy();
@@ -123,7 +123,7 @@ describe("OfflineAudioContextFactory", () => {
       });
 
       it("throws error", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/OfflineAudioContext/startRendering/promise": true });
         const context = new api.OfflineAudioContext(1, 128, 44100);
 
         return context.startRendering().then(() => {
@@ -152,7 +152,7 @@ describe("OfflineAudioContextFactory", () => {
       });
 
       it("throws error", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/OfflineAudioContext/startRendering/promise": true });
         const context = new api.OfflineAudioContext(1, 128, 44100);
 
         return context.startRendering().then(() => {
