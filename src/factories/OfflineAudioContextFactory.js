@@ -96,7 +96,7 @@ function startRendering(api) {
     resolve(renderedBuffer);
   });
 
-  if (!api.get("/OfflineAudioContext/startRendering/void")) {
+  if (api.get("/OfflineAudioContext/startRendering/promise")) {
     return promise;
   } else {
     promise.catch(() => {});

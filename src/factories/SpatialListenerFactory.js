@@ -5,7 +5,7 @@ const lock = require("../utils/lock");
 function create(api, BaseObject) {
   class SpatialListener extends BaseObject {
     /**
-     * @protected - audioContext.listener
+     * @protected - use 'audioContext.listener' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      */

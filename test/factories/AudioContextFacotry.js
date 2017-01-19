@@ -190,7 +190,7 @@ describe("AudioContextFactory", () => {
 
     describe("startRendering", () => {
       it("works", () => {
-        const api = testTools.createAPI();
+        const api = testTools.createAPI({ "/OfflineAudioContext/startRendering/promise": true });
         const context = new api.AudioContext();
         const handler1 = sinon.spy();
         const handler2 = sinon.spy();

@@ -13,7 +13,7 @@ const DEFAULT_SAMPLE_RATE = 44100;
 function create(api, EventTarget) {
   class BaseAudioContext extends EventTarget {
     /**
-     * @protected
+     * @protected - abstract class cannot construct directly
      * @param {object} opts
      */
     constructor(opts = {}) {

@@ -14,7 +14,7 @@ const DEFAULT_LOOP_END = 0;
 function create(api, AudioScheduledSourceNode) {
   class AudioBufferSourceNode extends AudioScheduledSourceNode {
     /**
-     * @protected - audioContext.createBufferSource()
+     * @protected - use 'audioContext.createBufferSource()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {AudioBuffer?} opts.buffer
@@ -200,7 +200,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated 2011-12-15 loop
+     * @deprecated 2011-12-15 - use 'loop' instead
      * @type {boolean}
      */
     get looping() {
@@ -212,7 +212,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated 2012-12-02 start([when, offset, duration])
+     * @deprecated 2012-12-02 - use 'start([when, offset, duration])' instead
      * @param {positive} when
      * @return {void}
      */
@@ -227,7 +227,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated 2012-12-02 start([when, offset, duration])
+     * @deprecated 2012-12-02 - use 'start([when, offset, duration])' instead
      * @param {positive} when
      * @param {positive} grainOffset
      * @param {positive} grainDuration
@@ -244,7 +244,7 @@ function create(api, AudioScheduledSourceNode) {
     }
 
     /**
-     * @deprecated 2012-12-02 stop([when])
+     * @deprecated 2012-12-02 - use 'stop([when])' instead
      * @param {positive} when
      * @return {void}
      */

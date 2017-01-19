@@ -13,7 +13,7 @@ const DEFAULT_SMOOTHING_TIME_CONSTANT = 0.8;
 function create(api, AudioNode) {
   class AnalyserNode extends AudioNode {
     /**
-     * @protected - audioContext.createAnalyser()
+     * @protected - use 'audioContext.createAnalyser()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {integer} opts.fftSize

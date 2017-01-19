@@ -3,7 +3,9 @@
 function create() {
   class BaseObject {
     constructor() {
-      this._ = {};
+      Object.defineProperty(this, "_", {
+        value: {}, enumerable: false, writable: false, configurable: false
+      });
       this._.className = "BaseObject";
     }
   }

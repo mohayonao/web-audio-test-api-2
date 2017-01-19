@@ -10,7 +10,7 @@ const lock = require("../utils/lock");
 function create(api, EventTarget) {
   class AudioNode extends EventTarget {
     /**
-     * @protected
+     * @protected - abstract class cannot construct directly
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {integer} opts.channelCount

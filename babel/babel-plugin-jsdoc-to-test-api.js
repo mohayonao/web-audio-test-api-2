@@ -68,13 +68,14 @@ module.exports = ({ template }) => {
       const className = this.className;
       const methodName = toMethodName(node.key.name);
       const apiPath = toAPIPath(kind, className, methodName);
+      const apiFullPath = toAPIPath(kind, className, node.key.name);
       const lastComment = last(node.leadingComments);
       const doc = parseJSDoc(lastComment);
       const variables = collectVariables(node.params);
 
-      this.JSDoc[apiPath] = Object.assign({}, this.JSDoc[apiPath], doc);
+      this.JSDoc[apiFullPath] = Object.assign({}, this.JSDoc[apiFullPath], doc);
 
-      if (isEmpty(this.JSDoc[apiPath])) {
+      if (isEmpty(this.JSDoc[apiFullPath])) {
         return;
       }
 
@@ -87,13 +88,15 @@ module.exports = ({ template }) => {
         `)());
       }
 
-      if (this.JSDoc[apiPath].args && kind === "constructor") {
-        path.traverse(ClassConstructorVisitor, { apiPath, args: this.JSDoc[apiPath].args });
+      if (this.JSDoc[apiFullPath].args && kind === "constructor") {
+        const args = this.JSDoc[apiFullPath].args;
+
+        path.traverse(ClassConstructorVisitor, { apiPath, args });
       }
 
       // argumnets checker
-      if (this.JSDoc[apiPath].args && (kind === "set" || kind === "method")) {
-        const lines = this.JSDoc[apiPath].args.filter(({ name }) => {
+      if (this.JSDoc[apiFullPath].args && (kind === "set" || kind === "method")) {
+        const lines = this.JSDoc[apiFullPath].args.filter(({ name }) => {
           return /^[a-z]\w*$/.test(name);
         }).map(({ name, type }) => {
           return `api.typecheck("${ apiPath }", "${ type }", ${ name }, "${ name }");`
@@ -107,11 +110,11 @@ module.exports = ({ template }) => {
       }
 
       // protected
-      if (kind === "constructor" && this.JSDoc[apiPath]["protected"]) {
+      if (kind === "constructor" && this.JSDoc[apiFullPath]["protected"]) {
         let message = `Failed to construct '${ className }':\nIllegal constructor`;
 
-        if (typeof this.JSDoc[apiPath]["protected"] === "string") {
-          message += `, please use '${ this.JSDoc[apiPath]["protected"] }' instead.`;
+        if (typeof this.JSDoc[apiFullPath]["protected"] === "string") {
+          message += `, ${ this.JSDoc[apiFullPath]["protected"] }.`;
         }
 
         path.get("body").unshiftContainer("body", template(`
@@ -122,25 +125,25 @@ module.exports = ({ template }) => {
       }
 
       // deprecated
-      if (this.JSDoc[apiPath]["deprecated"]) {
+      if (this.JSDoc[apiFullPath]["deprecated"]) {
         let message = "";
         let deprecatedDate = null;
 
         if (kind === "constructor") {
-          message = `Failed to construct '${ className }':\nThe '${ className }' is deprecated`;
+          message = `Failed to construct '${ className }':\nThe '${ className }' has been deprecated`;
         }
         if (kind === "get") {
-          message = `Failed to get the '${ methodName }' property:\nThe '${ methodName }' property is deprecated`;
+          message = `Failed to get the '${ methodName }' property:\nThe '${ methodName }' property has been deprecated`;
         }
         if (kind === "set") {
-          message = `Failed to set the '${ methodName }' property:\nThe '${ methodName }' property is deprecated`;
+          message = `Failed to set the '${ methodName }' property:\nThe '${ methodName }' property has been deprecated`;
         }
         if (kind === "method") {
-          message = `Failed to execute '${ methodName }':\nThe '${ methodName }' is deprecated`;
+          message = `Failed to execute '${ methodName }':\nThe '${ methodName }' has been deprecated`;
         }
 
-        if (typeof this.JSDoc[apiPath]["deprecated"] === "string") {
-          const matched = this.JSDoc[apiPath]["deprecated"].match(/^(\d+-\d+-\d+)(?: (.+))?$/);
+        if (typeof this.JSDoc[apiFullPath]["deprecated"] === "string") {
+          const matched = this.JSDoc[apiFullPath]["deprecated"].match(/^(\d+-\d+-\d+)(?:\s+-\s+(.+))?$/);
 
           if (matched) {
             if (typeof matched[1] === "string") {
@@ -151,7 +154,7 @@ module.exports = ({ template }) => {
             if (typeof matched[2] === "string") {
               const instead = matched.slice(2).join(" ").replace(/"/g, '\\"');
 
-              message += `, please use ${ instead } instead`;
+              message += `, ${ instead }`;
             }
           }
         }

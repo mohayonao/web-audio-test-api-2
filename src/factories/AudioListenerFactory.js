@@ -6,7 +6,7 @@ const { initialize } = require("./SpatialListenerFactory");
 function create(api, BaseObject) {
   class AudioListener extends BaseObject {
     /**
-     * @protected - audioContext.listener
+     * @protected - use 'audioContext.listener' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      */

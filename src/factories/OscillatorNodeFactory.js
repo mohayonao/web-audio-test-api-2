@@ -13,7 +13,7 @@ const DEFAULT_DETUNE = 0;
 function create(api, AudioNode) {
   class OscillatorNode extends AudioNode {
     /**
-     * @protected - audioContext.createOscillator()
+     * @protected - use 'audioContext.createOscillator()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {OscillatorType} opts.type
@@ -86,7 +86,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "sine"
+     * @deprecated 2012-12-13 - use string ("sine") instead
      * @type {OscillatorType}
      */
     get SINE() {
@@ -94,7 +94,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "square"
+     * @deprecated 2012-12-13 - use string ("square") instead
      * @type {OscillatorType}
      */
     get SQUARE() {
@@ -102,7 +102,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "sawtooth"
+     * @deprecated 2012-12-13 - use string ("sawtooth") instead
      * @type {OscillatorType}
      */
     get SAWTOOTH() {
@@ -110,7 +110,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "triangle"
+     * @deprecated 2012-12-13 - use string ("triangle") instead
      * @type {OscillatorType}
      */
     get TRIANGLE() {
@@ -118,7 +118,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "custom"
+     * @deprecated 2012-12-13 - use string ("custom") instead
      * @type {OscillatorType}
      */
     get CUSTOM() {
@@ -180,7 +180,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 start([when])
+     * @deprecated 2012-12-13 - use 'start([when])' instead
      * @param {number} when
      * @return {void}
      */
@@ -195,7 +195,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 stop([when])
+     * @deprecated 2012-12-13 - use 'stop([when])' instead
      * @param {number} when
      * @return {void}
      */
@@ -216,7 +216,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2013-10-10 setPeriodicWave(periodicWave)
+     * @deprecated 2013-10-10 - use 'setPeriodicWave(periodicWave)' instead
      * @param {PeriodicWave} waveTable
      * @return {void}
      */

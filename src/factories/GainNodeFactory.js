@@ -9,7 +9,7 @@ const DEFAULT_GAIN = 1;
 function create(api, AudioNode) {
   class GainNode extends AudioNode {
     /**
-     * @protected - audioContext.createGain()
+     * @protected - use 'audioContext.createGain()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {number} opts.gain

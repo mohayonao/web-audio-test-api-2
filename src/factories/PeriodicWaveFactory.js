@@ -6,7 +6,7 @@ const lock = require("../utils/lock");
 function create(api, BaseObject) {
   class PeriodicWave extends BaseObject {
     /**
-     * @protected - audioContext.createPeriodicWave(real, imag)
+     * @protected - use 'audioContext.createPeriodicWave(real, imag)' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {Float32Array} opts.real
