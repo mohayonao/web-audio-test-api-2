@@ -1,11 +1,11 @@
 "use strict";
 
-const WebAudioTestAPI = require("../lib");
+const WebAudioTestAPI = require("../");
 const assert = require("assert");
 const test = require("eatest");
 
 [
-  "chrome", "firefox", "safari", "edge"
+  "chrome", "firefox", "safari", "edge", "spec"
 ].forEach((name) => {
   test.fork(name, () => {
     const api = WebAudioTestAPI.createAPI(name).install();
