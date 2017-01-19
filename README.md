@@ -1,24 +1,38 @@
 # web-audio-test-api
 [![Build Status](https://img.shields.io/travis/mohayonao/web-audio-test-api-2.svg?style=flat-square)](https://travis-ci.org/mohayonao/web-audio-test-api-2)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://mohayonao.mit-license.org/)
 
 > Web Audio API for CI
 
-:construction_worker: WIP
-
 ## Features
 
-- :white_check_mark: type check
-- :white_check_mark: basic validation
 - :white_check_mark: change api specification
+- :white_check_mark: type check assertion
+- :white_check_mark: basic validation
 - :construction_worker: test audio graph
 - :construction_worker: test internal parameters
-- :construction_worker: recommend best practice (strictly validation)
+- :construction_worker: provide best practice (strictly validation)
 
 ## Installation
 
 ```sh
 $ npm install web-audio-test-api@beta
 ```
+
+## API
+
+- `createAPI(spec: string, [opts: object]): api`
+  - `spec` name of specification (e.g. "safari")
+  - `opts` optional configuration
+- `api.install([target: object]): api`
+  - `target` target object to install api - _default: **global**_
+- `api.uninstall([target: object]): api`
+  - `target` target object to uninstall api - _default: **global**_
+- `api.get(apiPath: string): any`
+  - `apiPath` path of api configuration (e. g. "/AudioNode/connect/selective")
+- `api.set(apiPath: string, value: any): any`
+  - `apiPath` path of api configuration
+  - `value` value to set
 
 ## Quick Example
 
