@@ -8,7 +8,7 @@ const spec = {
   "/AudioContext/close": {},
   "/AudioContext/createAnalyser": {},
   "/AudioContext/createBiquadFilter": {},
-  "/AudioContext/createBuffer": {},
+  "/AudioContext/createBuffer": { "mixToMono": true },
   "/AudioContext/createBufferSource": {},
   "/AudioContext/createChannelMerger": {},
   "/AudioContext/createChannelSplitter": {},

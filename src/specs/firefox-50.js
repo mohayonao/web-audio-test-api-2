@@ -38,7 +38,7 @@ const spec = {
   "/OfflineAudioContext": { "global": "OfflineAudioContext" },
   "/OfflineAudioContext/length": {},
   "/OfflineAudioContext/oncomplete": {},
-  "/OfflineAudioContext/startRendering": {},
+  "/OfflineAudioContext/startRendering": { "promise": true },
 
   "/AudioNode": { "global": "AudioNode", "protected": true },
   "/AudioNode/channelCount": {},

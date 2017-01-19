@@ -41,7 +41,7 @@ const spec = {
   "/OfflineAudioContext/length": {},
   "/OfflineAudioContext/oncomplete": {},
   "/OfflineAudioContext/resume": {},
-  "/OfflineAudioContext/startRendering": {},
+  "/OfflineAudioContext/startRendering": { "promise": true },
   "/OfflineAudioContext/suspend": {},
 
   "/AudioNode": { "global": "AudioNode", "protected": true },
