@@ -12,7 +12,7 @@ const DEFAULT_NUMBER_OF_OUTPUT_CHANNELS = 1;
 function create(api, AudioNode) {
   class ScriptProcessorNode extends AudioNode {
     /**
-     * @protected - audioContext.createScriptProcessor(bufferSize, [numberOfInputs, numberOfOutputs])
+     * @protected - use 'audioContext.createScriptProcessor(bufferSize, [numberOfInputs, numberOfOutputs])' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {integer} opts.bufferSize

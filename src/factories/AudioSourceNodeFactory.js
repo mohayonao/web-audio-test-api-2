@@ -5,7 +5,7 @@ const lock = require("../utils/lock");
 function create(api, AudioNode) {
   class AudioSourceNode extends AudioNode {
     /**
-     * @protected
+     * @protected - abstract class cannot construct directly
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {object} config

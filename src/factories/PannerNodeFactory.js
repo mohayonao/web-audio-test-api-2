@@ -7,7 +7,7 @@ const { initialize } = require("./SpatialPannerNodeFactory");
 function create(api, AudioNode) {
   class PannerNode extends AudioNode {
     /**
-     * @protected - audioContext.createPanner()
+     * @protected - use 'audioContext.createPanner()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      */
@@ -68,7 +68,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "equalpower"
+     * @deprecated 2012-12-13 - use string ("equalpower") instead
      * @type {PanningModelType}
      */
     get EQUALPOWER() {
@@ -76,7 +76,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "HRTF"
+     * @deprecated 2012-12-13 - use string ("HRTF") instead
      * @type {PanningModelType}
      */
     get HRTF() {
@@ -92,7 +92,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "linear"
+     * @deprecated 2012-12-13 - use string ("linear") instead
      * @type {DistanceModelType}
      */
     get LINEAR_DISTANCE() {
@@ -100,7 +100,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "inverse"
+     * @deprecated 2012-12-13 - use string ("inverse") instead
      * @type {DistanceModelType}
      */
     get INVERSE_DISTANCE() {
@@ -108,7 +108,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "exponential"
+     * @deprecated 2012-12-13 - use string ("exponential") instead
      * @type {DistanceModelType}
      */
     get EXPONENTIAL_DISTANCE() {

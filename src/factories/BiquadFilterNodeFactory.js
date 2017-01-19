@@ -15,7 +15,7 @@ const DEFAULT_GAIN = 0;
 function create(api, AudioNode) {
   class BiquadFilterNode extends AudioNode {
     /**
-     * @protected - audioContext.createBiquadFilter()
+     * @protected - use 'audioContext.createBiquadFilter()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {BiquadFilterType} opts.type
@@ -112,7 +112,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "lowpass"
+     * @deprecated 2012-12-13 - use string ("lowpass") instead
      * @type {BiquadFilterType}
      */
     get LOWPASS() {
@@ -120,7 +120,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "highpass"
+     * @deprecated 2012-12-13 - use string ("highpass") instead
      * @type {BiquadFilterType}
      */
     get HIGHPASS() {
@@ -128,7 +128,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "bandpass"
+     * @deprecated 2012-12-13 - use string ("bandpass") instead
      * @type {BiquadFilterType}
      */
     get BANDPASS() {
@@ -136,7 +136,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "lowshelf"
+     * @deprecated 2012-12-13 - use string ("lowshelf") instead
      * @type {BiquadFilterType}
      */
     get LOWSHELF() {
@@ -144,7 +144,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "highshelf"
+     * @deprecated 2012-12-13 - use string ("highshelf") instead
      * @type {BiquadFilterType}
      */
     get HIGHSHELF() {
@@ -152,7 +152,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "peaking"
+     * @deprecated 2012-12-13 - use string ("peaking") instead
      * @type {BiquadFilterType}
      */
     get PEAKING() {
@@ -160,7 +160,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "notch"
+     * @deprecated 2012-12-13 - use string ("notch") instead
      * @type {BiquadFilterType}
      */
     get NOTCH() {
@@ -168,7 +168,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2012-12-13 "allpass"
+     * @deprecated 2012-12-13 - use string ("allpass") instead
      * @type {BiquadFilterType}
      */
     get ALLPASS() {

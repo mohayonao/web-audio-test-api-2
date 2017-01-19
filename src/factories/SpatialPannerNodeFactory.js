@@ -24,7 +24,7 @@ const DEFAULT_ORIENTATION_Z = 0;
 function create(api, AudioNode) {
   class SpatialPannerNode extends AudioNode {
     /**
-     * @protected - audioContext.createSpatialPanner()
+     * @protected - use 'audioContext.createSpatialPanner()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      */

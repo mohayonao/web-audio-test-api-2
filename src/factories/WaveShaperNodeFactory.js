@@ -10,7 +10,7 @@ const DEFAULT_OVERSAMPLE = OverSampleType.NONE;
 function create(api, AudioNode) {
   class WaveShaperNode extends AudioNode {
     /**
-     * @protected - audioContext.createWaveShaper()
+     * @protected - use 'audioContext.createWaveShaper()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {Float32Array?} opts.curve

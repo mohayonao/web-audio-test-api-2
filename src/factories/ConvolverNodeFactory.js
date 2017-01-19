@@ -9,7 +9,7 @@ const DEFAULT_DISABLE_NORMALIZATION = false;
 function create(api, AudioNode) {
   class ConvolverNode extends AudioNode {
     /**
-     * @protected - audioContext.createConvolver()
+     * @protected - use 'audioContext.createConvolver()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {AudioBuffer?} opts.buffer

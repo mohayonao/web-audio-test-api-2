@@ -10,7 +10,7 @@ const DEFAULT_NUMBER_OF_INPUTS = 6;
 function create(api, AudioNode) {
   class ChannelMergerNode extends AudioNode {
     /**
-     * @protected - audioContext.createChannelMerger([numberOfInputs])
+     * @protected - use 'audioContext.createChannelMerger([numberOfInputs])' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {integer} opts.numberOfInputs

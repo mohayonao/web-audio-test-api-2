@@ -9,7 +9,7 @@ const MAX_VALUE = +3.4028234663852886e+38;
 function create(api, BaseObject) {
   class AudioParam extends BaseObject {
     /**
-     * @protected
+     * @protected - internal class cannot construct directly
      * @param {BaseAudioContext} context
      * @param {object} opts
      */
@@ -176,7 +176,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @deprecated 2012-12-13 setTargetAtTime(target, startTime, timeConstant)
+     * @deprecated 2012-12-13 - use 'setTargetAtTime(target, startTime, timeConstant)' instead
      * @param {number} target
      * @param {positive} startTime
      * @param {positive} timeConstant

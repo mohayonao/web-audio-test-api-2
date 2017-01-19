@@ -6,7 +6,7 @@ const lock = require("../utils/lock");
 function create(api, AudioNode) {
   class MediaStreamAudioSourceNode extends AudioNode {
     /**
-     * @protected - audioContext.createMediaStreamSource(mediaStream)
+     * @protected - use 'audioContext.createMediaStreamSource(mediaStream)' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {MediaStream} opts.mediaStream

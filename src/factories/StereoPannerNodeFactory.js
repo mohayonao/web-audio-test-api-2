@@ -9,7 +9,7 @@ const DEFAULT_PAN = 0;
 function create(api, AudioNode) {
   class StereoPannerNode extends AudioNode {
     /**
-     * @protected - audioContext.createStereoPanner()
+     * @protected - use 'audioContext.createStereoPanner()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {number} opts.pan

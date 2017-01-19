@@ -13,7 +13,7 @@ const DEFAULT_RELEASE = 0.25;
 function create(api, AudioNode) {
   class DynamicsCompressorNode extends AudioNode {
     /**
-     * @protected - audioContext.createDynamicsCompressor()
+     * @protected - use 'audioContext.createDynamicsCompressor()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {number} opts.threshold

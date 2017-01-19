@@ -9,7 +9,7 @@ const DEFAULT_NUMBER_OF_CHANNELS = 2;
 function create(api, AudioNode) {
   class AudioDestinationNode extends AudioNode {
     /**
-     * @protected - audioContext.destination
+     * @protected - use 'audioContext.destination' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {integer} opts.numberOfChannels
@@ -39,7 +39,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @deprecated 2013-10-10 maxChannelCount
+     * @deprecated 2013-10-10 - use 'maxChannelCount' instead
      * @type {integer}
      */
     get numberOfChannels() {

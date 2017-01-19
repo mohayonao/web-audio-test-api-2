@@ -10,7 +10,7 @@ const DEFAULT_NUMBER_OF_CHANNELS = 1;
 function create(api, BaseObject) {
   class AudioBuffer extends BaseObject {
     /**
-     * @protected - audioContext.createBuffer(numberOfChannels, length, sampleRate)
+     * @protected - use 'audioContext.createBuffer(numberOfChannels, length, sampleRate)' instead
      * @param {object} context
      * @param {object} opts
      * @param {integer} opts.numberOfChannels
