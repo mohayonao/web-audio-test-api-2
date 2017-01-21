@@ -21,18 +21,18 @@ $ npm install web-audio-test-api@beta
 
 ## API
 
-- `createAPI(spec: string, [opts: object]): api`
-  - `spec` name of specification (e.g. "safari")
-  - `opts` optional configuration
+- `createAPI(config: string|object): api`
+  - `spec:string` name of specification (e.g. "safari")
+  - `spec:object` specification object
 - `api.install([target: object]): api`
-  - `target` target object to install api - _default: **global**_
+  - `target: object` target object to install api - _default: **global**_
 - `api.uninstall([target: object]): api`
-  - `target` target object to uninstall api - _default: **global**_
+  - `target: object` target object to uninstall api - _default: **global**_
 - `api.get(apiPath: string): any`
-  - `apiPath` path of api configuration (e. g. "/AudioNode/connect/selective")
+  - `apiPath: string` path of api configuration (e. g. "/AudioNode/connect/selective")
 - `api.set(apiPath: string, value: any): any`
-  - `apiPath` path of api configuration
-  - `value` value to set
+  - `apiPath: string` path of api configuration
+  - `value: any` value to set
 
 ## Quick Example
 
@@ -68,19 +68,9 @@ gain.connect(audioContext.destination);
 | **firefox:50**    | 2016-11-15 |      - |      - |      - |      - |
 | **safari:10**     | 2016-09-20 |      - |      - |      - |      - |
 | **edge:38**       | 2016-08-02 |      - |      - |      - |      - |
-| [spec:201112]     | 2011-12-15 |      - |      - |      - |      - |
-| [spec:201203]     | 2012-03-15 |     11 |      0 |      0 |      0 |
-| [spec:201208]     | 2012-08-02 |     14 |      5 |      0 |      0 |
-| [spec:201212]     | 2012-12-13 |     14 |     30 |      0 |      0 |
-| [spec:201310]     | 2013-10-10 |     10 |     18 |      0 |      2 |
 | **[spec:201512]** | 2015-12-08 |     13 |      3 |     20 |     10 |
 | [spec:draft]      |          - |     29 |     10 |      5 |     19 |
 
-[spec:201112]: https://www.w3.org/TR/2011/WD-webaudio-20111215/
-[spec:201203]: https://www.w3.org/TR/2012/WD-webaudio-20120315/
-[spec:201208]: https://www.w3.org/TR/2012/WD-webaudio-20120802/
-[spec:201212]: https://www.w3.org/TR/2012/WD-webaudio-20121213/
-[spec:201310]: https://www.w3.org/TR/2013/WD-webaudio-20131010/
 [spec:201512]: https://www.w3.org/TR/2015/WD-webaudio-20151208/
 [spec:draft]: https://webaudio.github.io/web-audio-api/
 

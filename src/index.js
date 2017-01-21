@@ -4,51 +4,66 @@ const builder = require("./api/builder");
 const specs = require("./specs");
 const types = require("./types");
 
-function createAPI(spec = null, opts = {}) {
-  const api = { types };
+function createAPI(config = null) {
+  const api = createAPIConfig(config);
 
-  if (spec && typeof spec === "object") {
-    if (typeof spec["name"] === "string") {
-      api.name = spec["name"];
-    } else {
-      api.name = "custom";
-    }
-    if (typeof spec["released"] === "string") {
-      api.released = spec["released"];
-    } else {
-      api.released = "custom";
-    }
-    if (typeof spec["spec"] === "object") {
-      api.spec = clone(spec["spec"]);
-    } else {
-      api.spec = clone(spec);
-    }
-  }
+  api.types = types;
 
-  let specName = spec;
-
-  if (typeof api.name === "undefined") {
-    if (!specs.hasOwnProperty(specName)) {
-      specName = "spec";
-    }
-    const { name, released, spec } = specs[specName];
-
-    api.name = name;
-    api.released = released;
-    api.spec = clone(spec);
-  }
-
-  const customSpec = opts.spec || opts;
-
-  Object.keys(customSpec).forEach((key) => {
-    if (key.startsWith("/")) {
-      api.spec[key] = Object.assign({}, api.spec[key], customSpec[key]);
-    }
-  });
-
-  builder.apply(api, [ api.spec, opts ]);
+  builder.apply(api, [ api.spec ]);
 
   return api;
+}
+
+function createAPIConfig(config) {
+  if (config === null || typeof config === "string") {
+    if (!specs.hasOwnProperty(config)) {
+      config = "spec"; // TODO: replace to "recommended"
+    }
+    config = specs[config];
+  }
+  config = clone(config);
+
+  if (typeof config.spec === "undefined") {
+    const spec = {};
+
+    Object.keys(config).forEach((key) => {
+      if (key.startsWith("/")) {
+        spec[key] = config[key];
+        delete config[key];
+      }
+    });
+
+    config.spec = spec;
+  }
+
+  if (typeof config["extends"] === "string") {
+    config = extendConfig(config, config["extends"]);
+  }
+
+  if (typeof config.name !== "string") {
+    config.name = "custom";
+  }
+
+  return config;
+}
+
+function extendConfig(config, baseConfigName) {
+  function walk(src, dst) {
+    Object.keys(src).forEach((key) => {
+      if (typeof dst[key] === "undefined") {
+        dst[key] = clone(src[key]);
+      } else if (typeof src[key] === "object" && typeof dst[key] === "object") {
+        dst[key] = walk(src[key], dst[key]);
+      }
+    });
+    return dst;
+  }
+
+  if (specs.hasOwnProperty(baseConfigName)) {
+    config = walk(specs[baseConfigName], config);
+  }
+
+  return config;
 }
 
 function clone(x) {
