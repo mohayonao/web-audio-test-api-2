@@ -251,8 +251,8 @@ describe("AudioNodeFactory", () => {
       it("throws error", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
-        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1, 1 ] });
 
         assert.throws(() => {
           node1.connect(node2, 2, 0);
@@ -267,8 +267,8 @@ describe("AudioNodeFactory", () => {
       it("works", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
-        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1, 1 ] });
 
         node1.connect(node2);
         node1.disconnect();
@@ -277,8 +277,8 @@ describe("AudioNodeFactory", () => {
       it("throws error", () => {
         const api = testTools.createAPI();
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
-        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1, 1 ] });
 
         node1.connect(node2);
         assert.throws(() => {
@@ -291,8 +291,8 @@ describe("AudioNodeFactory", () => {
       it("works", () => {
         const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
-        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1, 1 ] });
 
         node1.connect(node2);
         node1.disconnect();
@@ -303,8 +303,8 @@ describe("AudioNodeFactory", () => {
       it("works", () => {
         const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
-        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1, 1 ] });
 
         node1.connect(node2);
         node1.disconnect(0);
@@ -313,8 +313,8 @@ describe("AudioNodeFactory", () => {
       it("throws error", () => {
         const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
-        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1, 1 ] });
 
         node1.connect(node2);
         assert.throws(() => {
@@ -327,8 +327,8 @@ describe("AudioNodeFactory", () => {
       it("works", () => {
         const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
-        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1, 1 ] });
 
         node1.connect(node2);
         node1.disconnect(node2);
@@ -337,11 +337,22 @@ describe("AudioNodeFactory", () => {
       it("works with AudioParam", () => {
         const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
         const param = new api.AudioParam(context);
 
         node1.connect(param);
         node1.disconnect(param);
+      });
+
+      it("throws error when not connected", () => {
+        const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1, 1 ] });
+
+        assert.throws(() => {
+          node1.disconnect(node2);
+        }, TypeError);
       });
     });
 
@@ -349,8 +360,8 @@ describe("AudioNodeFactory", () => {
       it("works", () => {
         const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
-        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1, 1 ] });
 
         node1.connect(node2);
         node1.disconnect(node2, 0, 0);
@@ -359,7 +370,7 @@ describe("AudioNodeFactory", () => {
       it("works with AudioParam", () => {
         const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
         const param = new api.AudioParam(context);
 
         node1.connect(param);
@@ -369,8 +380,8 @@ describe("AudioNodeFactory", () => {
       it("throws error", () => {
         const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
         const context = new api.AudioContext();
-        const node1 = new api.AudioNode(context, {}, { outputs: [ 2 ] });
-        const node2 = new api.AudioNode(context, {}, { inputs: [ 2 ] });
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1, 1 ] });
 
         node1.connect(node2);
 
@@ -379,6 +390,19 @@ describe("AudioNodeFactory", () => {
         }, TypeError);
         assert.throws(() => {
           node1.disconnect(node2, 0, 2);
+        }, TypeError);
+      });
+
+      it("throws error when not connected", () => {
+        const api = testTools.createAPI({ "/AudioNode/disconnect/selective": true });
+        const context = new api.AudioContext();
+        const node1 = new api.AudioNode(context, {}, { outputs: [ 1, 1 ] });
+        const node2 = new api.AudioNode(context, {}, { inputs: [ 1, 1 ] });
+
+        node1.connect(node2, 0, 0);
+
+        assert.throws(() => {
+          node1.disconnect(node2, 0, 1);
         }, TypeError);
       });
     });
