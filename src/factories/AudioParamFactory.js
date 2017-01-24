@@ -1,5 +1,6 @@
 "use strict";
 
+const AudioNodeInput = require("../impl/AudioNodeInput");
 const defaults = require("../utils/defaults");
 const lock = require("../utils/lock");
 
@@ -31,6 +32,9 @@ function create(api, BaseObject) {
       this._.minValue = minValue;
       this._.maxValue = maxValue;
       this._.value = value;
+      this._.inputs = [
+        new AudioNodeInput({ node: this, index: 0 }),
+      ];
 
       this.value = value;
     }

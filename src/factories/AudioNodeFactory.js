@@ -3,6 +3,8 @@
 const AudioContextState = require("../types/AudioContextState");
 const ChannelCountMode = require("../types/ChannelCountMode");
 const ChannelInterpretation = require("../types/ChannelInterpretation");
+const AudioNodeInput = require("../impl/AudioNodeInput");
+const AudioNodeOutput = require("../impl/AudioNodeOutput");
 const defaults = require("../utils/defaults");
 const format = require("../utils/format");
 const lock = require("../utils/lock");
@@ -42,8 +44,8 @@ function create(api, EventTarget) {
       }
 
       this._.context = context;
-      this._.inputs = inputs;
-      this._.outputs = outputs;
+      this._.inputs = inputs.map((_, index) => new AudioNodeInput({ node: this, index }));
+      this._.outputs = outputs.map((_, index) => new AudioNodeOutput({ node: this, index }));
       this._.channelCount = channelCount;
       this._.channelCountMode = channelCountMode;
       this._.channelInterpretation = channelInterpretation;
@@ -159,6 +161,8 @@ function create(api, EventTarget) {
         input = 0;
       }
 
+      this._.outputs[output|0].connect(destination, input|0);
+
       if (destination instanceof api.AudioNode) {
         if (api.get("/AudioNode/connect/chain")) {
           return destination;
@@ -185,7 +189,11 @@ function create(api, EventTarget) {
     /**
      * @return {void}
      */
-    disconnect$All() {}
+    disconnect$All() {
+      this._.outputs.forEach((output) => {
+        output.disconnect();
+      });
+    }
 
     /**
      * @param {integer} output
@@ -198,6 +206,7 @@ function create(api, EventTarget) {
           The output must be less than number of outputs (${ this.numberOfOutputs }), but got ${ output }.
         `));
       }
+      this._.outputs[output].disconnect();
     }
 
     /**
@@ -206,7 +215,15 @@ function create(api, EventTarget) {
      * @return {void}
      */
     disconnect$IfConnected(destination) {
-      void(this, destination);
+      if (!this._.outputs.some((output) => output.isConnectedTo(destination))) {
+        throw new TypeError(format(`
+          Failed to execute 'disconnect' on 'AudioNode':
+          The destination must have been connected with this node.
+        `));
+      }
+      this._.outputs.forEach((output) => {
+        output.disconnect(destination);
+      });
     }
 
     /**
@@ -233,6 +250,13 @@ function create(api, EventTarget) {
       } else {
         input = 0;
       }
+      if (!this._.outputs[output].isConnectedTo(destination, input)) {
+        throw new TypeError(format(`
+          Failed to execute 'disconnect' on 'AudioNode':
+          The destination must have been connected with this node.
+        `));
+      }
+      this._.outputs[output].disconnect(destination, input);
     }
   }
 
