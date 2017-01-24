@@ -71,21 +71,11 @@ module.exports = ({ template }) => {
       const apiFullPath = toAPIPath(kind, className, node.key.name);
       const lastComment = last(node.leadingComments);
       const doc = parseJSDoc(lastComment);
-      const variables = collectVariables(node.params);
 
       this.JSDoc[apiFullPath] = Object.assign({}, this.JSDoc[apiFullPath], doc);
 
       if (isEmpty(this.JSDoc[apiFullPath])) {
         return;
-      }
-
-      // insert validate
-      if (kind === "set" || kind === "method") {
-        path.get("body").unshiftContainer("body", template(`
-          if (typeof api.validate === "function") {
-            api.validate(this, "${ apiPath }", { ${ variables.join(", ") } });
-          }
-        `)());
       }
 
       if (this.JSDoc[apiFullPath].args && kind === "constructor") {
@@ -195,12 +185,6 @@ module.exports = ({ template }) => {
         path.insertBefore(template(`
           if (typeof api.typecheck === "function") {
             ${ lines.join("\n") }
-          }
-        `)());
-
-        path.insertAfter(template(`
-          if (typeof api.validate === "function") {
-            api.validate(this, "${ apiPath }", { ${ variables.map(({ name }) => name).join(", ") } });
           }
         `)());
       }
