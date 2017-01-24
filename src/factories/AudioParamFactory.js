@@ -1,6 +1,7 @@
 "use strict";
 
 const AudioNodeInput = require("../impl/AudioNodeInput");
+const AudioParamImpl = require("../impl/AudioParamImpl");
 const defaults = require("../utils/defaults");
 const lock = require("../utils/lock");
 
@@ -35,6 +36,7 @@ function create(api, BaseObject) {
       this._.inputs = [
         new AudioNodeInput({ node: this, index: 0 }),
       ];
+      this._.timeline = [];
 
       this.value = value;
     }
@@ -77,7 +79,11 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     setValueAtTime(value, startTime) {
-      void(this, value, startTime);
+      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+        type: "setValueAtTime",
+        time: startTime,
+        args: [ value, startTime ]
+      });
       if (api.get("/AudioParam/setValueAtTime/chain")) {
         return this;
       }
@@ -89,7 +95,11 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     linearRampToValueAtTime(value, endTime) {
-      void(this, value, endTime);
+      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+        type: "linearRampToValueAtTime",
+        time: endTime,
+        args: [ value, endTime ]
+      });
       if (api.get("/AudioParam/linearRampToValueAtTime/chain")) {
         return this;
       }
@@ -101,7 +111,11 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     exponentialRampToValueAtTime(value, endTime) {
-      void(this, value, endTime);
+      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+        type: "exponentialRampToValueAtTime",
+        time: endTime,
+        args: [ value, endTime ]
+      });
       if (api.get("/AudioParam/exponentialRampToValueAtTime/chain")) {
         return this;
       }
@@ -114,7 +128,11 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     setTargetAtTime(target, startTime, timeConstant) {
-      void(this, target, startTime, timeConstant);
+      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+        type: "setTargetAtTime",
+        time: startTime,
+        args: [ target, startTime, timeConstant ]
+      });
       if (api.get("/AudioParam/setTargetAtTime/chain")) {
         return this;
       }
@@ -127,7 +145,11 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     setValueCurveAtTime(curve, startTime, duration) {
-      void(this, curve, startTime, duration);
+      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+        type: "setValueCurveAtTime",
+        time: startTime,
+        args: [ curve, startTime, duration ]
+      });
       if (api.get("/AudioParam/setValueCurveAtTime/chain")) {
         return this;
       }
@@ -138,7 +160,11 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     cancelScheduledValues(cancelTime) {
-      void(this, cancelTime);
+      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+        type: "cancelScheduledValues",
+        time: cancelTime,
+        args: [ cancelTime ]
+      });
       if (api.get("/AudioParam/cancelScheduledValues/chain")) {
         return this;
       }
@@ -149,7 +175,11 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     cancelAndHoldAtTime(cancelTime) {
-      void(this, cancelTime);
+      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+        type: "cancelScheduledValues",
+        time: cancelTime,
+        args: [ cancelTime ]
+      });
       if (api.get("/AudioParam/cancelAndHoldAtTime/chain")) {
         return this;
       }
@@ -187,7 +217,11 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     setTargetValueAtTime(target, startTime, timeConstant) {
-      void(this, target, startTime, timeConstant);
+      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+        type: "setTargetAtTime",
+        time: startTime,
+        args: [ target, startTime, timeConstant ]
+      });
       if (api.get("/AudioParam/setTargetValueAtTime/chain")) {
         return this;
       }
