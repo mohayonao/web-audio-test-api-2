@@ -13,6 +13,7 @@ describe("utils/emit(instance, type, ...args)", () => {
       _: {
         emitter: new EventEmitter(),
       },
+      dispatchEvent: () => {},
     };
     const handler1 = sinon.spy();
 
@@ -25,7 +26,9 @@ describe("utils/emit(instance, type, ...args)", () => {
   });
 
   it("works with onxxxx", () => {
-    const instance = {};
+    const instance = {
+      dispatchEvent: () => {}
+    };
     const handler1 = sinon.spy();
 
     instance.onended = handler1;
@@ -34,5 +37,21 @@ describe("utils/emit(instance, type, ...args)", () => {
 
     assert(handler1.callCount === 1);
     assert.deepEqual(handler1.args[0], [ "arg1", "arg2" ]);
+  });
+
+  it("without dispatchEvent", () => {
+    const instance = {
+      _: {
+        emitter: new EventEmitter(),
+      },
+    };
+    const handler1 = sinon.spy();
+
+    instance._.emitter.on("ended", handler1);
+    instance.onended = handler1;
+
+    emit(instance, "ended", "arg1", "arg2");
+
+    assert(handler1.callCount === 0);
   });
 });

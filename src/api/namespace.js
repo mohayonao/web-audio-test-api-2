@@ -53,9 +53,15 @@ function apply(api, [ spec ]) {
   if (spec["/BaseAudioContext"]) {
     api.AudioContext = AudioContextFactory.create(api, api.BaseAudioContext);
     api.OfflineAudioContext = OfflineAudioContextFactory.create(api, api.BaseAudioContext);
-  } else {
+    api.AudioNode = AudioNodeFactory.create(api, api.EventTarget);
+  } else if (spec["/EventTarget"]) {
     api.AudioContext = mixin(AudioContextFactory.create(api, api.EventTarget), api.BaseAudioContext);
     api.OfflineAudioContext = OfflineAudioContextFactory.create(api, api.AudioContext);
+    api.AudioNode = AudioNodeFactory.create(api, api.EventTarget);
+  } else {
+    api.AudioContext = mixin(AudioContextFactory.create(api, api.BaseObject), api.BaseAudioContext);
+    api.OfflineAudioContext = OfflineAudioContextFactory.create(api, api.AudioContext);
+    api.AudioNode = AudioNodeFactory.create(api, api.BaseObject);
   }
 
   api.AudioBuffer = AudioBufferFactory.create(api, api.BaseObject);
@@ -64,7 +70,6 @@ function apply(api, [ spec ]) {
   api.PeriodicWave = PeriodicWaveFactory.create(api, api.BaseObject);
   api.SpatialListener = SpatialListenerFactory.create(api, api.BaseObject);
   api.AudioListener = mixin(AudioListenerFactory.create(api, api.BaseObject), api.SpatialListener);
-  api.AudioNode = AudioNodeFactory.create(api, api.EventTarget);
   api.AudioScheduledSourceNode = AudioScheduledSourceNodeFactory.create(api, api.AudioNode);
   api.AudioSourceNode = AudioSourceNodeFactory.create(api, api.AudioNode);
 
