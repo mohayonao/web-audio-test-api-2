@@ -2,6 +2,11 @@
   "name": "chrome:55",
   "released": "2016-12-01",
   "spec": {
+    "/EventTarget": { "global": "EventTarget", "protected": true },
+    "/EventTarget/addEventListener": {},
+    "/EventTarget/dispatchEvent": {},
+    "/EventTarget/removeEventListener": {},
+
     "/BaseAudioContext": { "global": false, "protected": true },
     "/BaseAudioContext/createAnalyser": {},
     "/BaseAudioContext/createBiquadFilter": {},

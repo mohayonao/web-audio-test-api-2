@@ -2,6 +2,11 @@
   "name": "spec:201310",
   "released": "2013-10-10",
   "spec": {
+    "/EventTarget": { "global": "EventTarget", "protected": true },
+    "/EventTarget/addEventListener": {},
+    "/EventTarget/dispatchEvent": {},
+    "/EventTarget/removeEventListener": {},
+
     "/AudioContext": { "global": "AudioContext" },
     "/AudioContext/createAnalyser": {},
     "/AudioContext/createBiquadFilter": {},
