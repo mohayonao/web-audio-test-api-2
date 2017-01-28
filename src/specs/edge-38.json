@@ -2,6 +2,11 @@
   "name": "edge:38",
   "released": "2016-08-02",
   "spec": {
+    "/EventTarget": { "global": "EventTarget", "protected": true },
+    "/EventTarget/addEventListener": {},
+    "/EventTarget/dispatchEvent": {},
+    "/EventTarget/removeEventListener": {},
+
     "/AudioContext": { "global": "AudioContext" },
     "/AudioContext/close": {},
     "/AudioContext/createAnalyser": {},

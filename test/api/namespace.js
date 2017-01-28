@@ -13,21 +13,45 @@ describe("api/namespace", () => {
 
       namespace.apply(api, [ spec ]);
 
+      assert(api.BaseObject.isPrototypeOf(api.EventTarget));
       assert(api.EventTarget.isPrototypeOf(api.BaseAudioContext));
       assert(api.BaseAudioContext.isPrototypeOf(api.AudioContext));
       assert(api.BaseAudioContext.isPrototypeOf(api.OfflineAudioContext));
       assert(!api.AudioContext.prototype.hasOwnProperty("createGain"));
+
+      assert(api.EventTarget.isPrototypeOf(api.AudioNode));
     });
 
     it("without BaseAudioContext", () => {
+      const api = {};
+      const spec = { "/EventTarget": true };
+
+      namespace.apply(api, [ spec ]);
+
+      assert(api.BaseObject.isPrototypeOf(api.EventTarget));
+      assert(!(api.BaseAudioContext.isPrototypeOf(api.AudioContext)));
+      assert(!(api.BaseAudioContext.isPrototypeOf(api.OfflineAudioContext)));
+      assert(api.EventTarget.isPrototypeOf(api.AudioContext));
+      assert(api.AudioContext.isPrototypeOf(api.OfflineAudioContext));
+      assert(api.AudioContext.prototype.hasOwnProperty("createGain"));
+
+      assert(api.EventTarget.isPrototypeOf(api.AudioNode));
+    });
+
+    it("without EventTarget", () => {
       const api = {};
       const spec = {};
 
       namespace.apply(api, [ spec ]);
 
-      assert(api.EventTarget.isPrototypeOf(api.AudioContext));
+      assert(!(api.EventTarget.isPrototypeOf(api.AudioContext)));
+      assert(!(api.EventTarget.isPrototypeOf(api.OfflineAudioContext)));
+      assert(api.BaseObject.isPrototypeOf(api.AudioContext));
       assert(api.AudioContext.isPrototypeOf(api.OfflineAudioContext));
       assert(api.AudioContext.prototype.hasOwnProperty("createGain"));
+
+      assert(api.BaseObject.isPrototypeOf(api.AudioNode));
+      assert(!(api.EventTarget.isPrototypeOf(api.AudioNode)));
     });
 
     it("with AudioScheduledSourceNode", () => {
@@ -92,7 +116,6 @@ describe("api/namespace", () => {
       assert(api.BaseObject.isPrototypeOf(api.AudioWorker));
       assert(api.BaseObject.isPrototypeOf(api.PeriodicWave));
       assert(api.BaseObject.isPrototypeOf(api.SpatialListener));
-      assert(api.EventTarget.isPrototypeOf(api.AudioNode));
       assert(api.AudioNode.isPrototypeOf(api.AudioScheduledSourceNode));
       assert(api.AudioNode.isPrototypeOf(api.AudioSourceNode));
       assert(api.AudioNode.isPrototypeOf(api.AudioDestinationNode));

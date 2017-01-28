@@ -1,6 +1,6 @@
 {
-  "name": "chrome:55",
-  "released": "2016-12-01",
+  "name": "chrome:56",
+  "released": "2017-01-25",
   "spec": {
     "/EventTarget": { "global": "EventTarget", "protected": true },
     "/EventTarget/addEventListener": {},
@@ -63,7 +63,7 @@
     "/AudioDestinationNode": { "global": "AudioDestinationNode", "protected": true },
     "/AudioDestinationNode/maxChannelCount": {},
 
-    "/AudioParam": { "global": "AudioParam" },
+    "/AudioParam": { "global": "AudioParam", "protected": true },
     "/AudioParam/cancelScheduledValues": { "chain": true },
     "/AudioParam/defaultValue": {},
     "/AudioParam/exponentialRampToValueAtTime": { "chain": true },
@@ -81,7 +81,7 @@
     "/DelayNode": { "global": "DelayNode" },
     "/DelayNode/delayTime": {},
 
-    "/AudioBuffer": { "global": "AudioBuffer", "context": true },
+    "/AudioBuffer": { "global": "AudioBuffer", "requireContext": true },
     "/AudioBuffer/copyFromChannel": {},
     "/AudioBuffer/copyToChannel": {},
     "/AudioBuffer/duration": {},
@@ -174,11 +174,11 @@
     "/DynamicsCompressorNode/threshold": {},
 
     "/BiquadFilterNode": { "global": "BiquadFilterNode" },
+    "/BiquadFilterNode/Q": {},
     "/BiquadFilterNode/detune": {},
     "/BiquadFilterNode/frequency": {},
     "/BiquadFilterNode/gain": {},
     "/BiquadFilterNode/getFrequencyResponse": {},
-    "/BiquadFilterNode/Q": {},
     "/BiquadFilterNode/type": {},
 
     "/IIRFilterNode": { "global": "IIRFilterNode" },
@@ -202,7 +202,7 @@
     "/MediaStreamAudioSourceNode": { "global": "MediaStreamAudioSourceNode" },
     "/MediaStreamAudioSourceNode/mediaStream": {},
 
-    "/MediaStreamAudioDestinationNode": { "global": "MediaStreamAudioDestinationNode" },
+    "/MediaStreamAudioDestinationNode": { "global": "MediaStreamAudioDestinationNode", "protected": true },
     "/MediaStreamAudioDestinationNode/stream": {}
   }
 }

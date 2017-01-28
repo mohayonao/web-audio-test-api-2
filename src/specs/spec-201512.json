@@ -2,6 +2,11 @@
   "name": "spec:201512",
   "released": "2015-12-08",
   "spec": {
+    "/EventTarget": { "global": "EventTarget", "protected": true },
+    "/EventTarget/addEventListener": {},
+    "/EventTarget/dispatchEvent": {},
+    "/EventTarget/removeEventListener": {},
+
     "/BaseAudioContext": { "global": false, "protected": true },
     "/BaseAudioContext/close": {},
     "/BaseAudioContext/createAnalyser": {},

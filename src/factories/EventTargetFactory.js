@@ -19,6 +19,14 @@ function create(api, BaseObject) {
     }
 
     /**
+     * @param {object} event
+     * @return {void}
+     */
+    dispatchEvent(event) {
+      void(this, event);
+    }
+
+    /**
      * @param {string} type
      * @param {function} eventHandler
      * @return {void}

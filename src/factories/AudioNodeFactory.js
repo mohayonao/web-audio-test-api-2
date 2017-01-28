@@ -1,5 +1,6 @@
 "use strict";
 
+const { EventEmitter } = require("events");
 const AudioContextState = require("../types/AudioContextState");
 const ChannelCountMode = require("../types/ChannelCountMode");
 const ChannelInterpretation = require("../types/ChannelInterpretation");
@@ -53,6 +54,10 @@ function create(api, EventTarget) {
       this._.allowedMaxChannelCount = allowedMaxChannelCount;
       this._.allowedChannelCountMode = allowedChannelCountMode;
       this._.allowedChannelInterpretation = allowedChannelInterpretation;
+
+      if (!(this instanceof api.EventTarget)) {
+        this._.emitter = new EventEmitter();
+      }
 
       this.channelCount = channelCount;
       this.channelCountMode = channelCountMode;
@@ -257,6 +262,32 @@ function create(api, EventTarget) {
         `));
       }
       this._.outputs[output].disconnect(destination, input);
+    }
+
+    /**
+     * @param {string} type
+     * @param {function} eventHandler
+     * @return {void}
+     */
+    addEventListener(type, eventHandler) {
+      this._.emitter.addListener(type, eventHandler);
+    }
+
+    /**
+     * @param {object} event
+     * @return {void}
+     */
+    dispatchEvent(event) {
+      void(this, event);
+    }
+
+    /**
+     * @param {string} type
+     * @param {function} eventHandler
+     * @return {void}
+     */
+    removeEventListener(type, eventHandler) {
+      this._.emitter.removeListener(type, eventHandler);
     }
   }
 

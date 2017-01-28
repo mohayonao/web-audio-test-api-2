@@ -2,6 +2,11 @@
   "name": "firefox:50",
   "released": "2016-11-15",
   "spec": {
+    "/EventTarget": { "global": "EventTarget", "protected": true },
+    "/EventTarget/addEventListener": {},
+    "/EventTarget/dispatchEvent": {},
+    "/EventTarget/removeEventListener": {},
+
     "/AudioContext": { "global": "AudioContext" },
     "/AudioContext/close": {},
     "/AudioContext/createAnalyser": {},

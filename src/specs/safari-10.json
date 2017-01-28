@@ -2,6 +2,11 @@
   "name": "safari:10",
   "released": "2016-09-20",
   "spec": {
+    "/EventTarget": { "global": "EventTarget", "protected": true },
+    "/EventTarget/addEventListener": {},
+    "/EventTarget/dispatchEvent": {},
+    "/EventTarget/removeEventListener": {},
+
     "/AudioContext": { "global": "webkitAudioContext" },
     "/AudioContext/activeSourceCount": {},
     "/AudioContext/close": {},
