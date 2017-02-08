@@ -12,7 +12,7 @@ function create(api, AudioNode) {
      * @protected - use 'audioContext.createGain()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
-     * @param {number} opts.gain
+     * @param {finite} opts.gain
      */
     constructor(context, opts = {}) {
       const gain = defaults(opts.gain, DEFAULT_GAIN);

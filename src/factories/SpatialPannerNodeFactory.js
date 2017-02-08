@@ -66,7 +66,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get refDistance() {
       return this._.refDistance;
@@ -77,7 +77,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get maxDistance() {
       return this._.maxDistance;
@@ -88,7 +88,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get rolloffFactor() {
       return this._.rolloffFactor;
@@ -99,7 +99,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get coneInnerAngle() {
       return this._.coneInnerAngle;
@@ -110,7 +110,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get coneOuterAngle() {
       return this._.coneOuterAngle;
@@ -121,7 +121,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get coneOuterGain() {
       return this._.coneOuterGain;

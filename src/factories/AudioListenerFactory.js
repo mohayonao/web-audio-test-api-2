@@ -23,9 +23,9 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @param {number} x
-     * @param {number} y
-     * @param {number} z
+     * @param {finite} x
+     * @param {finite} y
+     * @param {finite} z
      * @return {void}
      */
     setPosition(x, y, z) {
@@ -35,12 +35,12 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @param {number} x
-     * @param {number} y
-     * @param {number} z
-     * @param {number} xUp
-     * @param {number} yUp
-     * @param {number} zUp
+     * @param {finite} x
+     * @param {finite} y
+     * @param {finite} z
+     * @param {finite} xUp
+     * @param {finite} yUp
+     * @param {finite} zUp
      * @return {void}
      */
     setOrientation(x, y, z, xUp, yUp, zUp) {
@@ -53,9 +53,9 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @param {number} x
-     * @param {number} y
-     * @param {number} z
+     * @param {finite} x
+     * @param {finite} y
+     * @param {finite} z
      * @return {void}
      */
     setVelocity(x, y, z) {
@@ -64,7 +64,7 @@ function create(api, BaseObject) {
 
     /**
      * @deprecated 2012-08-02
-     * @type {number}
+     * @type {finite}
      */
     get gain() {
       return this._.gain;
@@ -76,7 +76,7 @@ function create(api, BaseObject) {
 
     /**
      * @deprecated 2015-12-08
-     * @type {number}
+     * @type {finite}
      */
     get dopplerFactor() {
       return this._.dopplerFactor;
@@ -88,7 +88,7 @@ function create(api, BaseObject) {
 
     /**
      * @deprecated 2015-12-08
-     * @type {number}
+     * @type {finite}
      */
     get speedOfSound() {
       return this._.speedOfSound;

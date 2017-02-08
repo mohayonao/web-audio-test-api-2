@@ -34,9 +34,9 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @param {number} x
-     * @param {number} y
-     * @param {number} z
+     * @param {finite} x
+     * @param {finite} y
+     * @param {finite} z
      * @return {void}
      */
     setPosition(x, y, z) {
@@ -46,9 +46,9 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @param {number} x
-     * @param {number} y
-     * @param {number} z
+     * @param {finite} x
+     * @param {finite} y
+     * @param {finite} z
      * @return {void}
      */
     setOrientation(x, y, z) {
@@ -58,9 +58,9 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @param {number} x
-     * @param {number} y
-     * @param {number} z
+     * @param {finite} x
+     * @param {finite} y
+     * @param {finite} z
      * @return {void}
      */
     setVelocity(x, y, z) {

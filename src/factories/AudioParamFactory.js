@@ -41,7 +41,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get value() {
       return this._.value;
@@ -52,28 +52,28 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get defaultValue() {
       return this._.defaultValue;
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get minValue() {
       return this._.minValue;
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get maxValue() {
       return this._.maxValue;
     }
 
     /**
-     * @param {number} value
+     * @param {finite} value
      * @param {positive} startTime
      * @return {AudioParam}
      */
@@ -89,7 +89,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @param {number} value
+     * @param {finite} value
      * @param {positive} endTime
      * @return {AudioParam}
      */
@@ -105,7 +105,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @param {number} value
+     * @param {finite} value
      * @param {positive} endTime
      * @return {AudioParam}
      */
@@ -121,7 +121,7 @@ function create(api, BaseObject) {
     }
 
     /**
-     * @param {number} target
+     * @param {finite} target
      * @param {positive} startTime
      * @param {positive} timeConstant
      * @return {AudioParam}
@@ -202,7 +202,7 @@ function create(api, BaseObject) {
 
     /**
      * @deprecated 2013-10-10
-     * @type {number}
+     * @type {finite}
      */
     get computedValue() {
       return this._.value;
@@ -210,7 +210,7 @@ function create(api, BaseObject) {
 
     /**
      * @deprecated 2012-12-13 - use 'setTargetAtTime(target, startTime, timeConstant)' instead
-     * @param {number} target
+     * @param {finite} target
      * @param {positive} startTime
      * @param {positive} timeConstant
      * @return {AudioParam}

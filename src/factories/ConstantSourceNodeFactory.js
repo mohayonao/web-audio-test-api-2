@@ -12,7 +12,7 @@ function create(api, AudioScheduledSourceNode) {
      * @protected - use 'audioContext.createConstantSource()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
-     * @param {number} opts.offset
+     * @param {finite} opts.offset
      */
     constructor(context, opts = {}) {
       const offset = defaults(opts.offset, DEFAULT_OFFSET);

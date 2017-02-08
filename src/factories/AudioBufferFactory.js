@@ -165,7 +165,7 @@ function create(api, BaseObject) {
 
     /**
      * @deprecated 2012-08-02
-     * @type {number}
+     * @type {finite}
      */
     get gain() {
       return this._.gain;

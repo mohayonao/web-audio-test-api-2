@@ -17,8 +17,8 @@ function create(api, AudioNode) {
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {OscillatorType} opts.type
-     * @param {number} opts.frequency
-     * @param {number} opts.detune
+     * @param {finite} opts.frequency
+     * @param {finite} opts.detune
      * @param {PeriodicWave?} opts.periodicWave
      */
     constructor(context, opts = {}) {
@@ -181,7 +181,7 @@ function create(api, AudioNode) {
 
     /**
      * @deprecated 2012-12-13 - use 'start([when])' instead
-     * @param {number} when
+     * @param {finite} when
      * @return {void}
      */
     noteOn(when = 0) {
@@ -196,7 +196,7 @@ function create(api, AudioNode) {
 
     /**
      * @deprecated 2012-12-13 - use 'stop([when])' instead
-     * @param {number} when
+     * @param {finite} when
      * @return {void}
      */
     noteOff(when = 0) {

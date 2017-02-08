@@ -2,7 +2,7 @@
 
 const positive = {
   [Symbol.hasInstance](value) {
-    return Number.isFinite(value) && 0 <= value;
+    return Number.isFinite(value);
   }
 };
 
