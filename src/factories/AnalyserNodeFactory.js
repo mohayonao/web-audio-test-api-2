@@ -17,9 +17,9 @@ function create(api, AudioNode) {
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {integer} opts.fftSize
-     * @param {number} opts.minDecibels
-     * @param {number} opts.maxDecibels
-     * @param {number} opts.smoothingTimeConstant
+     * @param {finite} opts.minDecibels
+     * @param {finite} opts.maxDecibels
+     * @param {finite} opts.smoothingTimeConstant
      */
     constructor(context, opts = {}) {
       const fftSize = defaults(opts.fftSize, DEFAULT_FFT_SIZE);
@@ -73,7 +73,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get maxDecibels() {
       return this._.maxDecibels;
@@ -90,7 +90,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get minDecibels() {
       return this._.minDecibels;
@@ -107,7 +107,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get smoothingTimeConstant() {
       return this._.smoothingTimeConstant;

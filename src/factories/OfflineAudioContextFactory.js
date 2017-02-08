@@ -22,7 +22,7 @@ function create(api, BaseAudioContext) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get length() {
       return this._.length;
@@ -47,7 +47,7 @@ function create(api, BaseAudioContext) {
     }
 
     /**
-     * @param {number} suspendTime
+     * @param {finite} suspendTime
      * @return {Promise<void>}
      */
     suspend(suspendTime) {

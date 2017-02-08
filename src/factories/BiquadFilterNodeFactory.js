@@ -19,10 +19,10 @@ function create(api, AudioNode) {
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {BiquadFilterType} opts.type
-     * @param {number} opts.frequency
-     * @param {number} opts.detune
-     * @param {number} opts.Q
-     * @param {number} opts.gain
+     * @param {finite} opts.frequency
+     * @param {finite} opts.detune
+     * @param {finite} opts.Q
+     * @param {finite} opts.gain
      */
     constructor(context, opts = {}) {
       const type = defaults(opts.type, DEFAULT_TYPE);

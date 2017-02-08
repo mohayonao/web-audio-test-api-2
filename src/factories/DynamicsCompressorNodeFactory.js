@@ -16,11 +16,11 @@ function create(api, AudioNode) {
      * @protected - use 'audioContext.createDynamicsCompressor()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
-     * @param {number} opts.threshold
-     * @param {number} opts.knee
-     * @param {number} opts.ratio
-     * @param {number} opts.attack
-     * @param {number} opts.release
+     * @param {finite} opts.threshold
+     * @param {finite} opts.knee
+     * @param {finite} opts.ratio
+     * @param {finite} opts.attack
+     * @param {finite} opts.release
      */
     constructor(context, opts = {}) {
       const threshold = defaults(opts.threshold, DEFAULT_THRESHOLD);
@@ -87,7 +87,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get reduction() {
       if (api.get("/DynamicsCompressorNode/reduction/number")) {

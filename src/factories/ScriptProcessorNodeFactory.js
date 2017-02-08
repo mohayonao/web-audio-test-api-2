@@ -67,7 +67,7 @@ function create(api, AudioNode) {
     }
 
     /**
-     * @type {number}
+     * @type {finite}
      */
     get bufferSize() {
       return this._.bufferSize;

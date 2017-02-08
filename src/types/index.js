@@ -2,6 +2,7 @@
 
 module.exports = {
   integer: require("./integer"),
+  finite: require("./finite"),
   positive: require("./positive"),
   AudioContextState: require("./AudioContextState"),
   BiquadFilterType: require("./BiquadFilterType"),

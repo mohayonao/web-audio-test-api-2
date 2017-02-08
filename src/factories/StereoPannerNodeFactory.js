@@ -12,7 +12,7 @@ function create(api, AudioNode) {
      * @protected - use 'audioContext.createStereoPanner()' instead
      * @param {BaseAudioContext} context
      * @param {object} opts
-     * @param {number} opts.pan
+     * @param {finite} opts.pan
      */
     constructor(context, opts = {}) {
       const pan = defaults(opts.pan, DEFAULT_PAN);

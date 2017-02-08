@@ -18,8 +18,8 @@ function create(api, AudioScheduledSourceNode) {
      * @param {BaseAudioContext} context
      * @param {object} opts
      * @param {AudioBuffer?} opts.buffer
-     * @param {number} opts.playbackRate
-     * @param {number} opts.detune
+     * @param {finite} opts.playbackRate
+     * @param {finite} opts.detune
      * @param {boolean} opts.loop
      * @param {positive} opts.loopStart
      * @param {positive} opts.loopEnd
@@ -127,7 +127,7 @@ function create(api, AudioScheduledSourceNode) {
      * @param {positive} duration
      * @return {void}
      */
-    start(when = 0, offset = 0, duration = Infinity) {
+    start(when = 0, offset = 0, duration = Number.MAX_VALUE) {
       if (!(this._.startTime === Infinity)) {
         throw new TypeError(format(`
           Failed to execute 'start' on 'AudioBufferSourceNode':
