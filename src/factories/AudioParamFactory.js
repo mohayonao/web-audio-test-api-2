@@ -1,7 +1,6 @@
 "use strict";
 
 const AudioNodeInput = require("../impl/AudioNodeInput");
-const AudioParamImpl = require("../impl/AudioParamImpl");
 const defaults = require("../utils/defaults");
 const lock = require("../utils/lock");
 
@@ -79,7 +78,7 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     setValueAtTime(value, startTime) {
-      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+      insertEvent.call(this, this._.timeline, {
         type: "setValueAtTime",
         time: startTime,
         args: [ value, startTime ]
@@ -95,7 +94,7 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     linearRampToValueAtTime(value, endTime) {
-      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+      insertEvent.call(this, this._.timeline, {
         type: "linearRampToValueAtTime",
         time: endTime,
         args: [ value, endTime ]
@@ -111,7 +110,7 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     exponentialRampToValueAtTime(value, endTime) {
-      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+      insertEvent.call(this, this._.timeline, {
         type: "exponentialRampToValueAtTime",
         time: endTime,
         args: [ value, endTime ]
@@ -128,7 +127,7 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     setTargetAtTime(target, startTime, timeConstant) {
-      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+      insertEvent.call(this, this._.timeline, {
         type: "setTargetAtTime",
         time: startTime,
         args: [ target, startTime, timeConstant ]
@@ -145,7 +144,7 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     setValueCurveAtTime(curve, startTime, duration) {
-      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+      insertEvent.call(this, this._.timeline, {
         type: "setValueCurveAtTime",
         time: startTime,
         args: [ curve, startTime, duration ]
@@ -160,7 +159,7 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     cancelScheduledValues(cancelTime) {
-      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+      insertEvent.call(this, this._.timeline, {
         type: "cancelScheduledValues",
         time: cancelTime,
         args: [ cancelTime ]
@@ -175,7 +174,7 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     cancelAndHoldAtTime(cancelTime) {
-      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+      insertEvent.call(this, this._.timeline, {
         type: "cancelScheduledValues",
         time: cancelTime,
         args: [ cancelTime ]
@@ -217,7 +216,7 @@ function create(api, BaseObject) {
      * @return {AudioParam}
      */
     setTargetValueAtTime(target, startTime, timeConstant) {
-      AudioParamImpl.insertEvent.call(this, this._.timeline, {
+      insertEvent.call(this, this._.timeline, {
         type: "setTargetAtTime",
         time: startTime,
         args: [ target, startTime, timeConstant ]
@@ -228,6 +227,31 @@ function create(api, BaseObject) {
     }
   }
   return AudioParam;
+}
+
+function insertEvent(timeline, eventItem) {
+  const { time } = eventItem;
+
+  if (timeline.length === 0 || timeline[timeline.length - 1].time < time) {
+    timeline.push(eventItem);
+    return;
+  }
+
+  let pos = 0;
+  let replace = 0;
+
+  while (pos < timeline.length) {
+    if (timeline[pos].time === time && timeline[pos].type === eventItem.type) {
+      replace = 1;
+      break;
+    }
+    if (time < timeline[pos].time) {
+      break;
+    }
+    pos += 1;
+  }
+
+  timeline.splice(pos, replace, eventItem);
 }
 
 module.exports = { create };
